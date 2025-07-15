@@ -6,7 +6,6 @@
     import { PrettyCurrency } from "$lib/currency";
 
     let { data } = $props();
-    // const protocols = [];
     const protocols = data.protocols;
 
     let scopedTVL = $state(0);

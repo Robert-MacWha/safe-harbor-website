@@ -18,7 +18,7 @@
     {:else if safeHarbor.version === "seal-2"}
         <SafeHarborV2 />
     {:else if safeHarbor.version === "immunefi-1"}
-        <!-- <SafeHarborImmunefiV1 /> -->
+        <SafeHarborImmunefiV1 />
     {/if}
 </div>
 

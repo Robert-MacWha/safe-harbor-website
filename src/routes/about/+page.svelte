@@ -65,12 +65,12 @@
             <div>
                 <h2>Why Safe Harbor?</h2>
                 <p>
-                    Over the past year, more than $2 billion was lost to crypto hacks. The Safe Harbor initiative seeks
-                    to reduce these losses by enabling whitehats to protect vulnerable funds. By joining, protocols can
-                    set up clear asset recovery procedures, including recovery addresses and bounty terms. This
-                    initiative provides legal protection for whitehats, allowing them to secure at-risk assets without
-                    fear of legal consequences. Ultimately, it offers protocols enhanced security from third-party
-                    whitehats at no additional cost.
+                    Over the past years, billions of dollars have been lost to crypto hacks. The Safe Harbor initiative
+                    seeks to reduce these losses by enabling whitehats to protect vulnerable funds. By joining,
+                    protocols can set up clear asset recovery procedures, including recovery addresses and bounty terms.
+                    This initiative provides legal protection for whitehats, allowing them to secure at-risk assets
+                    without fear of legal consequences. Ultimately, it offers protocols enhanced security from
+                    third-party whitehats at no additional cost.
                 </p>
             </div>
         </div>

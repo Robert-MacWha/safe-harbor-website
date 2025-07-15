@@ -1,5 +1,3 @@
-import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
-
 declare global {
 	namespace App {
 		// interface Error {}
@@ -11,5 +9,4 @@ declare global {
 }
 
 export default {
-	preprocess: [vitePreprocess()]
 };

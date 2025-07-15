@@ -1,0 +1,204 @@
+:root {
+    --text-primary: #44546f;
+    --text-secondary: #172b4d;
+    --text-tertiary: #626f86;
+    --bg-primary: #ffffff;
+    --bg-secondary: #f1f2f4;
+    --bg-dark: #191919;
+    --accent: #463be6;
+    --accent-secondary: #b9d6ff;
+    --accent-light: #f0f6ff;
+    --border-radius: 14px;
+    --transition-duration: 0.2s;
+}
+
+html {
+    font-size: 16px;
+    transition-duration: 0.2s;
+
+    h1 {
+        color: var(--text-secondary);
+        font-family: "Poppins", sans-serif;
+        font-size: 2.5rem;
+        font-weight: 600;
+
+        @media (min-width: 768px) {
+            font-size: 3.5rem;
+        }
+    }
+
+    h2 {
+        color: var(--text-secondary);
+        font-family: "Poppins", sans-serif;
+        font-size: 2rem;
+
+        @media (min-width: 768px) {
+            font-size: 2.5rem;
+        }
+    }
+
+    h3 {
+        color: var(--text-secondary);
+        font-family: "Poppins", sans-serif;
+        font-size: 1.5rem;
+
+        @media (min-width: 768px) {
+            font-size: 2rem;
+        }
+    }
+
+    h4 {
+        color: var(--text-secondary);
+        font-family: "Poppins", sans-serif;
+        font-size: 1.3rem;
+
+        @media (min-width: 768px) {
+            font-size: 1.5rem;
+        }
+    }
+
+    h5 {
+        color: var(--text-primary);
+        font-family: "Hind", sans-serif;
+        font-size: 1.1rem;
+
+        @media (min-width: 768px) {
+            font-size: 1.3rem;
+        }
+    }
+
+    h6 {
+        color: var(--hover);
+        font-family: "Hind", sans-serif;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+
+        @media (min-width: 768px) {
+            font-size: 1rem;
+        }
+    }
+
+    p,
+    pre,
+    li {
+        color: var(--text-primary);
+        font-family: "Hind", sans-serif;
+        font-size: 0.9rem;
+        line-height: 1.5;
+
+        @media (min-width: 768px) {
+            font-size: 1rem;
+        }
+
+        overflow-wrap: anywhere;
+    }
+
+    a {
+        color: var(--accent);
+        text-decoration: none;
+        font-family: "Hind", sans-serif;
+        line-height: 1.5;
+
+        &:hover {
+            text-decoration: underline;
+
+            &.btn {
+                text-decoration: none;
+            }
+        }
+    }
+
+    pre:has(code) {
+        padding: 1rem;
+        border-radius: 5px;
+        background-color: var(--bg-secondary);
+        width: 100%;
+        box-sizing: border-box;
+        overflow-x: auto;
+        overflow-y: none;
+    }
+
+    blockquote {
+        color: var(--text-tertiary);
+        font-family: "Hind", sans-serif;
+        line-height: 1.5;
+        border-left: 5px solid var(--accent);
+        padding-left: 1rem;
+        margin: 1rem 0;
+    }
+
+    .rounded {
+        border-radius: var(--border-radius) !important;
+    }
+
+    .shadow {
+        background-color: var(--bg-primary);
+        box-shadow: 0px 0px 8px 0px #091e4229, 0px 0px 1px 0px #091e421f !important;
+    }
+
+    .dark {
+        background-color: var(--bg-secondary);
+    }
+
+    .black {
+        background-color: var(--bg-dark);
+    }
+
+    .mt-6 {
+        margin-top: 6rem;
+
+        @media screen and (max-width: 768px) {
+            margin-top: 3rem;
+        }
+    }
+
+    .mb-6 {
+        margin-bottom: 6rem;
+
+        @media screen and (max-width: 768px) {
+            margin-bottom: 3rem;
+        }
+    }
+
+    .pt-6 {
+        padding-top: 6rem;
+
+        @media screen and (max-width: 768px) {
+            padding-top: 3rem;
+        }
+    }
+
+    .pb-6 {
+        padding-bottom: 6rem;
+
+        @media screen and (max-width: 768px) {
+            padding-bottom: 3rem;
+        }
+    }
+
+    .tag {
+        margin-bottom: 0;
+        padding: 0.5rem 1rem;
+
+        &.tag-primary {
+            background-color: var(--accent-light);
+            color: var(--text-secondary);
+            width: fit-content;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        &.tag-secondary {
+            background-color: var(--bg-secondary);
+            color: var(--text-secondary);
+            width: fit-content;
+            border-radius: 4px;
+            font-weight: 500;
+            text-wrap: nowrap;
+        }
+
+        a& {
+            color: var(--accent) !important;
+        }
+    }
+}

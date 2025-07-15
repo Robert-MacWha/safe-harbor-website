@@ -1,38 +1,13 @@
-# sv
+# Safe Harbor Website
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+## Configuration
 
-## Creating a project
+### Firebase Hosting
 
-If you're seeing this, you've probably already done this step. Congrats!
+[Firebase Hosting](https://firebase.google.com/docs/hosting/) is used for deployment. It offers [experimental compatability](https://github.com/FirebaseExtended/firebase-framework-tools) with sveltekit and seems to function. Deployments are setup to auto-occure on push to main, and can be configured by modifying the github workflows or using the CLI. To debug locally, run `npm run build` to build the project then `firebase emulators:start` to start the firebase emulators and launch the server.
 
-```bash
-# create a new project in the current directory
-npx sv create
+> Cloudflare pages was previously used, but because of an incomatability with firestore (possibly due to an incomplete compatability with NPM), we can't access required data and thus had to migrate.
 
-# create a new project in my-app
-npx sv create my-app
-```
+#### Deployment
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+Run `firebase deploy` or `firebase firebase hosting:channel:deploy CHANNEL_ID` to deploy the website to firebase hosting. Non-prod channels will be deleted after 7 days.

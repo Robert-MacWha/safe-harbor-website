@@ -12,10 +12,19 @@
     <title>{protocol.name} - Safe Harbor Database</title>
 </svelte:head>
 
-{#if safeHarbor.version === "seal-1"}
-    <SafeHarborV1 {protocol} {safeHarbor} />
-{:else if safeHarbor.version === "seal-2"}
-    <SafeHarborV2 />
-{:else if safeHarbor.version === "immunefi-1"}
-    <!-- <SafeHarborImmunefiV1 /> -->
-{/if}
+<div class="db pb-1">
+    {#if safeHarbor.version === "seal-1"}
+        <SafeHarborV1 {protocol} {safeHarbor} />
+    {:else if safeHarbor.version === "seal-2"}
+        <SafeHarborV2 />
+    {:else if safeHarbor.version === "immunefi-1"}
+        <!-- <SafeHarborImmunefiV1 /> -->
+    {/if}
+</div>
+
+<style>
+    .db {
+        background: linear-gradient(180deg, rgba(240, 246, 255, 0) 0%, #f0f6ff 100%);
+        height: fit-content;
+    }
+</style>

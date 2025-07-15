@@ -130,7 +130,7 @@
             <div class="col-12 col-md d-flex">
                 <FatCard title="Step 2">
                     <p>Contact us now to adopt Safe Harbor</p>
-                    <a>safeharbor@macwha.com</a>
+                    <a href="https://form.typeform.com/to/QF3YjWno">Sign up here</a>
                 </FatCard>
             </div>
         </div>

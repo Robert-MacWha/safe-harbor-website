@@ -12,7 +12,7 @@
     {@render children?.()}
 </div>
 
-<style lang="scss">
+<style>
     .container-glass {
         width: fit-content;
         margin: auto;

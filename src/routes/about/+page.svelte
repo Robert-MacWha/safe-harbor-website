@@ -142,7 +142,7 @@
     </div>
 </div>
 
-<style lang="scss">
+<style>
     .hero {
         background: url("$lib/images/hero.svg") top center;
         background-size: cover;

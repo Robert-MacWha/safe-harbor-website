@@ -14,7 +14,7 @@
     <p class="mb-0">{text}</p>
 </div>
 
-<style lang="scss">
+<style>
     .card {
         background: var(--accent-light);
         border: var(--accent-secondary) 2px solid;

@@ -26,7 +26,7 @@
     </div>
 </div>
 
-<style lang="scss">
+<style>
     .card {
         border: none;
     }

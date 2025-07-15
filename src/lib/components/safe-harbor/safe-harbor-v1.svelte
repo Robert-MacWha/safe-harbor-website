@@ -1,7 +1,6 @@
 <script lang="ts">
     import type { Protocol } from "$lib/firebase/types/protocol";
     import type { SafeHarborAgreementV1 } from "$lib/firebase/types/safeHarborAgreement";
-    import SvelteMarkdown from "svelte-markdown";
     import SafeHarborHero from "./safe-harbor-hero.svelte";
     import SafeharborBountyTerms from "./safeharbor-bounty-terms.svelte";
     import SafeharborRecoveryAddresses from "./safeharbor-recovery-addresses.svelte";

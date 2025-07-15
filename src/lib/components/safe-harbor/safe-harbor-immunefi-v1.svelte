@@ -11,6 +11,7 @@
     }
 
     let { protocol, safeHarbor }: Props = $props();
+    console.log(safeHarbor);
     const bountyTerms = safeHarbor.agreementDetails.bountyTerms;
 </script>
 
@@ -20,7 +21,7 @@
     name={protocol.name}
     website={protocol.website}
     icon={protocol.icon}
-    adoptionProposalURI={safeHarbor.adoptionProposalURI}
+    immunefiPage={safeHarbor.adoptionProposalURI}
 />
 
 <div class="info container p-4 mb-6 rounded">

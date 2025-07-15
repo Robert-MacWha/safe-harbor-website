@@ -48,7 +48,20 @@
                     {/each}
                 {/if}
             {/each}
-        {:else if agreement.version === "seal-2"}{:else if agreement.version === "immunefi-1"}{/if}
+        {:else if agreement.version === "seal-2"}{:else if agreement.version === "immunefi-1"}
+            {#each agreement.agreementDetails.chains as chain}
+                {#if chain.accounts}
+                    {#each chain.accounts as account}
+                        <DirectAsset
+                            chainID={chain.id}
+                            address={account.address}
+                            name={account.name}
+                            childContractScope={"None"}
+                            hasChildren={false}
+                        />
+                    {/each}
+                {/if}
+            {/each}{/if}
     </tbody>
 </table>
 

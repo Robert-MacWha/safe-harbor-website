@@ -12,6 +12,7 @@
         chain?: Chain;
         registryTransaction?: string;
         adoptionProposalURI?: string;
+        immunefiPage?: string;
     }
 
     let props: Props = $props();
@@ -65,6 +66,11 @@
                 {#if props.adoptionProposalURI}
                     <div class="me-2 mb-3">
                         <a class="tag tag-secondary" href={props.adoptionProposalURI}> Adoption Proposal </a>
+                    </div>
+                {/if}
+                {#if props.immunefiPage}
+                    <div class="me-2 mb-3">
+                        <a class="tag tag-secondary" href={props.immunefiPage}> Immunefi Page </a>
                     </div>
                 {/if}
             </div>

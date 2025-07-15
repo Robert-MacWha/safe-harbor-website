@@ -17,13 +17,15 @@
     <div class="col-12 col-sm">
         <p class="mb-0">Percentage</p>
         <p class="fw-semibold">
-            {percentage}%
+            {#if percentage}{percentage}%
+            {:else}Unavailable{/if}
         </p>
     </div>
     <div class="col-12 col-sm">
         <p class="mb-0">Cap</p>
         <p class="fw-semibold">
-            ${PrettyCurrency(cap)}
+            {#if cap}{PrettyCurrency(cap)}%
+            {:else}Unavailable{/if}
         </p>
     </div>
     <div class="col-12 col-sm">

@@ -4,6 +4,7 @@
 
     import { browser } from "$app/environment";
     import { onMount } from "svelte";
+    import { analytics } from "$lib/firebase/firebase";
 
     import "bootstrap/dist/css/bootstrap.min.css";
     import "../app.css";

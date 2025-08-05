@@ -35,6 +35,9 @@
                             >Documentation</a
                         >
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/adoption">Adoption</a>
+                    </li>
                 </ul>
             </div>
         </div>

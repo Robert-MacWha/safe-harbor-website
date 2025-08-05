@@ -1,114 +1,77 @@
 <script lang="ts">
     import type { AgreementDetailsV2 } from "$lib/firebase/types/agreementDetailsV2";
+    import {
+        createDefaultAgreementDetails,
+        createDefaultChain,
+        createDefaultAccount,
+        createDefaultContact,
+        generateAgreementJSON,
+        generateAgreementTuple,
+        validateAgreementDetailsV2,
+    } from "$lib/firebase/agreementDetailsV2Utils";
+    import { connectWallet, deployAgreement } from "$lib/contracts/factory";
+    import type { Address } from "viem";
 
     // Form state
-    let agreementDetails: AgreementDetailsV2 = $state({
-        name: "",
-        contact: [
-            {
-                name: "",
-                contact: "",
-            },
-        ],
-        chains: [],
-        bountyTerms: {
-            bountyCapUSD: 1_000_000,
-            bountyPercentage: 10,
-            diligenceRequirements: "",
-            identity: "Anonymous",
-            retainable: false,
-            aggregateBountyCapUSD: 0,
-        },
-        agreementURI:
-            "https://bafybeigvd7z4iemq7vrdcczgyu2afm7egxwrggftiplydc3vdrdmgccwvu.ipfs.w3s.link/The_SEAL_Whitehat_Safe_Harbor_Agremeent_V1_01.pdf",
-    });
+    let agreementDetails: AgreementDetailsV2 = $state(createDefaultAgreementDetails());
 
-    let generatedJSON = $state("");
-    let generatedTuple = $state("");
+    // Output state
+    let output = $state("");
+    let outputType = $state<"json" | "tuple" | "">("");
+
+    // Wallet state
+    let walletAddress = $state<Address | null>(null);
+    let isConnecting = $state(false);
+    let isDeploying = $state(false);
+    let deploymentHash = $state<string | null>(null);
+    let deploymentError = $state<string | null>(null);
+    let walletError = $state<string | null>(null);
+
+    // Validation
+    let validationErrors = $derived(validateAgreementDetailsV2(agreementDetails));
+    let isValid = $derived(validationErrors.length === 0);
 
     function generateJSON() {
-        generatedJSON = JSON.stringify(agreementDetails, null, 2);
+        output = generateAgreementJSON(agreementDetails);
+        outputType = "json";
     }
 
     function generateTuple() {
-        const protocolName = agreementDetails.name;
+        output = generateAgreementTuple(agreementDetails);
+        outputType = "tuple";
+    }
 
-        const contacts = agreementDetails.contact.map((contact) => [contact.contact, contact.name]);
-        const chains = agreementDetails.chains.map((chain) => {
-            const chainId = chain.id;
-
-            const accounts = chain.accounts.map((account) => {
-                let childScopeNumber;
-                switch (account.childContractScope) {
-                    case "None":
-                        childScopeNumber = 0;
-                        break;
-                    case "ExistingOnly":
-                        childScopeNumber = 1;
-                        break;
-                    case "All":
-                        childScopeNumber = 2;
-                        break;
-                    case "FutureOnly":
-                        childScopeNumber = 3;
-                        break;
-                    default:
-                        childScopeNumber = 0;
-                }
-
-                return [account.address, childScopeNumber];
-            });
-
-            return [chain.assetRecoveryAddress, accounts, chainId];
-        });
-
-        let identity;
-        switch (agreementDetails.bountyTerms.identity) {
-            case "Anonymous":
-                identity = 0;
-                break;
-            case "Pseudonymous":
-                identity = 1;
-                break;
-            case "Named":
-                identity = 2;
-                break;
-            default:
-                identity = 0;
+    async function handleConnectWallet() {
+        isConnecting = true;
+        walletError = null;
+        try {
+            walletAddress = await connectWallet();
+        } catch (error: any) {
+            walletError = error.message;
+        } finally {
+            isConnecting = false;
         }
+    }
 
-        const bountyTerms = [
-            agreementDetails.bountyTerms.bountyPercentage,
-            agreementDetails.bountyTerms.bountyCapUSD,
-            agreementDetails.bountyTerms.retainable,
-            identity,
-            agreementDetails.bountyTerms.diligenceRequirements,
-            agreementDetails.bountyTerms.aggregateBountyCapUSD,
-        ];
+    async function handleDeployContract() {
+        if (!isValid) return;
 
-        const agreementURI = agreementDetails.agreementURI;
+        isDeploying = true;
+        deploymentHash = null;
+        deploymentError = null;
 
-        const tuple = [protocolName, contacts, chains, bountyTerms, agreementURI];
-
-        generatedTuple = JSON.stringify(tuple, null, 4);
+        try {
+            const result = await deployAgreement(agreementDetails);
+            deploymentHash = result.hash;
+        } catch (error: any) {
+            deploymentError = error.message;
+        } finally {
+            isDeploying = false;
+        }
     }
 
     function addChain() {
-        agreementDetails.chains = [
-            ...agreementDetails.chains,
-            {
-                id: "",
-                assetRecoveryAddress: "",
-                accounts: [
-                    {
-                        name: "",
-                        address: "",
-                        childContractScope: "None",
-                        children: [],
-                    },
-                ],
-            },
-        ];
+        agreementDetails.chains = [...agreementDetails.chains, createDefaultChain()];
     }
 
     function removeChain(index: number) {
@@ -118,12 +81,7 @@
     function addAccount(chainIndex: number) {
         agreementDetails.chains[chainIndex].accounts = [
             ...agreementDetails.chains[chainIndex].accounts,
-            {
-                name: "",
-                address: "",
-                childContractScope: "None",
-                children: [],
-            },
+            createDefaultAccount(),
         ];
     }
 
@@ -138,13 +96,7 @@
     function addContact(event: MouseEvent) {
         event.preventDefault();
         event.stopPropagation();
-        agreementDetails.contact = [
-            ...agreementDetails.contact,
-            {
-                name: "",
-                contact: "",
-            },
-        ];
+        agreementDetails.contact = [...agreementDetails.contact, createDefaultContact()];
     }
 
     function removeContact(index: number) {
@@ -169,7 +121,7 @@
                     <label for="protocolName" class="form-label">Protocol Name *</label>
                     <input
                         type="text"
-                        class="form-control"
+                        class="form-control font-monospace"
                         id="protocolName"
                         bind:value={agreementDetails.name}
                         placeholder="Enter protocol name"
@@ -191,7 +143,7 @@
                 <div class="input-group">
                     <input
                         type="number"
-                        class="form-control no-spinner"
+                        class="form-control no-spinner font-monospace"
                         id="bountyPercentage"
                         bind:value={agreementDetails.bountyTerms.bountyPercentage}
                         min="0.1"
@@ -208,7 +160,7 @@
                     <span class="input-group-text">$</span>
                     <input
                         type="number"
-                        class="form-control no-spinner"
+                        class="form-control no-spinner font-monospace"
                         id="bountyCap"
                         bind:value={agreementDetails.bountyTerms.bountyCapUSD}
                         min="1"
@@ -222,7 +174,7 @@
                     <span class="input-group-text">$</span>
                     <input
                         type="number"
-                        class="form-control no-spinner"
+                        class="form-control no-spinner font-monospace"
                         id="aggregateBountyCap"
                         bind:value={agreementDetails.bountyTerms.aggregateBountyCapUSD}
                         min="0"
@@ -231,14 +183,22 @@
             </div>
             <div class="col mb-3" style="min-width: 20ch;">
                 <label for="retainable" class="form-label">Retainable</label>
-                <select class="form-select" id="retainable" bind:value={agreementDetails.bountyTerms.retainable}>
+                <select
+                    class="form-select font-monospace"
+                    id="retainable"
+                    bind:value={agreementDetails.bountyTerms.retainable}
+                >
                     <option value={false}>No</option>
                     <option value={true}>Yes</option>
                 </select>
             </div>
             <div class="col mb-3" style="min-width: 20ch;">
                 <label for="identity" class="form-label">Identity</label>
-                <select class="form-select" id="identity" bind:value={agreementDetails.bountyTerms.identity}>
+                <select
+                    class="form-select font-monospace"
+                    id="identity"
+                    bind:value={agreementDetails.bountyTerms.identity}
+                >
                     <option value="Anonymous">Anonymous</option>
                     <option value="Pseudonymous">Pseudonymous</option>
                     <option value="Named">Named</option>
@@ -246,10 +206,10 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-12 col-lg-9 mb-3">
+            <div class="col mb-3">
                 <label for="diligenceRequirements" class="form-label">Diligence Requirements</label>
                 <textarea
-                    class="form-control"
+                    class="form-control font-monospace"
                     id="diligenceRequirements"
                     rows="3"
                     bind:value={agreementDetails.bountyTerms.diligenceRequirements}
@@ -291,7 +251,7 @@
                             <td>
                                 <input
                                     type="text"
-                                    class="form-control form-control-sm"
+                                    class="form-control form-control-sm font-monospace"
                                     bind:value={contact.name}
                                     placeholder="Contact name"
                                     required
@@ -300,7 +260,7 @@
                             <td>
                                 <input
                                     type="text"
-                                    class="form-control form-control-sm"
+                                    class="form-control form-control-sm font-monospace"
                                     bind:value={contact.contact}
                                     placeholder="email@example.com or @username"
                                     required
@@ -354,7 +314,7 @@
                             <label for="chainId{chainIndex}" class="form-label">Chain ID *</label>
                             <input
                                 type="text"
-                                class="form-control"
+                                class="form-control font-monospace"
                                 id="chainId{chainIndex}"
                                 bind:value={chain.id}
                                 placeholder="eip155:1"
@@ -419,7 +379,7 @@
                                             </td>
                                             <td>
                                                 <select
-                                                    class="form-select form-select-sm"
+                                                    class="form-select form-select-sm font-monospace"
                                                     bind:value={account.childContractScope}
                                                 >
                                                     <option value="None">None</option>
@@ -451,50 +411,99 @@
 
     <hr />
 
+    <!-- Validation Errors -->
+    {#if validationErrors.length > 0}
+        <div class="alert alert-danger">
+            <h6>Please fix the following errors:</h6>
+            <ul class="mb-0">
+                {#each validationErrors as error}
+                    <li>{error}</li>
+                {/each}
+            </ul>
+        </div>
+    {/if}
+
     <!-- Generate Output Section -->
     <div class="generate-output py-3">
-        <h4 class="mb-4">Generate Output</h4>
+        <h4 class="mb-4">Generate Output & Deploy</h4>
 
-        <div class="d-flex gap-3 mb-4">
-            <button type="button" class="btn btn-success" onclick={generateJSON}> Generate JSON </button>
-            <button type="button" class="btn btn-primary" onclick={generateTuple}> Generate Blockchain Tuple </button>
-        </div>
-
-        {#if generatedJSON}
-            <div class="mb-4">
-                <label for="jsonOutput" class="form-label">Generated JSON</label>
-                <textarea class="form-control" id="jsonOutput" rows="15" readonly bind:value={generatedJSON}></textarea>
-                <div class="mt-2">
+        <div class="row g-3 mb-4">
+            <div class="col-6 col-md-4">
+                <button type="button" class="btn btn-primary w-100" onclick={generateJSON} disabled={!isValid}>
+                    Generate JSON
+                </button>
+            </div>
+            <div class="col-6 col-md-4">
+                <button type="button" class="btn btn-primary w-100" onclick={generateTuple} disabled={!isValid}>
+                    Generate Tuple
+                </button>
+            </div>
+            <div class="col-12 col-md-4">
+                {#if !walletAddress}
                     <button
                         type="button"
-                        class="btn btn-outline-primary btn-sm"
-                        onclick={() => navigator.clipboard.writeText(generatedJSON)}
+                        class="btn btn-primary w-100"
+                        onclick={handleConnectWallet}
+                        disabled={isConnecting}
                     >
-                        Copy JSON to Clipboard
+                        {isConnecting ? "Connecting..." : "Connect Wallet"}
                     </button>
-                </div>
+                {:else}
+                    <button
+                        type="button"
+                        class="btn btn-primary w-100"
+                        onclick={handleDeployContract}
+                        disabled={!isValid || isDeploying}
+                    >
+                        {isDeploying ? "Deploying..." : "Deploy Contract"}
+                    </button>
+                {/if}
+            </div>
+        </div>
+
+        <!-- Error Messages -->
+        {#if walletError}
+            <div class="alert alert-danger">
+                <h6>Wallet Connection Error</h6>
+                <p class="mb-0">{walletError}</p>
+            </div>
+        {/if}
+        
+        {#if deploymentError}
+            <div class="alert alert-danger">
+                <h6>Deployment Error</h6>
+                <p class="mb-0">{deploymentError}</p>
             </div>
         {/if}
 
-        {#if generatedTuple}
+        {#if output}
             <div class="mb-4">
-                <label for="tupleOutput" class="form-label">Generated Blockchain Tuple</label>
-                <textarea
-                    class="form-control font-monospace"
-                    id="tupleOutput"
-                    rows="20"
-                    readonly
-                    bind:value={generatedTuple}
-                ></textarea>
-                <div class="mt-2">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <label for="output" class="form-label mb-0">
+                        Generated {outputType === "json" ? "JSON" : "Blockchain Tuple"}
+                    </label>
                     <button
                         type="button"
                         class="btn btn-outline-primary btn-sm"
-                        onclick={() => navigator.clipboard.writeText(generatedTuple)}
+                        onclick={() => navigator.clipboard.writeText(output)}
                     >
-                        Copy Tuple to Clipboard
+                        Copy to Clipboard
                     </button>
                 </div>
+                <textarea
+                    class="form-control font-monospace"
+                    id="output"
+                    rows={outputType === "json" ? 15 : 20}
+                    readonly
+                    bind:value={output}
+                ></textarea>
+            </div>
+        {/if}
+
+        {#if deploymentHash}
+            <div class="alert alert-success">
+                <h6>Contract Deployed Successfully!</h6>
+                <p class="mb-0">Transaction Hash: <code class="font-monospace">{deploymentHash}</code></p>
             </div>
         {/if}
     </div>

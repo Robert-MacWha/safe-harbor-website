@@ -2,6 +2,7 @@
     import ChainIcon from "$lib/components/chain-icon.svelte";
     import lockIcon from "$lib/images/database/lock.png";
     import moneyIcon from "$lib/images/database/money.png";
+    import securityIcon from "$lib/images/security.png";
 
     import { PrettyCurrency } from "$lib/currency";
 
@@ -30,16 +31,16 @@
             <div class="col-lg-2"></div>
             <div class="col">
                 <div class="row">
-                    <div class="col-10 col-sm-6 mb-3 mx-auto">
+                    <div class="col-10 col-md-6 mb-3 mx-auto">
                         <div class="card flex-fill py-2 px-3 rounded text-start">
-                            <p class="mb-1">Protocols under Scope</p>
+                            <p class="mb-1">Protocols</p>
                             <h4 class="mb-0">{protocols.length}</h4>
                             <img src={lockIcon} class="card-img-top" alt="icon" />
                         </div>
                     </div>
-                    <div class="col-10 col-sm-6 mb-3 mx-auto">
+                    <div class="col-10 col-md-6 mb-3 mx-auto">
                         <div class="card flex-fill py-2 px-3 rounded text-start">
-                            <p class="mb-1">Assets under scope</p>
+                            <p class="mb-1">Assets</p>
                             <h4 class="mb-0">${PrettyCurrency(scopedTVL)}</h4>
                             <img src={moneyIcon} class="card-img-top" alt="icon" />
                         </div>

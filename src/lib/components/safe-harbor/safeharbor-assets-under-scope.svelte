@@ -14,7 +14,8 @@
 <table class="table">
     <colgroup>
         <col style="width: auto" />
-        <col style="width: 300px" />
+        <col style="width: 200px" />
+        <col style="width: 200px" />
     </colgroup>
     <thead>
         <tr>
@@ -64,46 +65,3 @@
             {/each}{/if}
     </tbody>
 </table>
-
-<style>
-    table {
-        border: 1px solid #dcdfe4;
-        table-layout: auto;
-
-        thead {
-            border-bottom: 1px solid #dcdfe4;
-            th {
-                background: var(--bg-secondary);
-                p {
-                    color: var(--text-secondary);
-                    font-weight: 600;
-                    white-space: nowrap;
-                    width: fit-content;
-                }
-            }
-        }
-
-        tbody {
-            tr {
-                td,
-                th {
-                    transition: background-color var(--transition-duration);
-                    white-space: nowrap;
-                }
-
-                &:hover {
-                    th,
-                    td {
-                        background-color: var(--bg-secondary);
-                    }
-                }
-            }
-
-            p,
-            a {
-                font-weight: 400;
-                margin-bottom: 0.25em;
-            }
-        }
-    }
-</style>

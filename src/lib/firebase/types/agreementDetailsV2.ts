@@ -1,6 +1,9 @@
+export type ChildContractScope = "None" | "ExistingOnly" | "FutureOnly" | "All";
+export type IdentityRequirements = "Anonymous" | "Pseudonymous" | "Named";
+
 export interface AgreementDetailsV2 {
     name: string;
-    contact: string;
+    contact: Contact[];
     chains: Chain[];
     bountyTerms: BountyTerms;
     agreementURI: string;
@@ -15,7 +18,7 @@ export interface Chain {
 export interface Account {
     name: string;
     address: string;
-    childContractScope: string;
+    childContractScope: ChildContractScope;
 
     children: Array<{
         name: string;
@@ -27,6 +30,11 @@ export interface BountyTerms {
     bountyCapUSD: number;
     bountyPercentage: number;
     diligenceRequirements: string;
-    identity: string;
+    identity: IdentityRequirements;
     retainable: boolean;
+}
+
+export interface Contact {
+    name: string;
+    contact: string;
 }

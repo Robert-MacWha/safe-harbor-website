@@ -82,7 +82,7 @@
             agreementDetails.bountyTerms.bountyCapUSD,
             agreementDetails.bountyTerms.retainable,
             identity,
-            agreementDetails.bountyTerms.dilig  enceRequirements,
+            agreementDetails.bountyTerms.diligenceRequirements,
             agreementDetails.bountyTerms.aggregateBountyCapUSD,
         ];
 

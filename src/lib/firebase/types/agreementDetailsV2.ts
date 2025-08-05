@@ -32,6 +32,7 @@ export interface BountyTerms {
     diligenceRequirements: string;
     identity: IdentityRequirements;
     retainable: boolean;
+    aggregateBountyCapUSD: number;
 }
 
 export interface Contact {

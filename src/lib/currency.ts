@@ -1,11 +1,4 @@
 export function PrettyCurrency(tvl: number) {
-    function stripTrailingZeros(number: string | undefined) {
-        if (number === undefined) {
-            return "";
-        }
-        return number.toString().replace(/\.0+$/, "");
-    }
-
     if (tvl >= 1e9) {
         return stripTrailingZeros((tvl / 1e9).toFixed(1)) + "B";
     } else if (tvl >= 1e6) {
@@ -15,4 +8,11 @@ export function PrettyCurrency(tvl: number) {
     } else {
         return tvl.toString();
     }
+}
+
+function stripTrailingZeros(number: string | undefined) {
+    if (number === undefined) {
+        return "";
+    }
+    return number.toString().replace(/\.0+$/, "");
 }

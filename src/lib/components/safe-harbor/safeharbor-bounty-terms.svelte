@@ -24,7 +24,7 @@
     <div class="col-12 col-sm">
         <p class="mb-0">Cap</p>
         <p class="fw-semibold">
-            {#if cap}{PrettyCurrency(cap)}%
+            {#if cap}${PrettyCurrency(cap)}
             {:else}Unavailable{/if}
         </p>
     </div>

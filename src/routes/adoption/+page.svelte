@@ -1,33 +1,96 @@
 <script lang="ts">
-    import type {
-        AgreementDetailsV2,
-        Chain,
-        Account,
-        BountyTerms,
-        Contact,
-        ChildContractScope,
-        IdentityRequirements,
-    } from "$lib/firebase/types/agreementDetailsV2";
+    import type { AgreementDetailsV2 } from "$lib/firebase/types/agreementDetailsV2";
 
     // Form state
     let agreementDetails: AgreementDetailsV2 = $state({
         name: "",
-        contact: [],
+        contact: [
+            {
+                name: "",
+                contact: "",
+            },
+        ],
         chains: [],
         bountyTerms: {
-            bountyCapUSD: 0,
-            bountyPercentage: 0,
+            bountyCapUSD: 1_000_000,
+            bountyPercentage: 10,
             diligenceRequirements: "",
             identity: "Anonymous",
             retainable: false,
+            aggregateBountyCapUSD: 0,
         },
-        agreementURI: "",
+        agreementURI:
+            "https://bafybeigvd7z4iemq7vrdcczgyu2afm7egxwrggftiplydc3vdrdmgccwvu.ipfs.w3s.link/The_SEAL_Whitehat_Safe_Harbor_Agremeent_V1_01.pdf",
     });
 
     let generatedJSON = $state("");
+    let generatedTuple = $state("");
 
     function generateJSON() {
         generatedJSON = JSON.stringify(agreementDetails, null, 2);
+    }
+
+    function generateTuple() {
+        const protocolName = agreementDetails.name;
+
+        const contacts = agreementDetails.contact.map((contact) => [contact.contact, contact.name]);
+        const chains = agreementDetails.chains.map((chain) => {
+            const chainId = chain.id;
+
+            const accounts = chain.accounts.map((account) => {
+                let childScopeNumber;
+                switch (account.childContractScope) {
+                    case "None":
+                        childScopeNumber = 0;
+                        break;
+                    case "ExistingOnly":
+                        childScopeNumber = 1;
+                        break;
+                    case "All":
+                        childScopeNumber = 2;
+                        break;
+                    case "FutureOnly":
+                        childScopeNumber = 3;
+                        break;
+                    default:
+                        childScopeNumber = 0;
+                }
+
+                return [account.address, childScopeNumber];
+            });
+
+            return [chain.assetRecoveryAddress, accounts, chainId];
+        });
+
+        let identity;
+        switch (agreementDetails.bountyTerms.identity) {
+            case "Anonymous":
+                identity = 0;
+                break;
+            case "Pseudonymous":
+                identity = 1;
+                break;
+            case "Named":
+                identity = 2;
+                break;
+            default:
+                identity = 0;
+        }
+
+        const bountyTerms = [
+            agreementDetails.bountyTerms.bountyPercentage,
+            agreementDetails.bountyTerms.bountyCapUSD,
+            agreementDetails.bountyTerms.retainable,
+            identity,
+            agreementDetails.bountyTerms.dilig  enceRequirements,
+            agreementDetails.bountyTerms.aggregateBountyCapUSD,
+        ];
+
+        const agreementURI = agreementDetails.agreementURI;
+
+        const tuple = [protocolName, contacts, chains, bountyTerms, agreementURI];
+
+        generatedTuple = JSON.stringify(tuple, null, 4);
     }
 
     function addChain() {
@@ -72,7 +135,9 @@
         );
     }
 
-    function addContact() {
+    function addContact(event: MouseEvent) {
+        event.preventDefault();
+        event.stopPropagation();
         agreementDetails.contact = [
             ...agreementDetails.contact,
             {
@@ -83,6 +148,7 @@
     }
 
     function removeContact(index: number) {
+        if (agreementDetails.contact.length <= 1) return;
         agreementDetails.contact = agreementDetails.contact.filter((_, i) => i !== index);
     }
 </script>
@@ -93,16 +159,6 @@
 
 <div class="pt-6 mt-5"></div>
 
-<!-- Hero Section -->
-<div class="container mb-5">
-    <div class="row">
-        <div class="col-12">
-            <h1 class="display-4 mb-3">Safe Harbor Adoption</h1>
-            <p class="lead">Create your Safe Harbor agreement details for on-chain deployment.</p>
-        </div>
-    </div>
-</div>
-
 <div class="info container p-4 mb-6 rounded">
     <!-- Protocol Details -->
     <div class="row mb-4">
@@ -110,13 +166,14 @@
             <h4 class="mb-4">Protocol Details</h4>
             <div class="row">
                 <div class="col-12">
-                    <label for="protocolName" class="form-label">Protocol Name</label>
+                    <label for="protocolName" class="form-label">Protocol Name *</label>
                     <input
                         type="text"
                         class="form-control"
                         id="protocolName"
                         bind:value={agreementDetails.name}
                         placeholder="Enter protocol name"
+                        required
                     />
                 </div>
             </div>
@@ -129,23 +186,24 @@
     <div class="bounty col-12 col-lg pb-3">
         <h4 class="mb-4">Bounty Terms</h4>
         <div class="row">
-            <div class="col-12 col-sm-6 col-lg-3">
-                <label for="bountyPercentage" class="form-label">Percentage</label>
+            <div class="col mb-3" style="min-width: 20ch;">
+                <label for="bountyPercentage" class="form-label">Percentage *</label>
                 <div class="input-group">
                     <input
                         type="number"
                         class="form-control no-spinner"
                         id="bountyPercentage"
                         bind:value={agreementDetails.bountyTerms.bountyPercentage}
-                        min="0"
+                        min="0.1"
                         max="100"
                         step="0.1"
+                        required
                     />
                     <span class="input-group-text">%</span>
                 </div>
             </div>
-            <div class="col-12 col-sm-6 col-lg-3">
-                <label for="bountyCap" class="form-label">Cap (USD)</label>
+            <div class="col mb-3" style="min-width: 20ch;">
+                <label for="bountyCap" class="form-label">Cap (USD) *</label>
                 <div class="input-group">
                     <span class="input-group-text">$</span>
                     <input
@@ -153,11 +211,32 @@
                         class="form-control no-spinner"
                         id="bountyCap"
                         bind:value={agreementDetails.bountyTerms.bountyCapUSD}
+                        min="1"
+                        required
+                    />
+                </div>
+            </div>
+            <div class="col mb-3" style="min-width: 20ch;">
+                <label for="aggregateBountyCap" class="form-label">Max Cap (USD)</label>
+                <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input
+                        type="number"
+                        class="form-control no-spinner"
+                        id="aggregateBountyCap"
+                        bind:value={agreementDetails.bountyTerms.aggregateBountyCapUSD}
                         min="0"
                     />
                 </div>
             </div>
-            <div class="col-12 col-sm-6 col-lg-3">
+            <div class="col mb-3" style="min-width: 20ch;">
+                <label for="retainable" class="form-label">Retainable</label>
+                <select class="form-select" id="retainable" bind:value={agreementDetails.bountyTerms.retainable}>
+                    <option value={false}>No</option>
+                    <option value={true}>Yes</option>
+                </select>
+            </div>
+            <div class="col mb-3" style="min-width: 20ch;">
                 <label for="identity" class="form-label">Identity</label>
                 <select class="form-select" id="identity" bind:value={agreementDetails.bountyTerms.identity}>
                     <option value="Anonymous">Anonymous</option>
@@ -165,21 +244,9 @@
                     <option value="Named">Named</option>
                 </select>
             </div>
-            <div class="col-12 col-sm-6 col-lg-3">
-                <label class="form-label">Retainable</label>
-                <div class="form-check">
-                    <input
-                        class="form-check-input"
-                        type="checkbox"
-                        id="retainable"
-                        bind:checked={agreementDetails.bountyTerms.retainable}
-                    />
-                    <label class="form-check-label" for="retainable"> Retainable </label>
-                </div>
-            </div>
         </div>
-        <div class="row mt-3">
-            <div class="col-12">
+        <div class="row">
+            <div class="col-12 col-lg-9 mb-3">
                 <label for="diligenceRequirements" class="form-label">Diligence Requirements</label>
                 <textarea
                     class="form-control"
@@ -196,55 +263,64 @@
 
     <!-- Contact Details Section -->
     <div class="contact col-12 col-md pb-3">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h4 class="mb-0">Contact Details</h4>
-            <button type="button" class="btn-material" onclick={addContact} title="Add Contact">
-                <span class="material-icon">+</span>
-            </button>
+        <h4 class="mb-4">Contact Details</h4>
+
+        <div class="table-responsive">
+            <table class="table">
+                <colgroup>
+                    <col style="width: 200px" />
+                    <col style="width: auto" />
+                    <col style="width: 50px" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th scope="col">Name *</th>
+                        <th scope="col">Contact Information *</th>
+                        <th scope="col">
+                            <div class="text-center">
+                                <button type="button" class="btn-material" onclick={addContact} title="Add Contact">
+                                    <span class="material-icon">+</span>
+                                </button>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {#each agreementDetails.contact as contact, contactIndex}
+                        <tr>
+                            <td>
+                                <input
+                                    type="text"
+                                    class="form-control form-control-sm"
+                                    bind:value={contact.name}
+                                    placeholder="Contact name"
+                                    required
+                                />
+                            </td>
+                            <td>
+                                <input
+                                    type="text"
+                                    class="form-control form-control-sm"
+                                    bind:value={contact.contact}
+                                    placeholder="email@example.com or @username"
+                                    required
+                                />
+                            </td>
+                            <td class="text-center">
+                                <button
+                                    type="button"
+                                    class="btn-material text-danger"
+                                    onclick={() => removeContact(contactIndex)}
+                                    title="Remove Contact"
+                                >
+                                    <span class="material-icon">-</span>
+                                </button>
+                            </td>
+                        </tr>
+                    {/each}
+                </tbody>
+            </table>
         </div>
-
-        {#each agreementDetails.contact as contact, contactIndex}
-            <div class="border rounded p-3 mb-3">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <strong>Contact {contactIndex + 1}</strong>
-                    <button
-                        type="button"
-                        class="btn-material text-danger"
-                        onclick={() => removeContact(contactIndex)}
-                        title="Remove Contact"
-                    >
-                        <span class="material-icon">−</span>
-                    </button>
-                </div>
-
-                <div class="row">
-                    <div class="col-12 col-md-4">
-                        <label for="contactName{contactIndex}" class="form-label">Name</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="contactName{contactIndex}"
-                            bind:value={contact.name}
-                            placeholder="Contact name"
-                        />
-                    </div>
-                    <div class="col-12 col-md-8">
-                        <label for="contactInfo{contactIndex}" class="form-label">Contact Information</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="contactInfo{contactIndex}"
-                            bind:value={contact.contact}
-                            placeholder="email@example.com or @username"
-                        />
-                    </div>
-                </div>
-            </div>
-        {:else}
-            <div class="text-muted text-center py-4">
-                <p>No contacts added yet. Click "+" to get started.</p>
-            </div>
-        {/each}
     </div>
 
     <hr />
@@ -263,7 +339,7 @@
                 <div class="card-body">
                     <div class="d-flex gap-3 flex-wrap mb-3">
                         <div class="flex-fill" style="min-width: 300px;">
-                            <label for="recoveryAddress{chainIndex}" class="form-label">Asset Recovery Address</label>
+                            <label for="recoveryAddress{chainIndex}" class="form-label">Asset Recovery Address *</label>
                             <input
                                 type="text"
                                 class="form-control font-monospace"
@@ -271,10 +347,11 @@
                                 bind:value={chain.assetRecoveryAddress}
                                 placeholder="0x..."
                                 style="min-width: 0;"
+                                required
                             />
                         </div>
                         <div class="flex-shrink-0" style="min-width: 200px; max-width: 20ch;">
-                            <label for="chainId{chainIndex}" class="form-label">Chain ID</label>
+                            <label for="chainId{chainIndex}" class="form-label">Chain ID *</label>
                             <input
                                 type="text"
                                 class="form-control"
@@ -282,14 +359,14 @@
                                 bind:value={chain.id}
                                 placeholder="eip155:1"
                                 style="width: 100%;"
+                                required
                             />
                         </div>
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <label for="removeChain{chainIndex}" class="form-label">Remove</label>
-                            <br />
+                        <div class="flex-shrink-0 d-flex flex-column">
+                            <label for="removeChain{chainIndex}" class="form-label">&nbsp;</label>
                             <button
                                 type="button"
-                                class="btn-material text-danger"
+                                class="btn-material text-danger align-self-end"
                                 onclick={() => removeChain(chainIndex)}
                                 id="removeChain{chainIndex}"
                                 title="Remove Chain"
@@ -312,7 +389,7 @@
                                 </colgroup>
                                 <thead>
                                     <tr>
-                                        <th scope="col">Address</th>
+                                        <th scope="col">Address *</th>
                                         <th scope="col">Child Scope</th>
                                         <th scope="col">
                                             <div class="text-center">
@@ -337,6 +414,7 @@
                                                     class="form-control form-control-sm font-monospace"
                                                     bind:value={account.address}
                                                     placeholder="0x..."
+                                                    required
                                                 />
                                             </td>
                                             <td>
@@ -373,21 +451,51 @@
 
     <hr />
 
-    <!-- Generate JSON Section -->
-    <div class="generate-json py-3">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h4 class="mb-0">Generate Agreement JSON</h4>
+    <!-- Generate Output Section -->
+    <div class="generate-output py-3">
+        <h4 class="mb-4">Generate Output</h4>
+
+        <div class="d-flex gap-3 mb-4">
             <button type="button" class="btn btn-success" onclick={generateJSON}> Generate JSON </button>
+            <button type="button" class="btn btn-primary" onclick={generateTuple}> Generate Blockchain Tuple </button>
         </div>
 
         {#if generatedJSON}
-            <div class="mb-3">
+            <div class="mb-4">
                 <label for="jsonOutput" class="form-label">Generated JSON</label>
                 <textarea class="form-control" id="jsonOutput" rows="15" readonly bind:value={generatedJSON}></textarea>
+                <div class="mt-2">
+                    <button
+                        type="button"
+                        class="btn btn-outline-primary btn-sm"
+                        onclick={() => navigator.clipboard.writeText(generatedJSON)}
+                    >
+                        Copy JSON to Clipboard
+                    </button>
+                </div>
             </div>
-            <button type="button" class="btn btn-primary" onclick={() => navigator.clipboard.writeText(generatedJSON)}>
-                Copy to Clipboard
-            </button>
+        {/if}
+
+        {#if generatedTuple}
+            <div class="mb-4">
+                <label for="tupleOutput" class="form-label">Generated Blockchain Tuple</label>
+                <textarea
+                    class="form-control font-monospace"
+                    id="tupleOutput"
+                    rows="20"
+                    readonly
+                    bind:value={generatedTuple}
+                ></textarea>
+                <div class="mt-2">
+                    <button
+                        type="button"
+                        class="btn btn-outline-primary btn-sm"
+                        onclick={() => navigator.clipboard.writeText(generatedTuple)}
+                    >
+                        Copy Tuple to Clipboard
+                    </button>
+                </div>
+            </div>
         {/if}
     </div>
 </div>
@@ -419,6 +527,7 @@
 
     .no-spinner[type="number"] {
         -moz-appearance: textfield;
+        appearance: textfield;
     }
 
     /* Simple Material-style Buttons */

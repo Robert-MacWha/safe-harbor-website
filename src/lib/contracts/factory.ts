@@ -7,22 +7,104 @@ import FACTORY_ABI from './factory_abi.json';
 const FACTORY_ADDRESS = CONTRACT_ADDRESSES.FACTORY;
 const REGISTRY_ADDRESS = CONTRACT_ADDRESSES.REGISTRY;
 
+export async function connectWallet(): Promise<Address> {
+	if (typeof window === 'undefined' || !window.ethereum) {
+		throw new Error('MetaMask or compatible wallet not found');
+	}
+
+	await window.ethereum.request({
+		method: 'eth_requestAccounts'
+	});
+
+	const chain = await getSupportedChain();
+
+	const walletClient = createWalletClient({
+		chain,
+		transport: custom(window.ethereum)
+	});
+
+	const [account] = await walletClient.getAddresses();
+	if (!account) {
+		throw new Error('No wallet account found. Please connect your wallet.');
+	}
+
+	return account;
+}
+
+export async function deployAgreement(
+	agreementDetails: AgreementDetailsV2,
+	owner?: Address | undefined,
+): Promise<{ hash: Hash; agreementAddress?: Address }> {
+	if (typeof window === 'undefined' || !window.ethereum) {
+		throw new Error('MetaMask or compatible wallet not found');
+	}
+
+	const chain = await getSupportedChain();
+
+	await window.ethereum.request({
+		method: 'eth_requestAccounts'
+	});
+	const walletClient = createWalletClient({
+		chain,
+		transport: custom(window.ethereum)
+	});
+
+	const publicClient = createPublicClient({
+		chain,
+		transport: http()
+	});
+
+	const [account] = await walletClient.getAddresses();
+	if (!account) {
+		throw new Error('No wallet account found. Please connect your wallet.');
+	}
+	const contractData = transformToContractData(agreementDetails);
+
+	const ownerAddress = owner || account;
+
+	try {
+		// Use high gas limit for simulation
+		// This avoids RPC provider gas estimation limits
+		const gasLimit = 5_000_000n;
+
+		const { request } = await publicClient.simulateContract({
+			address: FACTORY_ADDRESS,
+			abi: FACTORY_ABI,
+			functionName: 'create',
+			args: [contractData, REGISTRY_ADDRESS, ownerAddress],
+			account,
+			gas: gasLimit
+		});
+
+		const hash = await walletClient.writeContract({
+			...request
+		});
+
+		await publicClient.waitForTransactionReceipt({ hash });
+		return { hash };
+	} catch (error: any) {
+		if (error.message?.includes('User rejected')) {
+			throw new Error('Transaction was rejected by user');
+		}
+
+		throw error;
+	}
+}
+
 async function getSupportedChain() {
 	if (typeof window === 'undefined' || !window.ethereum) {
 		throw new Error('MetaMask or compatible wallet not found');
 	}
 
-	// Get the current chain ID from the wallet
 	const chainId = await window.ethereum.request({ method: 'eth_chainId' });
 	const chainIdNumber = parseInt(chainId, 16);
 
-	// Support mainnet and Sepolia only
 	if (chainIdNumber === 1) {
 		return mainnet;
 	} else if (chainIdNumber === 11155111) {
 		return sepolia;
 	} else {
-		throw new Error(`Unsupported network. Please switch to Ethereum Mainnet (1) or Sepolia Testnet (11155111). Current chain ID: ${chainIdNumber}`);
+		throw new Error(`Unsupported network. Please switch to Ethereum Mainnet or Sepolia Testnet. Current chain ID: ${chainIdNumber}`);
 	}
 }
 
@@ -72,85 +154,4 @@ function transformToContractData(details: AgreementDetailsV2) {
 		bountyTerms,
 		agreementURI: details.agreementURI
 	};
-}
-
-export async function deployAgreement(agreementDetails: AgreementDetailsV2): Promise<{ hash: Hash; agreementAddress?: Address }> {
-	if (typeof window === 'undefined' || !window.ethereum) {
-		throw new Error('MetaMask or compatible wallet not found');
-	}
-
-	await window.ethereum.request({
-		method: 'eth_requestAccounts'
-	});
-
-	const chain = await getSupportedChain();
-
-	const walletClient = createWalletClient({
-		chain,
-		transport: custom(window.ethereum)
-	});
-
-	const publicClient = createPublicClient({
-		chain,
-		transport: http()
-	});
-
-	const [account] = await walletClient.getAddresses();
-	if (!account) {
-		throw new Error('No wallet account found. Please connect your wallet.');
-	}
-	const contractData = transformToContractData(agreementDetails);
-
-	try {
-		// Use high gas limit for contract deployment
-		// This avoids RPC provider gas estimation limits
-		const gasLimit = 5_000_000n;
-
-		const { request } = await publicClient.simulateContract({
-			address: FACTORY_ADDRESS,
-			abi: FACTORY_ABI,
-			functionName: 'create',
-			args: [contractData, REGISTRY_ADDRESS, account],
-			account,
-			gas: gasLimit
-		});
-
-		const hash = await walletClient.writeContract({
-			...request,
-			gas: gasLimit
-		});
-
-		await publicClient.waitForTransactionReceipt({ hash });
-		return { hash };
-	} catch (error: any) {
-		if (error.message?.includes('User rejected')) {
-			throw new Error('Transaction was rejected by user');
-		}
-
-		throw error;
-	}
-}
-
-export async function connectWallet(): Promise<Address> {
-	if (typeof window === 'undefined' || !window.ethereum) {
-		throw new Error('MetaMask or compatible wallet not found');
-	}
-
-	await window.ethereum.request({
-		method: 'eth_requestAccounts'
-	});
-
-	const chain = await getSupportedChain();
-
-	const walletClient = createWalletClient({
-		chain,
-		transport: custom(window.ethereum)
-	});
-
-	const [account] = await walletClient.getAddresses();
-	if (!account) {
-		throw new Error('No wallet account found. Please connect your wallet.');
-	}
-
-	return account;
 }

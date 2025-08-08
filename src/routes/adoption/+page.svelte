@@ -14,6 +14,7 @@
 
     // Form state
     let agreementDetails: AgreementDetailsV2 = $state(createDefaultAgreementDetails());
+    let ownerAddress = $state<Address | undefined>(undefined);
 
     // Output state
     let output = $state("");
@@ -61,7 +62,7 @@
         deploymentError = null;
 
         try {
-            const result = await deployAgreement(agreementDetails);
+            const result = await deployAgreement(agreementDetails, ownerAddress);
             deploymentHash = result.hash;
         } catch (error: any) {
             deploymentError = error.message;
@@ -117,7 +118,7 @@
         <div class="col-12">
             <h4 class="mb-4">Protocol Details</h4>
             <div class="row">
-                <div class="col-12">
+                <div class="col-12 col-md-6">
                     <label for="protocolName" class="form-label">Protocol Name *</label>
                     <input
                         type="text"
@@ -126,6 +127,16 @@
                         bind:value={agreementDetails.name}
                         placeholder="Enter protocol name"
                         required
+                    />
+                </div>
+                <div class="col-12 col-md-6">
+                    <label for="ownerAddress" class="form-label">Owner Address</label>
+                    <input
+                        type="text"
+                        class="form-control font-monospace"
+                        id="ownerAddress"
+                        bind:value={ownerAddress}
+                        placeholder="0x... (optional)"
                     />
                 </div>
             </div>
@@ -468,7 +479,7 @@
                 <p class="mb-0">{walletError}</p>
             </div>
         {/if}
-        
+
         {#if deploymentError}
             <div class="alert alert-danger">
                 <h6>Deployment Error</h6>

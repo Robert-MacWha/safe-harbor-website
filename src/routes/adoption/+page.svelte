@@ -10,6 +10,7 @@
     } from "$lib/firebase/agreementDetailsV2Utils";
     import { connectWallet, deployAgreement } from "$lib/contracts/factory";
     import type { Address } from "viem";
+    import type { WalletState } from "@web3-onboard/core";
 
     // Form state
     let agreementDetails: AgreementDetailsV2 = $state(createDefaultAgreementDetails());
@@ -20,7 +21,7 @@
     let outputType = $state<"json" | "tuple" | "">("");
 
     // Wallet state
-    let walletAddress = $state<Address | null>(null);
+    let wallet = $state<WalletState | null>(null);
     let isConnecting = $state(false);
     let isDeploying = $state(false);
     let deploymentHash = $state<string | null>(null);
@@ -74,7 +75,7 @@
         isConnecting = true;
         walletError = null;
         try {
-            walletAddress = await connectWallet();
+            wallet = await connectWallet();
         } catch (error: any) {
             walletError = error.message;
         } finally {
@@ -87,8 +88,14 @@
         deploymentHash = null;
         deploymentError = null;
 
+        if (!wallet) {
+            walletError = "Please connect your wallet first.";
+            isDeploying = false;
+            return;
+        }
+
         try {
-            const result = await deployAgreement(agreementDetails, ownerAddress);
+            const result = await deployAgreement(wallet, agreementDetails, ownerAddress);
             deploymentHash = result.hash;
         } catch (error: any) {
             deploymentError = error.message;
@@ -522,7 +529,7 @@
                     <button type="submit" class="btn btn-primary w-100" data-action="tuple"> Generate Tuple </button>
                 </div>
                 <div class="col-12 col-md-4">
-                    {#if !walletAddress}
+                    {#if !wallet}
                         <button
                             type="button"
                             class="btn btn-primary w-100"

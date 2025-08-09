@@ -1,9 +1,5 @@
 import type { AgreementDetailsV2, Account, Chain, BountyTerms, Contact, ChildContractScope, IdentityRequirements } from './types/agreementDetailsV2';
 
-/**
- * Validates AgreementDetailsV2 data and returns an array of error messages
- * @returns Array of validation error messages (empty if valid)
- */
 export function validateAgreementDetailsV2(details: AgreementDetailsV2): string[] {
 	const errors: string[] = [];
 

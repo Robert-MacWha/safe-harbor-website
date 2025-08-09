@@ -1,73 +1,63 @@
-import { createWalletClient, custom, createPublicClient, http, type Address, type Hash } from 'viem';
+import { createWalletClient, createPublicClient, http, type Address, type Hash, custom, type Chain } from 'viem';
 import { mainnet, sepolia } from 'viem/chains';
 import type { AgreementDetailsV2 } from '$lib/firebase/types/agreementDetailsV2';
 import { CONTRACT_ADDRESSES } from './config';
 import FACTORY_ABI from './factory_abi.json';
+import type { Chain as OnboardChain } from '@web3-onboard/common';
+import Onboard, { type WalletState } from '@web3-onboard/core'
+import injectedModule from '@web3-onboard/injected-wallets'
 
 const FACTORY_ADDRESS = CONTRACT_ADDRESSES.FACTORY;
 const REGISTRY_ADDRESS = CONTRACT_ADDRESSES.REGISTRY;
 
-export async function connectWallet(): Promise<Address> {
-	if (typeof window === 'undefined' || !window.ethereum) {
-		throw new Error('MetaMask or compatible wallet not found');
-	}
+const CHAIN_MAP: Record<string, Chain> = {
+	'0x1': mainnet,
+	'0xaa36a7': sepolia,
+};
 
-	await window.ethereum.request({
-		method: 'eth_requestAccounts'
-	});
+export async function connectWallet(): Promise<WalletState> {
+	const injected = injectedModule()
 
-	const chain = await getSupportedChain();
+	const onboard = Onboard({
+		wallets: [injected],
+		chains: chainMapToOnboardChains(),
+	})
 
-	const walletClient = createWalletClient({
-		chain,
-		transport: custom(window.ethereum)
-	});
-
-	const [account] = await walletClient.getAddresses();
-	if (!account) {
-		throw new Error('No wallet account found. Please connect your wallet.');
-	}
-
-	return account;
+	const wallets = await onboard.connectWallet()
+	const wallet = wallets[0]
+	return wallet;
 }
 
 export async function deployAgreement(
+	wallet: WalletState,
 	agreementDetails: AgreementDetailsV2,
 	owner?: Address | undefined,
 ): Promise<{ hash: Hash; agreementAddress?: Address }> {
-	if (typeof window === 'undefined' || !window.ethereum) {
-		throw new Error('MetaMask or compatible wallet not found');
-	}
+	const chain = getCurrentChain(wallet);
 
-	const chain = await getSupportedChain();
-
-	await window.ethereum.request({
-		method: 'eth_requestAccounts'
-	});
 	const walletClient = createWalletClient({
-		chain,
-		transport: custom(window.ethereum)
-	});
-
+		transport: custom(wallet.provider),
+		chain: chain,
+	})
 	const publicClient = createPublicClient({
-		chain,
-		transport: http()
+		transport: custom(wallet.provider),
+		chain: chain,
 	});
 
-	const [account] = await walletClient.getAddresses();
+	const account = wallet.accounts[0].address;
 	if (!account) {
 		throw new Error('No wallet account found. Please connect your wallet.');
 	}
-	const contractData = transformToContractData(agreementDetails);
-
 	const ownerAddress = owner || account;
 
-	try {
-		// Use high gas limit for simulation
-		// This avoids RPC provider gas estimation limits
-		const gasLimit = 5_000_000n;
+	const contractData = transformToContractData(agreementDetails);
+	// Use high gas limit for simulation
+	// This avoids RPC provider gas estimation limits
+	const gasLimit = 5_000_000n;
 
-		const { request } = await publicClient.simulateContract({
+	let request;
+	try {
+		const res = await publicClient.simulateContract({
 			address: FACTORY_ADDRESS,
 			abi: FACTORY_ABI,
 			functionName: 'create',
@@ -76,6 +66,12 @@ export async function deployAgreement(
 			gas: gasLimit
 		});
 
+		request = res.request;
+	} catch (error: any) {
+		throw new Error(`Simulation failed: ${error.message || error}`);
+	}
+
+	try {
 		const hash = await walletClient.writeContract({
 			...request
 		});
@@ -87,24 +83,7 @@ export async function deployAgreement(
 			throw new Error('Transaction was rejected by user');
 		}
 
-		throw error;
-	}
-}
-
-async function getSupportedChain() {
-	if (typeof window === 'undefined' || !window.ethereum) {
-		throw new Error('MetaMask or compatible wallet not found');
-	}
-
-	const chainId = await window.ethereum.request({ method: 'eth_chainId' });
-	const chainIdNumber = parseInt(chainId, 16);
-
-	if (chainIdNumber === 1) {
-		return mainnet;
-	} else if (chainIdNumber === 11155111) {
-		return sepolia;
-	} else {
-		throw new Error(`Unsupported network. Please switch to Ethereum Mainnet or Sepolia Testnet. Current chain ID: ${chainIdNumber}`);
+		throw new Error(`Transaction failed: ${error.message || error}`);
 	}
 }
 
@@ -154,4 +133,27 @@ function transformToContractData(details: AgreementDetailsV2) {
 		bountyTerms,
 		agreementURI: details.agreementURI
 	};
+}
+
+function getCurrentChain(wallet: WalletState): Chain {
+	const chainId = wallet.chains[0]?.id;
+	if (!chainId) {
+		throw new Error('No chain detected in wallet');
+	}
+
+	const chain = CHAIN_MAP[chainId];
+	if (!chain) {
+		throw new Error(`Unsupported chain: ${chainId}. Please switch to a supported network.`);
+	}
+
+	return chain;
+}
+
+function chainMapToOnboardChains(): OnboardChain[] {
+	return Object.entries(CHAIN_MAP).map(([id, chain]) => ({
+		id,
+		rpcUrl: chain.rpcUrls.default.http[0],
+		label: chain.name,
+		token: chain.nativeCurrency.symbol,
+	}));
 }

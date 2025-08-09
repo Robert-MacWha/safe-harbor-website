@@ -32,6 +32,7 @@
     let customErrors = $state({
         retainable: "",
         cap: "",
+        owner: "",
     });
 
     async function handleFormSubmit(event: SubmitEvent) {
@@ -112,25 +113,36 @@
                 customErrors.retainable = "When Max Cap is set, Retainable must be 'No'.";
                 isValid = false;
             }
-            if (cap && cap >= maxCap) {
+            if (cap && cap > maxCap) {
                 console.warn("Cap is greater than or equal to Max Cap.");
                 customErrors.cap = "Cap must be less than Max Cap.";
                 isValid = false;
             }
         }
 
+        if (ownerAddress && !/^0x[a-fA-F0-9]{40}$/.test(ownerAddress)) {
+            console.warn("Invalid owner address format.");
+            customErrors.owner = "Owner address must be a valid Ethereum address (0x followed by 40 hex characters).";
+            isValid = false;
+        }
+
         return isValid;
     }
 
-    function addChain() {
+    function addChain(e: MouseEvent) {
+        e.preventDefault();
+        e.stopPropagation();
         agreementDetails.chains = [...agreementDetails.chains, createDefaultChain()];
     }
 
     function removeChain(index: number) {
+        if (agreementDetails.chains.length <= 1) return;
         agreementDetails.chains = agreementDetails.chains.filter((_, i) => i !== index);
     }
 
-    function addAccount(chainIndex: number) {
+    function addAccount(e: MouseEvent, chainIndex: number) {
+        e.preventDefault();
+        e.stopPropagation();
         agreementDetails.chains[chainIndex].accounts = [
             ...agreementDetails.chains[chainIndex].accounts,
             createDefaultAccount(),
@@ -139,15 +151,14 @@
 
     function removeAccount(chainIndex: number, accountIndex: number) {
         if (agreementDetails.chains[chainIndex]?.accounts.length <= 1) return;
-
         agreementDetails.chains[chainIndex].accounts = agreementDetails.chains[chainIndex].accounts.filter(
             (_, i) => i !== accountIndex,
         );
     }
 
-    function addContact(event: MouseEvent) {
-        event.preventDefault();
-        event.stopPropagation();
+    function addContact(e: MouseEvent) {
+        e.preventDefault();
+        e.stopPropagation();
         agreementDetails.contact = [...agreementDetails.contact, createDefaultContact()];
     }
 
@@ -182,7 +193,6 @@
                             minlength="1"
                             maxlength="100"
                         />
-                        <div class="invalid-feedback">Please provide a valid protocol name.</div>
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="ownerAddress" class="form-label">Owner Address</label>
@@ -192,12 +202,11 @@
                             id="ownerAddress"
                             bind:value={ownerAddress}
                             placeholder="0x... (optional)"
-                            pattern="^0x[a-fA-F0-9]{40}$|^$"
                             title="Must be a valid Ethereum address (0x followed by 40 hex characters) or empty"
                         />
-                        <div class="invalid-feedback">
-                            Please provide a valid checksummed Ethereum address or leave empty.
-                        </div>
+                        {#if customErrors.owner}
+                            <div class="invalid-feedback d-block">{customErrors.owner}</div>
+                        {/if}
                     </div>
                 </div>
             </div>
@@ -217,12 +226,11 @@
                             class="form-control no-spinner font-monospace"
                             id="bountyPercentage"
                             bind:value={agreementDetails.bountyTerms.bountyPercentage}
-                            min="0.1"
+                            min="0"
                             max="100"
                             step="0.1"
                             required
                         />
-                        <div class="invalid-feedback">Please provide a bounty percentage between 0.1% and 100%.</div>
                         <span class="input-group-text">%</span>
                     </div>
                 </div>
@@ -235,7 +243,7 @@
                             class="form-control no-spinner font-monospace {customErrors.cap ? 'is-invalid' : ''}"
                             id="bountyCap"
                             bind:value={agreementDetails.bountyTerms.bountyCapUSD}
-                            min="1"
+                            min="0"
                             required
                         />
                         {#if customErrors.cap}
@@ -254,7 +262,6 @@
                             bind:value={agreementDetails.bountyTerms.aggregateBountyCapUSD}
                             min="0"
                         />
-                        <div class="invalid-feedback">Please provide a non-negative aggregate bounty cap.</div>
                     </div>
                 </div>
                 <div class="col mb-3" style="min-width: 20ch;">
@@ -337,7 +344,6 @@
                                         minlength="1"
                                         maxlength="100"
                                     />
-                                    <div class="invalid-feedback">Contact name is required.</div>
                                 </td>
                                 <td>
                                     <input
@@ -349,7 +355,6 @@
                                         minlength="1"
                                         maxlength="200"
                                     />
-                                    <div class="invalid-feedback">Contact information is required.</div>
                                 </td>
                                 <td class="text-center">
                                     <button
@@ -408,7 +413,7 @@
                                     placeholder="eip155:1"
                                     style="width: 100%;"
                                     required
-                                    pattern="^[a-zA-Z0-9]+:[0-9]+$"
+                                    pattern="^[a-zA-Z0-9]+:[a-zA-Z0-9]+$"
                                     title="Must be a valid CAIP-2 chain ID (e.g., eip155:1)"
                                 />
                                 <div class="invalid-feedback">
@@ -449,7 +454,7 @@
                                                     <button
                                                         type="button"
                                                         class="btn-material"
-                                                        onclick={() => addAccount(chainIndex)}
+                                                        onclick={(e) => addAccount(e, chainIndex)}
                                                         title="Add Account"
                                                     >
                                                         <span class="material-icon">+</span>

@@ -1,4 +1,4 @@
-import type { AgreementDetailsV2, Account, Chain, BountyTerms, Contact } from './types/agreementDetailsV2';
+import type { AgreementDetailsV2, Account, Chain, BountyTerms, Contact, ChildContractScope, IdentityRequirements } from './types/agreementDetailsV2';
 
 /**
  * Validates AgreementDetailsV2 data and returns an array of error messages
@@ -60,7 +60,7 @@ export function validateAgreementDetailsV2(details: AgreementDetailsV2): string[
 		if (chain.assetRecoveryAddress && !chain.assetRecoveryAddress.match(/^0x[a-fA-F0-9]{40}$/)) {
 			errors.push(`Invalid asset recovery address format for chain ${i + 1} (must be 42-character hex string starting with 0x)`);
 		}
-		
+
 		for (let j = 0; j < chain.accounts.length; j++) {
 			const account = chain.accounts[j];
 			if (account.address && !account.address.match(/^0x[a-fA-F0-9]{40}$/)) {
@@ -72,16 +72,62 @@ export function validateAgreementDetailsV2(details: AgreementDetailsV2): string[
 	return errors;
 }
 
-/**
- * Generates JSON string representation of agreement details
- */
-export function generateAgreementJSON(details: AgreementDetailsV2): string {
-	return JSON.stringify(details, null, 2);
+function childContractScopeToNumber(scope: ChildContractScope): number {
+	switch (scope) {
+		case 'None':
+			return 0;
+		case 'ExistingOnly':
+			return 1;
+		case 'All':
+			return 2;
+		case 'FutureOnly':
+			return 3;
+		default:
+			throw new Error(`Unknown child contract scope: ${scope}`);
+	}
 }
 
-/**
- * Generates blockchain tuple representation of agreement details
- */
+function identityToNumber(identity: IdentityRequirements): number {
+	switch (identity) {
+		case 'Anonymous':
+			return 0;
+		case 'Pseudonymous':
+			return 1;
+		case 'Named':
+			return 2;
+		default:
+			throw new Error(`Unknown identity type: ${identity}`);
+	}
+}
+
+export function generateAgreementJSON(details: AgreementDetailsV2): string {
+	const json = {
+		agreementURI: details.agreementURI,
+		bountyTerms: {
+			aggregateBountyCapUSD: details.bountyTerms.aggregateBountyCapUSD,
+			bountyCapUSD: details.bountyTerms.bountyCapUSD,
+			bountyPercentage: details.bountyTerms.bountyPercentage,
+			diligenceRequirements: details.bountyTerms.diligenceRequirements,
+			identity: identityToNumber(details.bountyTerms.identity),
+			retainable: details.bountyTerms.retainable
+		},
+		chains: details.chains.map((chain) => ({
+			accounts: chain.accounts.map((account) => ({
+				accountAddress: account.address,
+				childContractScope: childContractScopeToNumber(account.childContractScope),
+			})),
+			assetRecoveryAddress: chain.assetRecoveryAddress,
+			id: chain.id,
+		})),
+		contact: details.contact.map((contact) => ({
+			contact: contact.contact,
+			name: contact.name,
+		})),
+		protocolName: details.name,
+	}
+	return JSON.stringify(json, null, 4);
+}
+
 export function generateAgreementTuple(details: AgreementDetailsV2): string {
 	const protocolName = details.name;
 
@@ -90,45 +136,14 @@ export function generateAgreementTuple(details: AgreementDetailsV2): string {
 		const chainId = chain.id;
 
 		const accounts = chain.accounts.map((account) => {
-			let childScopeNumber;
-			switch (account.childContractScope) {
-				case 'None':
-					childScopeNumber = 0;
-					break;
-				case 'ExistingOnly':
-					childScopeNumber = 1;
-					break;
-				case 'All':
-					childScopeNumber = 2;
-					break;
-				case 'FutureOnly':
-					childScopeNumber = 3;
-					break;
-				default:
-					childScopeNumber = 0;
-			}
-
+			let childScopeNumber = childContractScopeToNumber(account.childContractScope);
 			return [account.address, childScopeNumber];
 		});
 
 		return [chain.assetRecoveryAddress, accounts, chainId];
 	});
 
-	let identity;
-	switch (details.bountyTerms.identity) {
-		case 'Anonymous':
-			identity = 0;
-			break;
-		case 'Pseudonymous':
-			identity = 1;
-			break;
-		case 'Named':
-			identity = 2;
-			break;
-		default:
-			identity = 0;
-	}
-
+	let identity = identityToNumber(details.bountyTerms.identity);
 	const bountyTerms = [
 		details.bountyTerms.bountyPercentage,
 		details.bountyTerms.bountyCapUSD,
@@ -146,47 +161,16 @@ export function generateAgreementTuple(details: AgreementDetailsV2): string {
 }
 
 // Default factory functions
-
-/**
- * Creates a new default Account instance
- * @returns Default Account with empty values and "None" scope
- */
-export function createDefaultAccount(): Account {
+export function createDefaultAgreementDetails(): AgreementDetailsV2 {
 	return {
 		name: '',
-		address: '',
-		childContractScope: 'All',
-		children: []
+		contact: [createDefaultContact()],
+		chains: [createDefaultChain()],
+		bountyTerms: createDefaultBountyTerms(),
+		agreementURI: 'https://bafybeigvd7z4iemq7vrdcczgyu2afm7egxwrggftiplydc3vdrdmgccwvu.ipfs.w3s.link/The_SEAL_Whitehat_Safe_Harbor_Agremeent_V1_01.pdf'
 	};
 }
 
-/**
- * Creates a new default Chain instance
- * @returns Default Chain with empty values and one default account
- */
-export function createDefaultChain(): Chain {
-	return {
-		id: '',
-		assetRecoveryAddress: '',
-		accounts: [createDefaultAccount()]
-	};
-}
-
-/**
- * Creates a new default Contact instance
- * @returns Default Contact with empty name and contact fields
- */
-export function createDefaultContact(): Contact {
-	return {
-		name: '',
-		contact: ''
-	};
-}
-
-/**
- * Creates a new default BountyTerms instance
- * @returns Default BountyTerms with sensible defaults (10%, $1M cap, Anonymous, not retainable)
- */
 export function createDefaultBountyTerms(): BountyTerms {
 	return {
 		bountyCapUSD: 1_000_000,
@@ -198,16 +182,26 @@ export function createDefaultBountyTerms(): BountyTerms {
 	};
 }
 
-/**
- * Creates a new default AgreementDetailsV2 instance
- * @returns Default AgreementDetailsV2 with one contact, one chain, and default bounty terms
- */
-export function createDefaultAgreementDetails(): AgreementDetailsV2 {
+export function createDefaultChain(): Chain {
+	return {
+		id: '',
+		assetRecoveryAddress: '',
+		accounts: [createDefaultAccount()]
+	};
+}
+
+export function createDefaultAccount(): Account {
 	return {
 		name: '',
-		contact: [createDefaultContact()],
-		chains: [createDefaultChain()],
-		bountyTerms: createDefaultBountyTerms(),
-		agreementURI: 'https://bafybeigvd7z4iemq7vrdcczgyu2afm7egxwrggftiplydc3vdrdmgccwvu.ipfs.w3s.link/The_SEAL_Whitehat_Safe_Harbor_Agremeent_V1_01.pdf'
+		address: '',
+		childContractScope: 'All',
+		children: []
+	};
+}
+
+export function createDefaultContact(): Contact {
+	return {
+		name: '',
+		contact: ''
 	};
 }

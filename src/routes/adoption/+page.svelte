@@ -11,6 +11,7 @@
     import { connectWallet, deployAgreement } from "$lib/contracts/factory";
     import type { Address } from "viem";
     import type { WalletState } from "@web3-onboard/core";
+    import { SafeHarborV2Parser } from "$lib/parser/SafeHarborV2Parser";
 
     // Form state
     let agreementDetails: AgreementDetailsV2 = $state(createDefaultAgreementDetails());
@@ -28,6 +29,11 @@
     let deploymentError = $state<string | null>(null);
     let walletError = $state<string | null>(null);
 
+    // Import state
+    let showImportModal = $state(false);
+    let importText = $state("");
+    let importError = $state<string | null>(null);
+
     let formElement: HTMLFormElement;
 
     let customErrors = $state({
@@ -35,6 +41,42 @@
         cap: "",
         owner: "",
     });
+
+    function openImportModal() {
+        showImportModal = true;
+        importText = "";
+        importError = null;
+    }
+
+    function closeImportModal() {
+        showImportModal = false;
+        importText = "";
+        importError = null;
+    }
+
+    function handleImport() {
+        importError = null;
+
+        if (!importText.trim()) {
+            importError = "Please paste your document content";
+            return;
+        }
+
+        const parseResult = SafeHarborV2Parser.parse(importText);
+
+        if (parseResult.success && parseResult.data) {
+            agreementDetails = parseResult.data;
+            closeImportModal();
+
+            // Reset form validation state
+            if (formElement) {
+                formElement.classList.remove("was-validated");
+            }
+            customErrors = { retainable: "", cap: "", owner: "" };
+        } else {
+            importError = parseResult.errors.join(", ") || "Failed to parse document";
+        }
+    }
 
     async function handleFormSubmit(event: SubmitEvent) {
         event.preventDefault();
@@ -179,7 +221,30 @@
     <title>Safe Harbor Adoption</title>
 </svelte:head>
 
-<div class="pt-6 mt-5"></div>
+<div class="pt-4 mt-2"></div>
+
+<div class="hero mt-6 mb-4 py-5">
+    <div class="container d-flex flex-column align-items-center text-center">
+        <h2 class="mb-4">Safe Harbor Adoption Generator</h2>
+    </div>
+</div>
+
+<div class="container mb-5">
+    <p class="mb-0">
+        This tool facilitates adoption of the <strong>SEAL Whitehat Safe Harbor Agreement</strong> by generating the
+        required configuration and providing flexible deployment options. You can deploy your adoption directly on-chain
+        through this interface, or generate structured tuple/JSON output for subsequent deployment using Foundry scripts
+        or alternative deployment frameworks. For comprehensive guidance, please follow the
+        <a
+            href="https://frameworks.securityalliance.org/safe-harbor/self-adoption-guide.html"
+            target="_blank"
+            rel="noopener noreferrer">self-adoption guide</a
+        >.
+    </p>
+    <div class="text-center">
+        <button type="button" class="btn btn-outline-primary" onclick={openImportModal}> Import from Document </button>
+    </div>
+</div>
 
 <div class="info container p-4 mb-6 rounded">
     <form bind:this={formElement} onsubmit={handleFormSubmit} novalidate>
@@ -595,7 +660,59 @@
     </form>
 </div>
 
+<!-- Import Modal -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+{#if showImportModal}
+    <div
+        class="modal fade show d-block"
+        tabindex="-1"
+        aria-labelledby="import-modal-title"
+        aria-modal="true"
+        role="dialog"
+    >
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <!-- svelte-ignore a11y_click_events_have_key_events -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="import-modal-title">Import from Document</h1>
+                    <button type="button" class="btn-close" onclick={closeImportModal} aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted mb-3">
+                        Copy the "Adoption Details" section from your adoption document as <strong>markdown</strong> and
+                        paste it below. Make sure to copy as markdown format (not plain text) for the parser to work correctly.
+                    </p>
+                    <div class="mb-3">
+                        <label for="importTextarea" class="form-label">Document Content (Markdown)</label>
+                        <textarea
+                            id="importTextarea"
+                            class="form-control font-monospace"
+                            rows="15"
+                            bind:value={importText}
+                            placeholder="Paste your markdown content here..."
+                        ></textarea>
+                    </div>
+                    {#if importError}
+                        <div class="alert alert-danger">
+                            {importError}
+                        </div>
+                    {/if}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick={closeImportModal}>Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick={handleImport}>Import</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- svelte-ignore a11y_click_events_have_key_events -->
+    <div class="modal-backdrop fade show" onclick={closeImportModal}></div>
+{/if}
+
 <style>
+    .hero {
+        background-color: var(--accent-light);
+    }
     .info {
         background-color: var(--accent-light);
         border: 2px solid var(--accent-secondary);

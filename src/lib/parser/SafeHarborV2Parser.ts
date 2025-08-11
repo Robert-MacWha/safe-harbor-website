@@ -15,29 +15,16 @@ export class SafeHarborV2Parser {
         try {
             const sections = this.extractSections(markdownContent);
 
-            // Parse Protocol Details
-            if (sections.protocolDetails) {
-                this.parseProtocolDetails(sections.protocolDetails, result, errors);
-            }
+            // Parse all sections with error collection
+            this.parseProtocolDetails(sections.protocolDetails || '', result);
+            this.parseBountyTerms(sections.bountyTerms || '', result);
+            this.parseContactDetails(sections.contactDetails || '', result);
+            this.parseChainsAssets(sections.chainsAssets || '', result);
+            this.parseAccounts(sections.accounts || '', result);
 
-            // Parse Bounty Terms
-            if (sections.bountyTerms) {
-                this.parseBountyTerms(sections.bountyTerms, result, errors);
-            }
-
-            // Parse Contact Details
-            if (sections.contactDetails) {
-                this.parseContactDetails(sections.contactDetails, result, errors);
-            }
-
-            // Parse Chains & Asset Recovery Addresses
-            if (sections.chainsAssets) {
-                this.parseChainsAssets(sections.chainsAssets, result, errors);
-            }
-
-            // Parse Accounts
-            if (sections.accounts) {
-                this.parseAccounts(sections.accounts, result, errors);
+            // Basic validation
+            if (!result.name) {
+                errors.push('Protocol name is required');
             }
 
             return {
@@ -56,31 +43,85 @@ export class SafeHarborV2Parser {
     private static extractSections(content: string): Record<string, string> {
         const sections: Record<string, string> = {};
 
-        // Split content by bold headers
-        const headerRegex = /\*\*(.*?)\*\*/g;
-        const parts = content.split(headerRegex);
+        // Remove italic text first to avoid interference
+        const cleanContent = this.removeItalicText(content);
+        const lines = cleanContent.split('\n');
 
-        for (let i = 1; i < parts.length; i += 2) {
-            const header = parts[i].trim().toLowerCase();
-            const content = parts[i + 1] || '';
+        // Find sections based on table headers or specific patterns
+        let currentSection = '';
+        let sectionContent: string[] = [];
 
-            if (header.includes('protocol details')) {
-                sections.protocolDetails = content;
-            } else if (header.includes('bounty terms')) {
-                sections.bountyTerms = content;
-            } else if (header.includes('contact details')) {
-                sections.contactDetails = content;
-            } else if (header.includes('chains') && header.includes('asset')) {
-                sections.chainsAssets = content;
-            } else if (header.includes('accounts')) {
-                sections.accounts = content;
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i].trim();
+
+            // Check for Protocol Name pattern (Protocol Details section)
+            if (line.includes('Protocol Name:')) {
+                if (currentSection) {
+                    sections[currentSection] = sectionContent.join('\n');
+                }
+                currentSection = 'protocolDetails';
+                sectionContent = [line];
+                continue;
             }
+
+            // Check for bounty terms patterns
+            if (line.includes('Percentage:') || line.includes('Cap (USD):')) {
+                if (currentSection !== 'bountyTerms') {
+                    if (currentSection) {
+                        sections[currentSection] = sectionContent.join('\n');
+                    }
+                    currentSection = 'bountyTerms';
+                    sectionContent = [];
+                }
+                sectionContent.push(line);
+                continue;
+            }
+
+            // Check for Contact table header
+            if (line.includes('Name') && line.includes('Contact') && line.includes('|')) {
+                if (currentSection) {
+                    sections[currentSection] = sectionContent.join('\n');
+                }
+                currentSection = 'contactDetails';
+                sectionContent = [line];
+                continue;
+            }
+
+            // Check for Chain/Asset Recovery table header
+            if (line.includes('Chain') && line.includes('Asset Recovery Address') && line.includes('|')) {
+                if (currentSection) {
+                    sections[currentSection] = sectionContent.join('\n');
+                }
+                currentSection = 'chainsAssets';
+                sectionContent = [line];
+                continue;
+            }
+
+            // Check for Accounts table header (looking for Chain, Name, Address pattern)
+            if (line.includes('Chain') && line.includes('Name') && line.includes('Address') && line.includes('|')) {
+                if (currentSection) {
+                    sections[currentSection] = sectionContent.join('\n');
+                }
+                currentSection = 'accounts';
+                sectionContent = [line];
+                continue;
+            }
+
+            // Add line to current section if we're in one
+            if (currentSection) {
+                sectionContent.push(line);
+            }
+        }
+
+        // Don't forget the last section
+        if (currentSection) {
+            sections[currentSection] = sectionContent.join('\n');
         }
 
         return sections;
     }
 
-    private static parseProtocolDetails(content: string, result: AgreementDetailsV2, errors: string[]): void {
+    private static parseProtocolDetails(content: string, result: AgreementDetailsV2): void {
         const protocolNameMatch = content.match(/Protocol Name:\s*(.+?)(?:\n|$)/i);
         if (protocolNameMatch) {
             const cleanName = this.cleanValue(protocolNameMatch[1]);
@@ -90,105 +131,56 @@ export class SafeHarborV2Parser {
         // Owner address is handled separately in the form, not part of AgreementDetailsV2
     }
 
-    private static parseBountyTerms(content: string, result: AgreementDetailsV2, errors: string[]): void {
-        const percentageMatch = content.match(/Percentage:\s*(.+?)(?:\n|$)/i);
-        if (percentageMatch) {
-            const cleanValue = this.cleanValue(percentageMatch[1]);
-            if (cleanValue) {
-                const percentage = parseFloat(cleanValue);
-                if (!isNaN(percentage)) {
-                    result.bountyTerms.bountyPercentage = percentage;
-                }
-            }
+    private static parseBountyTerms(content: string, result: AgreementDetailsV2): void {
+        // Parse numeric values with currency cleaning
+        const percentage = this.extractNumericValue(content, /Percentage:\s*(.+?)(?:\n|$)/i);
+        if (percentage !== null) result.bountyTerms.bountyPercentage = percentage;
+
+        const cap = this.extractNumericValue(content, /Cap \(USD\):\s*(.+?)(?:\n|$)/i, true);
+        if (cap !== null) result.bountyTerms.bountyCapUSD = cap;
+
+        const aggregateCap = this.extractNumericValue(content, /Aggregate Cap \(USD\):\s*(.+?)(?:\n|$)/i, true);
+        if (aggregateCap !== null) result.bountyTerms.aggregateBountyCapUSD = aggregateCap;
+
+        // Parse boolean value
+        const retainableValue = this.extractStringValue(content, /Retainable:\s*(.+?)(?:\n|$)/i);
+        if (retainableValue) {
+            result.bountyTerms.retainable = ['yes', 'true'].includes(retainableValue.toLowerCase());
         }
 
-        const capMatch = content.match(/Cap \(USD\):\s*(.+?)(?:\n|$)/i);
-        if (capMatch) {
-            const cleanValue = this.cleanValue(capMatch[1]);
-            if (cleanValue) {
-                const cap = parseFloat(cleanValue.replace(/[$,]/g, ''));
-                if (!isNaN(cap)) {
-                    result.bountyTerms.bountyCapUSD = cap;
-                }
-            }
+        // Parse identity
+        const identity = this.extractStringValue(content, /Identity:\s*(.+?)(?:\n|$)/i);
+        if (identity && this.isValidIdentity(identity)) {
+            result.bountyTerms.identity = identity as IdentityRequirements;
         }
 
-        const aggregateCapMatch = content.match(/Aggregate Cap \(USD\):\s*(.+?)(?:\n|$)/i);
-        if (aggregateCapMatch) {
-            const cleanValue = this.cleanValue(aggregateCapMatch[1]);
-            if (cleanValue) {
-                const aggregateCap = parseFloat(cleanValue.replace(/[$,]/g, ''));
-                if (!isNaN(aggregateCap)) {
-                    result.bountyTerms.aggregateBountyCapUSD = aggregateCap;
-                }
-            }
-        }
-
-        const retainableMatch = content.match(/Retainable:\s*(.+?)(?:\n|$)/i);
-        if (retainableMatch) {
-            const cleanValue = this.cleanValue(retainableMatch[1]);
-            if (cleanValue) {
-                const retainable = cleanValue.toLowerCase();
-                result.bountyTerms.retainable = retainable === 'yes' || retainable === 'true';
-            }
-        }
-
-        const identityMatch = content.match(/Identity:\s*(.+?)(?:\n|$)/i);
-        if (identityMatch) {
-            const cleanValue = this.cleanValue(identityMatch[1]);
-            if (cleanValue && this.isValidIdentity(cleanValue)) {
-                result.bountyTerms.identity = cleanValue as IdentityRequirements;
-            }
-        }
-
-        const diligenceMatch = content.match(/Diligence Requirements:\s*(.+?)(?:\n|$)/i);
-        if (diligenceMatch) {
-            const cleanValue = this.cleanValue(diligenceMatch[1]);
-            if (cleanValue) {
-                result.bountyTerms.diligenceRequirements = cleanValue;
-            }
-        }
+        // Parse diligence requirements
+        const diligence = this.extractStringValue(content, /Diligence Requirements:\s*(.+?)(?:\n|$)/i);
+        if (diligence) result.bountyTerms.diligenceRequirements = diligence;
     }
 
-    private static parseContactDetails(content: string, result: AgreementDetailsV2, errors: string[]): void {
+    private static parseContactDetails(content: string, result: AgreementDetailsV2): void {
         const table = this.parseTable(content);
-        if (table.length > 0) {
-            result.contact = table
-                .filter(row => {
-                    const name = this.cleanValue(row[0] || '');
-                    const contact = this.cleanValue(row[1] || '');
-                    return name && contact;
-                })
-                .map(row => ({
-                    name: this.cleanValue(row[0]),
-                    contact: this.cleanValue(row[1])
-                }));
-        }
+        result.contact = table
+            .filter(row => this.cleanValue(row[0] || '') && this.cleanValue(row[1] || ''))
+            .map(row => ({
+                name: this.cleanValue(row[0]),
+                contact: this.cleanValue(row[1])
+            }));
     }
 
-    private static parseChainsAssets(content: string, result: AgreementDetailsV2, errors: string[]): void {
+    private static parseChainsAssets(content: string, result: AgreementDetailsV2): void {
         const table = this.parseTable(content);
-        if (table.length > 0) {
-            // Reset chains array to avoid duplicates
-            result.chains = [];
-
-            table
-                .filter(row => {
-                    const chainId = this.cleanValue(row[0] || '');
-                    const recoveryAddress = this.cleanValue(row[1] || '');
-                    return chainId && recoveryAddress;
-                })
-                .forEach(row => {
-                    result.chains.push({
-                        id: this.cleanValue(row[0]),
-                        assetRecoveryAddress: this.cleanValue(row[1]),
-                        accounts: [] // Will be populated by parseAccounts
-                    });
-                });
-        }
+        result.chains = table
+            .filter(row => this.cleanValue(row[0] || '') && this.cleanValue(row[1] || ''))
+            .map(row => ({
+                id: this.cleanValue(row[0]),
+                assetRecoveryAddress: this.cleanValue(row[1]),
+                accounts: [] // Will be populated by parseAccounts
+            }));
     }
 
-    private static parseAccounts(content: string, result: AgreementDetailsV2, errors: string[]): void {
+    private static parseAccounts(content: string, result: AgreementDetailsV2): void {
         const table = this.parseTable(content);
         if (table.length > 0) {
             table
@@ -252,19 +244,52 @@ export class SafeHarborV2Parser {
     }
 
     private static parseChildContractScope(value: string): ChildContractScope {
+        const SCOPE_MAP: Record<string, ChildContractScope> = {
+            'none': 'None',
+            'existingonly': 'ExistingOnly', 
+            'futureonly': 'FutureOnly',
+            'all': 'All'
+        };
+
         const cleanValue = value.toLowerCase().replace(/[\[\]]/g, '');
-
-        if (cleanValue.includes('none')) return 'None';
-        if (cleanValue.includes('existingonly')) return 'ExistingOnly';
-        if (cleanValue.includes('futureonly')) return 'FutureOnly';
-        if (cleanValue.includes('all')) return 'All';
-
+        
+        for (const [key, scope] of Object.entries(SCOPE_MAP)) {
+            if (cleanValue.includes(key)) return scope;
+        }
+        
         return 'None'; // Default fallback
     }
 
     private static isValidIdentity(identity: string): boolean {
         const validIdentities: IdentityRequirements[] = ['Anonymous', 'Pseudonymous', 'Named'];
         return validIdentities.includes(identity as IdentityRequirements);
+    }
+
+    private static removeItalicText(content: string): string {
+        // Remove lines containing italic formatting
+        const ITALIC_REGEX = /(?<!\*)\*(?!\*).*?\*(?!\*)/; // *text* (not **text**)
+        const BOLD_ITALIC_REGEX = /\*\*\*.*?\*\*\*/; // ***text***
+        
+        return content.split('\n').filter(line => {
+            return !ITALIC_REGEX.test(line) && !BOLD_ITALIC_REGEX.test(line);
+        }).join('\n');
+    }
+
+    private static extractStringValue(content: string, regex: RegExp): string | null {
+        const match = content.match(regex);
+        if (!match) return null;
+        
+        const cleaned = this.cleanValue(match[1]);
+        return cleaned || null;
+    }
+
+    private static extractNumericValue(content: string, regex: RegExp, removeCurrency = false): number | null {
+        const stringValue = this.extractStringValue(content, regex);
+        if (!stringValue) return null;
+        
+        const cleanedValue = removeCurrency ? stringValue.replace(/[$,]/g, '') : stringValue;
+        const number = parseFloat(cleanedValue);
+        return isNaN(number) ? null : number;
     }
 
     private static cleanValue(value: string): string {

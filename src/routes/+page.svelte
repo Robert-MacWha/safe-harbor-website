@@ -92,9 +92,15 @@
                                 <td class="p-3">
                                     <div class="d-flex flex-row">
                                         {#if protocol.safeHarborContent.agreementDetails.chains}
-                                            {#each protocol.safeHarborContent.agreementDetails.chains.slice(0, 6) as chain}
-                                                <ChainIcon chainID={chain.id} lazy />
-                                            {/each}
+                                            {#if protocol.safeHarborContent.version === "seal-1"}
+                                                {#each protocol.safeHarborContent.agreementDetails.chains.slice(0, 6) as chain}
+                                                    <ChainIcon chainID={chain.id} lazy />
+                                                {/each}
+                                            {:else if protocol.safeHarborContent.version === "seal-2"}
+                                                {#each protocol.safeHarborContent.agreementDetails.chains.slice(0, 6) as chain}
+                                                    <ChainIcon chainID={chain.caip2ChainId} lazy />
+                                                {/each}
+                                            {/if}
                                             {#if protocol.safeHarborContent.agreementDetails.chains.length > 6}
                                                 <span>...</span>
                                             {/if}

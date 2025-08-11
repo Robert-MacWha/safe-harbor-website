@@ -3,6 +3,7 @@ import type { ChainID } from "./firebase/types/chain";
 export interface Chain {
     Name: string;
     ID: number;
+    Caip2ID?: string | undefined;
     Icon: string;
     Scan: string;
     TXScan: string;
@@ -283,6 +284,14 @@ function GetChainByID(id: number): Chain | undefined {
 }
 
 function GetChainByCaip(caip: string): Chain | undefined {
-    console.error("TODO: Implement GetChainByCaip");
-    return undefined;
+    const chain = Chains.find((chain) => chain.Caip2ID === caip);
+    if (chain) {
+        return chain;
+    }
+
+    // If the caip2ID is not found, check if it starts with "eip155:"
+    if (caip.startsWith("eip155:")) {
+        const chainID = parseInt(caip.split(":")[1]);
+        return GetChainByID(chainID);
+    }
 } 

@@ -26,8 +26,8 @@ export interface SafeHarborAgreementV2 extends SafeHarborAgreementBase {
     agreementDetails: AgreementDetailsV2;
     createdAt: firebase.firestore.Timestamp;
     creator: string; // creator EOA
-    registryChain: string; // caip-2 chain ID
-    registryTransaction: string; // caip-10 transaction ID
+    registryChainId: number; // evm chain ID
+    registryTransaction: string; // evm txhash
     version: 'seal-2';
 }
 

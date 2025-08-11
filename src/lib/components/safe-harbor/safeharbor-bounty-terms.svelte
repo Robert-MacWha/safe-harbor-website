@@ -7,34 +7,43 @@
         retainable: string;
         identity: string;
         diligenceRequirements: string;
+        aggregateCap?: number;
     }
 
-    let { percentage, cap, retainable, identity, diligenceRequirements }: Props = $props();
+    let { percentage, cap, retainable, identity, diligenceRequirements, aggregateCap }: Props = $props();
 </script>
 
 <h4 class="mb-4">Bounty Terms</h4>
 <div class="row">
-    <div class="col-12 col-sm">
+    <div class="col-12 col-md">
         <p class="mb-0">Percentage</p>
         <p class="fw-semibold">
             {#if percentage}{percentage}%
             {:else}Unavailable{/if}
         </p>
     </div>
-    <div class="col-12 col-sm">
+    <div class="col-12 col-md">
         <p class="mb-0">Cap</p>
         <p class="fw-semibold">
             {#if cap}${PrettyCurrency(cap)}
             {:else}Unavailable{/if}
         </p>
     </div>
-    <div class="col-12 col-sm">
+    {#if aggregateCap}
+        <div class="col-12 col-md">
+            <p class="mb-0">Aggregate Cap</p>
+            <p class="fw-semibold">
+                ${PrettyCurrency(aggregateCap)}
+            </p>
+        </div>
+    {/if}
+    <div class="col-12 col-md">
         <p class="mb-0">Retainable</p>
         <p class="fw-semibold">
             {retainable}
         </p>
     </div>
-    <div class="col-12 col-sm">
+    <div class="col-12 col-md">
         <p class="mb-0">Identity</p>
         <p class="fw-semibold">
             {identity}

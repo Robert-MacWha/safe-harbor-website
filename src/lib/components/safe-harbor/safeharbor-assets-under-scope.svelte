@@ -1,6 +1,5 @@
 <script lang="ts">
     import type { SafeHarborAgreement } from "$lib/firebase/types/safeHarborAgreement";
-    import AccountRow from "../account-row.svelte";
     import ChildAsset from "./assets-under-cope/child-asset.svelte";
     import DirectAsset from "./assets-under-cope/direct-asset.svelte";
 
@@ -49,7 +48,31 @@
                     {/each}
                 {/if}
             {/each}
-        {:else if agreement.version === "seal-2"}{:else if agreement.version === "immunefi-1"}
+        {:else if agreement.version === "seal-2"}
+            {#each agreement.agreementDetails.chains as chain}
+                {#if chain.accounts}
+                    {#each chain.accounts as account}
+                        <DirectAsset
+                            chainID={chain.caip2ChainId}
+                            address={account.address}
+                            name={account.name}
+                            childContractScope={account.childContractScope}
+                            hasChildren={account.children && account.children.length > 0}
+                        />
+                        {#if account.children}
+                            {#each account.children as child}
+                                <ChildAsset
+                                    chainID={chain.caip2ChainId}
+                                    parentAddress={account.address}
+                                    address={child.address}
+                                    name={child.name}
+                                />
+                            {/each}
+                        {/if}
+                    {/each}
+                {/if}
+            {/each}
+        {:else if agreement.version === "immunefi-1"}
             {#each agreement.agreementDetails.chains as chain}
                 {#if chain.accounts}
                     {#each chain.accounts as account}

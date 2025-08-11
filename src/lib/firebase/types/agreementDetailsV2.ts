@@ -3,14 +3,14 @@ export type IdentityRequirements = "Anonymous" | "Pseudonymous" | "Named";
 
 export interface AgreementDetailsV2 {
     name: string;
-    contact: Contact[];
+    contact: string;
     chains: Chain[];
     bountyTerms: BountyTerms;
     agreementURI: string;
 }
 
 export interface Chain {
-    id: string;
+    caip2ChainId: string;
     assetRecoveryAddress: string;
     accounts: Account[];
 }
@@ -33,9 +33,4 @@ export interface BountyTerms {
     identity: IdentityRequirements;
     retainable: boolean;
     aggregateBountyCapUSD: number;
-}
-
-export interface Contact {
-    name: string;
-    contact: string;
 }

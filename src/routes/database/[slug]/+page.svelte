@@ -16,7 +16,7 @@
     {#if safeHarbor.version === "seal-1"}
         <SafeHarborV1 {protocol} {safeHarbor} />
     {:else if safeHarbor.version === "seal-2"}
-        <SafeHarborV2 />
+        <SafeHarborV2 {protocol} {safeHarbor} />
     {:else if safeHarbor.version === "immunefi-1"}
         <SafeHarborImmunefiV1 {protocol} {safeHarbor} />
     {/if}

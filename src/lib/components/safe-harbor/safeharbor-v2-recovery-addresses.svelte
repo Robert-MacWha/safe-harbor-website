@@ -5,7 +5,7 @@
     import ChainIcon from "../chain-icon.svelte";
 
     interface Props {
-        chains: Array<{ id: ChainID; assetRecoveryAddress: string }>;
+        chains: Array<{ caip2ChainId: ChainID; assetRecoveryAddress: string }>;
     }
 
     let { chains }: Props = $props();
@@ -28,21 +28,21 @@
             <tr>
                 <th scope="row" class="p-3">
                     <p class="fw-normal mb-0">
-                        <Address address={chain.assetRecoveryAddress} chainID={chain.id} />
+                        <Address address={chain.assetRecoveryAddress} chainID={chain.caip2ChainId} />
                     </p>
                 </th>
                 <td class="p-3">
                     <div class="d-flex flex-row align-items-center">
-                        {#if chain.id && GetChain(chain.id)}
+                        {#if chain.caip2ChainId && GetChain(chain.caip2ChainId)}
                             <div class="pe-1">
-                                <ChainIcon chainID={chain.id} lazy />
+                                <ChainIcon chainID={chain.caip2ChainId} lazy />
                             </div>
                             <p class="ms-2 mb-0 fw-normal">
-                                {GetChain(chain.id)?.Name}
+                                {GetChain(chain.caip2ChainId)?.Name}
                             </p>
                         {:else}
                             <p class="ms-2 mb-0 fw-normal">
-                                {chain.id}
+                                {chain.caip2ChainId}
                             </p>
                         {/if}
                     </div>

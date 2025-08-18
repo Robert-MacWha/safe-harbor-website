@@ -147,8 +147,11 @@
     }
 
     function validateCustomRules(): boolean {
-        customErrors.retainable = "";
-        customErrors.cap = "";
+        customErrors = {
+            retainable: "",
+            cap: "",
+            owner: "",
+        };
 
         const maxCap = agreementDetails.bountyTerms.aggregateBountyCapUSD;
         const cap = agreementDetails.bountyTerms.bountyCapUSD;
@@ -164,7 +167,7 @@
             }
             if (cap && cap > maxCap) {
                 console.warn("Cap is greater than or equal to Max Cap.");
-                customErrors.cap = "Cap must be less than Max Cap.";
+                customErrors.cap = "Cap must be <= Max Cap.";
                 isValid = false;
             }
         }
@@ -481,7 +484,7 @@
                                     type="text"
                                     class="form-control font-monospace"
                                     id="chainId{chainIndex}"
-                                    bind:value={chain.id}
+                                    bind:value={chain.caip2ChainId}
                                     placeholder="eip155:1"
                                     style="width: 100%;"
                                     required

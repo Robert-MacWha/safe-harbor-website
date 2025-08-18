@@ -3,7 +3,7 @@ export type IdentityRequirements = "Anonymous" | "Pseudonymous" | "Named";
 
 export interface AgreementDetailsV2 {
     name: string;
-    contact: string;
+    contact: Contact[];
     chains: Chain[];
     bountyTerms: BountyTerms;
     agreementURI: string;
@@ -33,4 +33,9 @@ export interface BountyTerms {
     identity: IdentityRequirements;
     retainable: boolean;
     aggregateBountyCapUSD: number;
+}
+
+export interface Contact {
+    name: string;
+    contact: string;
 }

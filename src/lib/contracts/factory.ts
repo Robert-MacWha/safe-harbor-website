@@ -51,10 +51,6 @@ export async function deployAgreement(
 	const ownerAddress = owner || account;
 
 	const contractData = transformToContractData(agreementDetails);
-	// Use high gas limit for simulation
-	// This avoids RPC provider gas estimation limits
-	const gasLimit = 5_000_000n;
-
 	let request;
 	try {
 		const res = await publicClient.simulateContract({
@@ -63,7 +59,6 @@ export async function deployAgreement(
 			functionName: 'create',
 			args: [contractData, REGISTRY_ADDRESS, ownerAddress],
 			account,
-			gas: gasLimit
 		});
 
 		request = res.request;
@@ -107,7 +102,7 @@ function transformToContractData(details: AgreementDetailsV2) {
 				}
 			})()
 		})),
-		caip2ChainId: chain.id
+		caip2ChainId: chain.caip2ChainId
 	}));
 
 	const bountyTerms = {

@@ -174,7 +174,7 @@ export class SafeHarborV2Parser {
         result.chains = table
             .filter(row => this.cleanValue(row[0] || '') && this.cleanValue(row[1] || ''))
             .map(row => ({
-                id: this.cleanValue(row[0]),
+                caip2ChainId: this.cleanValue(row[0]),
                 assetRecoveryAddress: this.cleanValue(row[1]),
                 accounts: [] // Will be populated by parseAccounts
             }));
@@ -196,7 +196,7 @@ export class SafeHarborV2Parser {
                     const childScope = row.length >= 4 ? this.parseChildContractScope(this.cleanValue(row[3] || '')) : 'None';
 
                     // Find the matching chain
-                    const chain = result.chains.find(c => c.id === chainId);
+                    const chain = result.chains.find(c => c.caip2ChainId === chainId);
                     if (chain) {
                         chain.accounts.push({
                             name: accountName,
@@ -207,7 +207,7 @@ export class SafeHarborV2Parser {
                     } else {
                         // Create chain if it doesn't exist
                         result.chains.push({
-                            id: chainId,
+                            caip2ChainId: chainId,
                             assetRecoveryAddress: '', // Will need to be filled manually
                             accounts: [{
                                 name: accountName,
@@ -246,17 +246,17 @@ export class SafeHarborV2Parser {
     private static parseChildContractScope(value: string): ChildContractScope {
         const SCOPE_MAP: Record<string, ChildContractScope> = {
             'none': 'None',
-            'existingonly': 'ExistingOnly', 
+            'existingonly': 'ExistingOnly',
             'futureonly': 'FutureOnly',
             'all': 'All'
         };
 
         const cleanValue = value.toLowerCase().replace(/[\[\]]/g, '');
-        
+
         for (const [key, scope] of Object.entries(SCOPE_MAP)) {
             if (cleanValue.includes(key)) return scope;
         }
-        
+
         return 'None'; // Default fallback
     }
 
@@ -269,7 +269,7 @@ export class SafeHarborV2Parser {
         // Remove lines containing italic formatting
         const ITALIC_REGEX = /(?<!\*)\*(?!\*).*?\*(?!\*)/; // *text* (not **text**)
         const BOLD_ITALIC_REGEX = /\*\*\*.*?\*\*\*/; // ***text***
-        
+
         return content.split('\n').filter(line => {
             return !ITALIC_REGEX.test(line) && !BOLD_ITALIC_REGEX.test(line);
         }).join('\n');
@@ -278,7 +278,7 @@ export class SafeHarborV2Parser {
     private static extractStringValue(content: string, regex: RegExp): string | null {
         const match = content.match(regex);
         if (!match) return null;
-        
+
         const cleaned = this.cleanValue(match[1]);
         return cleaned || null;
     }
@@ -286,7 +286,7 @@ export class SafeHarborV2Parser {
     private static extractNumericValue(content: string, regex: RegExp, removeCurrency = false): number | null {
         const stringValue = this.extractStringValue(content, regex);
         if (!stringValue) return null;
-        
+
         const cleanedValue = removeCurrency ? stringValue.replace(/[$,]/g, '') : stringValue;
         const number = parseFloat(cleanedValue);
         return isNaN(number) ? null : number;

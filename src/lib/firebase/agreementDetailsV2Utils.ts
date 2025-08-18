@@ -23,7 +23,7 @@ export function validateAgreementDetailsV2(details: AgreementDetailsV2): string[
 		if (!chain.assetRecoveryAddress.trim()) {
 			errors.push(`Asset recovery address is required for chain ${i + 1}`);
 		}
-		if (!chain.id.trim()) {
+		if (!chain.caip2ChainId.trim()) {
 			errors.push(`Chain ID is required for chain ${i + 1}`);
 		}
 		if (chain.accounts.length === 0 || !chain.accounts.some((a) => a.address.trim())) {
@@ -113,7 +113,7 @@ export function generateAgreementJSON(details: AgreementDetailsV2): string {
 				childContractScope: childContractScopeToNumber(account.childContractScope),
 			})),
 			assetRecoveryAddress: chain.assetRecoveryAddress,
-			id: chain.id,
+			id: chain.caip2ChainId,
 		})),
 		contact: details.contact.map((contact) => ({
 			contact: contact.contact,
@@ -129,7 +129,7 @@ export function generateAgreementTuple(details: AgreementDetailsV2): string {
 
 	const contacts = details.contact.map((contact) => [contact.contact, contact.name]);
 	const chains = details.chains.map((chain) => {
-		const chainId = chain.id;
+		const chainId = chain.caip2ChainId;
 
 		const accounts = chain.accounts.map((account) => {
 			let childScopeNumber = childContractScopeToNumber(account.childContractScope);
@@ -180,7 +180,7 @@ export function createDefaultBountyTerms(): BountyTerms {
 
 export function createDefaultChain(): Chain {
 	return {
-		id: '',
+		caip2ChainId: '',
 		assetRecoveryAddress: '',
 		accounts: [createDefaultAccount()]
 	};

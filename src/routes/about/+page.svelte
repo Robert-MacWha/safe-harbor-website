@@ -136,7 +136,7 @@
         </div>
         <p>
             For a comprehensive guide on adopting the Safe Harbor initiative, refer to our detailed <a
-                href="https://frameworks.securityalliance.dev/safe-harbor/index.html">written guide</a
+                href="https://frameworks.securityalliance.org/safe-harbor/self-adoption-guide">written guide</a
             >
         </p>
     </div>

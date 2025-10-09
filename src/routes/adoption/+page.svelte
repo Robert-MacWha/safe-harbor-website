@@ -239,7 +239,7 @@
         through this interface, or generate structured tuple/JSON output for subsequent deployment using Foundry scripts
         or alternative deployment frameworks. For comprehensive guidance, please follow the
         <a
-            href="https://frameworks.securityalliance.org/safe-harbor/self-adoption-guide.html"
+            href="https://frameworks.securityalliance.org/safe-harbor/self-adoption-guide"
             target="_blank"
             rel="noopener noreferrer">self-adoption guide</a
         >.

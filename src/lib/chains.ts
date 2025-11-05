@@ -47,9 +47,9 @@ export const Chains: Chain[] = [
         Name: "Base",
         ID: 8453,
         Icon: "https://icons.llamao.fi/icons/chains/rsz_base.jpg?w=48&h=48",
-        Scan: "https://basescan.io",
-        TXScan: "https://basescan.io/tx/{tx}",
-        AddressScan: "https://basescan.io/address/{address}",
+        Scan: "https://basescan.org",
+        TXScan: "https://basescan.org/tx/{tx}",
+        AddressScan: "https://basescan.org/address/{address}",
     },
     {
         Name: "Avalanche",
@@ -115,13 +115,14 @@ export const Chains: Chain[] = [
         TXScan: "https://modescan.io/tx/{tx}",
         AddressScan: "https://modescan.io/address/{address}",
     },
+    // NOTE: PolygonZKEVM seems like it's being deprecated, so not sure if we should keep this
     {
         Name: "Polygon ZkEVM",
         ID: 1101,
         Icon: "https://icons.llamao.fi/icons/chains/rsz_polygon%20zkevm.jpg",
-        Scan: "https://zkevm.polygonscan.com",
-        TXScan: "https://zkevm.polygonscan.com/tx/{tx}",
-        AddressScan: "https://zkevm.polygonscan.com/address/{address}",
+        Scan: "https://www.oklink.com/polygon-zkevm",
+        TXScan: "https://www.oklink.com/polygon-zkevm/tx/{tx}",
+        AddressScan: "https://www.oklink.com/polygon-zkevm/address/{address}",
     },
     {
         Name: "Sonic",

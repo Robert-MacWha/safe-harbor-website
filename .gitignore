@@ -26,3 +26,5 @@ vite.config.ts.timestamp-*
 .firebase
 
 firebase-debug.log
+.direnv
+.envrc

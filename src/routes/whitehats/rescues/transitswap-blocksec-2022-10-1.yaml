@@ -1,0 +1,13 @@
+protocol: TransitSwap
+whitehat: Blocksec
+date: 2022-10-1
+chain: 56
+report: https://blocksecteam.medium.com/how-blocksec-rescued-stolen-funds-from-technical-perspectives-of-three-representative-cases-d9e9be682eaa
+value: 1947300
+value_tokens:
+  - ETH: 1500.00
+whitehat_transactions:
+  - https://bscscan.com/tx/0x34e30dbfdeef6dcb3cb897e297de45e9e246b8c94c8a18b5ad4c4b776924ef0a
+recovery_transactions:
+  - https://bscscan.com/tx/0xe3408759aae6cad2b5b277d334008e85f6619c848d0993dc34f622b4b25c57f8
+safe_harbor: false

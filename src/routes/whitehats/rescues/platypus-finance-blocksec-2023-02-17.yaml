@@ -1,0 +1,13 @@
+protocol: Platypus Finance
+whitehat: Blocksec
+date: 2023-02-17
+chain: 43114
+report: https://blocksecteam.medium.com/how-blocksec-rescued-stolen-funds-from-technical-perspectives-of-three-representative-cases-d9e9be682eaa
+value: 2403300
+value_tokens:
+  - USDC: 2403762.189
+whitehat_transactions:
+  - https://snowscan.xyz/tx/0x5e3eb070c772631d599367521b886793e13cf0bc150bd588357c589395d2d5c3
+recovery_transactions:
+  - https://snowscan.xyz/tx/0x76ceab91aef320d0556029861dc1dde423d100e2a85f7ca4891a924efce4ed5a
+safe_harbor: false

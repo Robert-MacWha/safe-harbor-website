@@ -6,7 +6,11 @@
     <nav class="navbar navbar-expand-md navbar-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="/" aria-label="Skylock Home">
-                <img src={logo} alt="Logo" class="d-inline-block align-text-top" />
+                <img
+                    src={logo}
+                    alt="Logo"
+                    class="d-inline-block align-text-top"
+                />
             </a>
 
             <!-- Hamburger menu toggle button for mobile -->
@@ -31,12 +35,17 @@
                         <a class="nav-link" href="/about">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="https://frameworks.securityalliance.org/safe-harbor/overview"
-                            >Documentation</a
-                        >
+                        <a class="nav-link" href="/whitehats">Whitehats</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/adoption">Adoption</a>
+                    </li>
+                    <li class="nav-item">
+                        <a
+                            class="nav-link"
+                            href="https://frameworks.securityalliance.org/safe-harbor/overview"
+                            >Documentation</a
+                        >
                     </li>
                 </ul>
             </div>

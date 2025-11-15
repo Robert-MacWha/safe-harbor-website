@@ -14,7 +14,7 @@
 </script>
 
 {#if chain}
-    <a href="https://{chain.Scan}" target="_blank" class="pe-1">
+    <a href={chain.Scan} target="_blank" class="pe-1">
         <img class="img-fluid" src={chain?.Icon} alt={chain?.Name} {loading} />
     </a>
 {/if}

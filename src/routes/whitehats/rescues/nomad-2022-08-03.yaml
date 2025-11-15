@@ -1,0 +1,313 @@
+# TODO: Write a script to fill this out from the etherscan pages, since manually is too tedious
+protocol: Nomad
+whitehat: Multiple Whitehats
+date: 2022-08-03
+chain: 1
+report: https://www.halborn.com/blog/post/the-nomad-bridge-hack-a-deeper-dive
+value: 33000000
+value_tokens:
+  - ETH: 382.724
+  - USDC: 9758561.083409 # 0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48
+  - DAI: 3692847.290042704925592544 # 0x6b175474e89094c44da98b954eedeac495271d0f
+  - USDT: 5040689.334652 # 0xdac17f958d2ee523a2206206994597c13d831ec7
+  - WETH: 1412.819947629669554118 # 0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2
+  - WBTC: 196.99072399 # 0x2260fac5e5542a773aa44fbcfedf7c193bc2c599
+  - IAG: 358026097.109396117856514048 # 0x40eb746dee876ac1e78697b7ca85142d178a1fc8
+  - CQT: 37240908.36444075376647926 # 0xd417144312dbf50465b1c641d016962017ef6240
+  - C3: 2342652.888862488899075944 # 0xf1a91c7d44768070f711c68f33a7ca25c8d30268
+  - HBOT: 1200319.997288 # 0xe5097d9baeafb89f9bcb78c9290d545db5f9e9cb
+  - CARDS: 176209.101236028355330078 # 0x3d6f0dea3ac3c607b3998e6ce14b6350721752d9
+  - LIZ: 90000.0 # 0x102e941b77bcaa7e35d368cafe51ef8f79c8d1ef
+  - FRAX: 2290215.594686551555367434 # 0x853d955acef822db058eb8505911ed77f175b99e
+  - SUSHI: 4556.950336791170145788 # 0x6b3595068778dd592e39a122f4f5a5cf09c90fe2
+  - BNTY: 900000000.0 # 0xa5971db8473c110793f84f50bb0c73118897dc35
+  - FXS: 23755.624047500000000111 # 0x3432b6a60d23ca0dfca7761b7ab56459d9c964d0
+  - SDL: 9790.824057 # 0xf1dc500fde233a4055e25e5bbf516372bc4f6871
+  - WEVMOS: 3.0 # 0x93581991f68dbae1ea105233b67f7fa0d6bdee7b
+# Due to the large number of transactions involved, whitehat transactions were 
+# not collected.
+whitehat_transactions:
+# You can find all transactions to the nomad recovery address here:
+# https://etherscan.io/tokentxns?a=0x94a84433101a10aeda762968f6995c574d1bf154 
+recovery_transactions:
+  - https://etherscan.io/tx/0xec28c3628fc52aee18f0cce7e9cc2c02e79d04ee77292fd402b3475cc28f26ae
+  - https://etherscan.io/tx/0x9f51a073a0fa595d6e34a3aaa492cee67108d8ac3048c76837ed2fadfbe7c895
+  - https://etherscan.io/tx/0x3825b1d7fe4db41fe14e3d4abd5b68a841cd8be5995dbd4817587e2db680749a
+  - https://etherscan.io/tx/0xc8f2d2572c177f2c1a1b46d01ee685e260a93dc0f1ce464d86b0af7f7dfaf6fc
+  - https://etherscan.io/tx/0x53063094849b77ef621d0245295c24c6e09b0e489bc3099cdfad688d561e6f47
+  - https://etherscan.io/tx/0x1e8ba475a6c2fea0d60e63d61d27181af1a7707ad49f2c8590e444fc8de9d22b
+  - https://etherscan.io/tx/0x8491288622b5c6af82a7505242bc11b370f397ad2290bb3d4da4f6e4021805ac
+  - https://etherscan.io/tx/0x4315172bee36f83f17d2555db3c2b5b337fcab01f531de4e9ef9007ad4c4951e
+  - https://etherscan.io/tx/0x2ddcc972db8df2026757e4aec54352d54941120a1baa4bcbd36dfd7bdde73e60
+  - https://etherscan.io/tx/0xd74d0ebbbe2498d35cb0cf9615af639bdd9605866cd0e8d9ea1d332cf3173e87
+  - https://etherscan.io/tx/0xa0f96ede7fd435e14b285eaa074ad67625c675733bb61cbcce9c26a16a884c01
+  - https://etherscan.io/tx/0x236b82a9ba41722ecb620e518f5bcaa365b70bd16100b61f2f57d612f0b5aad0
+  - https://etherscan.io/tx/0x1515d4dd48934cd6b5261483ba95a461d6ab9ce2b0171cb26c7b4a63e85dc9f1
+  - https://etherscan.io/tx/0xa3baffa3a653d2b948519d0f6c39e69d8284cfbc33a055f3cc8f00c29e9bcf9e
+  - https://etherscan.io/tx/0x532c9c72d527e125031a92870e19ac444bef082e0c66b745e406825517d1950e
+  - https://etherscan.io/tx/0xab1c6dbc9c9b8298a5159f3fc51aec75b5c0c1570dee3da8bac59ab9eddcf64a
+  - https://etherscan.io/tx/0x9f568539012d6d32f31bc750976ad778dbf9654ce729a054d6586cad8ce25220
+  - https://etherscan.io/tx/0xffba8e551a38a50657f06363d5f6bae83f0aa2588da05e50482785e325ec79f7
+  - https://etherscan.io/tx/0x0430ba23ee1da28eeea5ee917eeeb828abc8a3c9e6f5004058bc6d240ec731d6
+  - https://etherscan.io/tx/0x9cc68adcfdb1a0caa3e4a19cd23f4123e4b22438a17caeb53d9c27df4a166a7a
+  - https://etherscan.io/tx/0x16c5335e1ac9b64012e434711ccc8e524f458f67b31681b0319053b2cbba23d4
+  - https://etherscan.io/tx/0xd343a39758cfd19971fa2910df8881b41a45de2edc14893f96bcfc3f414c3973
+  - https://etherscan.io/tx/0xde56e38ba52801aebdb52d51d042684349a6d2bd6a7d4b73af99a805f878584d
+  - https://etherscan.io/tx/0x6b50f8192f194a0bc2d0301a9390c2648d87d5f996718a440bd6cd7d3b4df3e4
+  - https://etherscan.io/tx/0x69eb65f9623e523453fcbd59f364130f6024084e9968906aaa6a3f839b0cebda
+  - https://etherscan.io/tx/0x7e03fe47f046a85c98d60f1e3135a2e8a2a2c7441af44d4e795a99417341b2d8
+  - https://etherscan.io/tx/0x9d7ba65473f3d5b65882f1d6422032feb418f8a76957c8f4061423e648a0fdc2
+  - https://etherscan.io/tx/0xbad82ec1237625a68e1ab3e93c108da2798ce650fb13a36437b0bf537f9f9151
+  - https://etherscan.io/tx/0xe535931dd70b81ee8d4a79e2bc99da981cb709a4009f0d51ff5d64a517fdaa5e
+  - https://etherscan.io/tx/0x75d6f178016868c5128d4e125d0584efe2f0db9334802bbf27f3fc21ad1ca8de
+  - https://etherscan.io/tx/0x9342c467bde5fd3c62f6f14e56a08fefa1b1a791fc7761d34cb567218ebf5008
+  - https://etherscan.io/tx/0x28405f9b2f90913a4becb89622832052cfe76868c5a10028a188116e43103b61
+  - https://etherscan.io/tx/0xd690cc78320b86fe55aba416d79b267c7fd84fa3d59753ccda976ae9c23446f5
+  - https://etherscan.io/tx/0x970cf75f1eecb3cea0320139cb00ca392d9d36a0f7bee4b6e6f7997ae3e4f150
+  - https://etherscan.io/tx/0xc989d6d713d876548430fcc21ef2c2825c04b25f565148e70643d77302e3b690
+  - https://etherscan.io/tx/0x31c8db6b5aa1a0143913f6686347b4e6102ae55835f8bbba52a71d5b1af5fdb0
+  - https://etherscan.io/tx/0x00061d1381998782cc0fcd3fa16e07e189c96d831c6b8c1da488b242dcf03857
+  - https://etherscan.io/tx/0xb15bc0c25358e0d4b669b34748a3da1c8d682b0e78d31b192b1c59a89a6c4177
+  - https://etherscan.io/tx/0x82550abb476e0c41ab8605ee74bbad2fdf9d5834fd04ef40ae751d55ce306c06
+  - https://etherscan.io/tx/0x1c09067982a9b542179004fe9cfee869ae3cfbc44540bae1e5452ce4dfca00f2
+  - https://etherscan.io/tx/0x18839b222ce1842fa93b48c1458e8126496074b387cca5f5f0cdc88879478493
+  - https://etherscan.io/tx/0xc8a47cb9c148aaef9ff193d8c2bf0639a60893e2a949ed1c07e20512696a6dae
+  - https://etherscan.io/tx/0xa7b0e0146055cd1f60f07ba24da1938ba99fdf169dde3ba8d5428b9879c73f9f
+  - https://etherscan.io/tx/0x8f585079463284e275234f47d662ede474958efa936069a6799c44c89dadcf19
+  - https://etherscan.io/tx/0xaf2f48ff43b7fa28c5b5494227b6f99a00f9daa59cd323dccabc38ba8928d237
+  - https://etherscan.io/tx/0x7e1dbee69e2e982e38e5f8143500969e07020749ad11b27f9d0edfe016279383
+  - https://etherscan.io/tx/0xa82a0eb6822b2db8692a27dd7d5147580653d60e01b458000b7912e62fda9c2d
+  - https://etherscan.io/tx/0x81b0975c1cb81c21b00f80c341435aa76073ad0abdb6d591d9a9b4d1ee27706c
+  - https://etherscan.io/tx/0x8c742cf207eda545b73e5889523881c07ed1381231a3159989ccebb18f6e5aed
+  - https://etherscan.io/tx/0x755a9b0419cabfe1a108fc4eaf4f35d8a7312250f26c0f3fbdde580112381d18
+  - https://etherscan.io/tx/0xef8e8c439acad0ee5b5cf9f1f6e31fa4da3bac3d2cb75eddcba1b3de3f67d8fc
+  - https://etherscan.io/tx/0x14978ef299f3b7978f802fde1a65048af9a39bbdb5276a3a4cb5210d9870a182
+  - https://etherscan.io/tx/0xbdb19290f435482b341b86ba6e90692b5776e525fb3945b93bb0fe13806c4aef
+  - https://etherscan.io/tx/0xe91c50a17e45af92a044955d0d1e2e1466b6a626a906162ef2b390d7fa698aa3
+  - https://etherscan.io/tx/0x350f7f8931a65ec13632dbd7d21bf6ec8778bc28623e84b9ebdbf9de5f956742
+  - https://etherscan.io/tx/0x09deebf6c94d88b59902d1059172f6f41d60ca2ec47e0fe6a03c61c193aa26f0
+  - https://etherscan.io/tx/0x2bc08d144c2e7f80bab5c556e712fc65ed6e9a7448002c4ef759d9f78436a5ee
+  - https://etherscan.io/tx/0x10a8697ef483f43f8e4316546d6129f7d6671458fc209928097e8b2a1811f70b
+  - https://etherscan.io/tx/0x14460f3f7a8cf94532b41302f7cf0e1b1648447a5b49240c49086637d93aa600
+  - https://etherscan.io/tx/0x4691c652c1f6c68483789cad0949ce375465b766365a38da50c6c28b1a0975f6
+  - https://etherscan.io/tx/0x51e94366d4a41dae1bc95499cedf7ff2537ac23438f1c0c1e555798eb6af60da
+  - https://etherscan.io/tx/0x5be80834966fe5ae7403e52514d5fc8d0179da6868d093a151582a227df43113
+  - https://etherscan.io/tx/0xf5af47ae1a23b4eca400c573d5cf88db73e2036395bffd9e34c9bed5f16cfa5c
+  - https://etherscan.io/tx/0x63551443eb0d6002fb08586689136cf7927edeec980ccc877c9e2ba050c0414c
+  - https://etherscan.io/tx/0xa982ed4add8faa6fa212c7cbefb96ee0ae47f77ffe6adef206f21a5e5ec5c3ae
+  - https://etherscan.io/tx/0x23f61a1b6a67292dbad1f258aac31dbfc18deb55ca05e516b13fd290b8a97b4a
+  - https://etherscan.io/tx/0xf6cc0be76848c8bd1ba356e1d451045fa1e1b4bf4074bfa878aa3d4ee250d8b5
+  - https://etherscan.io/tx/0x518dee297fe9ee5515a474c8bec51c0b068b0b2f1991ec11893b8bfee1b56808
+  - https://etherscan.io/tx/0x78236c4f187c4cd2b0ad71e5422124fe71a816e9b7e44cae683eff464667bfa8
+  - https://etherscan.io/tx/0x40623ba2bd700d0f668b8eb95e66e5a706a8306b1691ad1d53fb7bb1cbc808e0
+  - https://etherscan.io/tx/0x3b1cb92d26ee03077887f7424b81b4febfcd2174b44746ca7d232f742ca60c09
+  - https://etherscan.io/tx/0xc0dc176abf42bfaa7bcba8da58054edf38fef950bce3df20e7bf1b7d1e9f6e37
+  - https://etherscan.io/tx/0xbcec0966c052c669fa633412aaa38e05ff08056df109a3bece4cffbc62e0d1f8
+  - https://etherscan.io/tx/0x0774ee969f3851ae593d4cd1d08059695d446dcad3d00369fd04d304db54ef49
+  - https://etherscan.io/tx/0x662422b1d6fe0e312f558ff65be74827dd6a6a5f7d7685f3a5e14edc60d75131
+  - https://etherscan.io/tx/0x52731db38659ca8876877544c7acb00c08c21678e88af508d2a52feb41548cb7
+  - https://etherscan.io/tx/0xee379301ed7a35d5e608d2fa3c9a994d78c47f2f6641e46aa50bdd19cfc1ff08
+  - https://etherscan.io/tx/0xd693b4586ece7bf40d8f2305193fdb3daac1ae24b5d754e1de756e80312a8c11
+  - https://etherscan.io/tx/0x1ccd799b0bfd53cc381f521bd8334ec5e92fe7d5e41131e82f5ffe64d09d9f80
+  - https://etherscan.io/tx/0x94e4e988a1206c808c17d623a083e14860e8c3afba2fc09d0eb00c2583a18153
+  - https://etherscan.io/tx/0x509199b7f339e6dca15f91437d58f810ab9974a053665ff23dcf6742e034d678
+  - https://etherscan.io/tx/0x643323529e243db38503f382f35c3b15180335e0317e41fcddc81b4f8f5212f6
+  - https://etherscan.io/tx/0x5828f74a77f55b1b0b13b76ddae74dd930638b44182eea7521804dd89e64b537
+  - https://etherscan.io/tx/0x5efd9d4b7af14cc915bc02f54906af0118a9c2f857cd049c4b18488dc7986845
+  - https://etherscan.io/tx/0x2b63ade16eeb835671524539a65f6ff76feea28d730305fe9f67981e80f9cad1
+  - https://etherscan.io/tx/0xeb26dfd5fdd485bd57008b61ca2f5b7733a7faa2354685d40cd423995639528d
+  - https://etherscan.io/tx/0x53132aceee702e51946e6e37081bfb04e542fe55d77823185ae31ef5bb2036e0
+  - https://etherscan.io/tx/0xb1e5f352afafbdefef29389c23158a184a2e1e637c9cf657fe41144b067f7d10
+  - https://etherscan.io/tx/0xe9e1debf971abe7f5d624fa5a7b0851fede4005918d57e179650b17902fe714b
+  - https://etherscan.io/tx/0xe15cf089986fc348610a0ab3c09925255842ec60f6071b46e72e140dfa1bc379
+  - https://etherscan.io/tx/0x322d9bef4004f8c1d3efa11f37838ba182ba7756f9a24076b23a8bb6145010f4
+  - https://etherscan.io/tx/0xbaa78b01e88afff2a14720f6c7eb9ee44d6934020be2e54ac579a8287ac8e307
+  - https://etherscan.io/tx/0xe977f937f4eedd341e84f841c0d69c07e8845801f27814e04465156ea960c001
+  - https://etherscan.io/tx/0xe1a505a1ac973828a81ed2eea848da74ec8f1b135af1c028205b2dba5702e816
+  - https://etherscan.io/tx/0xd2538f90713f510428877ce4b8cb9a3577de14e78462d4fd4cbc116bcb5df0c5
+  - https://etherscan.io/tx/0xb3584e6688f1a760485666cef4e19e4a29b4aa3bdd6056a1b25b08fb8fe25f2d
+  - https://etherscan.io/tx/0x116115c0aeb862e601834c84595a3bd0fd0627a6a334a795ea2efb50eb11ea21
+  - https://etherscan.io/tx/0x569db96c25246ff3d12494cfe67e673f6524a1138b7b828e9bd02355ba87ebfd
+  - https://etherscan.io/tx/0xb4b44e4e9bfb2504a06a0a5481b5ceb9f089a3a67f04231baba5040ffee26d10
+  - https://etherscan.io/tx/0x961f1d5476f2c4ae3f45b3de5c7521726408aa6625d7fc17fde47884f8e025f0
+  - https://etherscan.io/tx/0xb2e22b89ae9e4690cdebf435ee38b64208798fdc64db53259201430ba93a34b2
+  - https://etherscan.io/tx/0x5b0ba6111d4326b1c78f74ef98d204e7f74c4dc5cbd39d33c20a7282d201653c
+  - https://etherscan.io/tx/0xf17b6d328200a0c6eac61ea2cb242d3386de4690b5380eb64729b6d640bd3869
+  - https://etherscan.io/tx/0x8de7fc0811504a224d5ada3681e124e86d0c1c647fbc2263766b9102167f4171
+  - https://etherscan.io/tx/0x8e9f79fac809a343f48c795757cf3c823ed9f83c5d6a47e7848426278d5696df
+  - https://etherscan.io/tx/0x7132badaa6f445ac2705eb938839b65b4a32e8982ad49c7d8ca946f65bdd5eea
+  - https://etherscan.io/tx/0xc15d18bd96a2ba967d1e5aae8db07a1c865333dbaf5d050ebec03be3bcc07e77
+  - https://etherscan.io/tx/0x5420dc812fe5a000a57022aad47f08e8ecd1c556dccb9c97cbe50410628e8dcd
+  - https://etherscan.io/tx/0x562c52a9e30c2420f7ef13586d03b7a08f7ad348e41add8d460c5dc9ecca5128
+  - https://etherscan.io/tx/0xe206cb748a8939f22f1e76d6cf871e4115eb7ff5a4b0f737a3319b39a60f5af7
+  - https://etherscan.io/tx/0xa984abe663e2caa7cbce5571b4e2ea751da99b4c9c93e45ce53ec5cac1c3dbf3
+  - https://etherscan.io/tx/0x91e9bf4eccc0c94c3bc4d269dc79c78505bb8d55bf10919c199d1260f3e6c63b
+  - https://etherscan.io/tx/0x48a998a604e76021413ef8fc4751ad779e2b3c8a6195722fd9c0aefc890282d3
+  - https://etherscan.io/tx/0xf46e95172611047d6a7f856e676356ff0e7a0cd16f3d991299127be9cee89458
+  - https://etherscan.io/tx/0xc40c8bc5e2d1fddfa9946578c8f584b41a57a6fea29ba20064e8fa4dd6fc11ec
+  - https://etherscan.io/tx/0x64bb846d6bafd8c03c7081135f2187b32f5e0b32386f9acbbdf4480a57b67af2
+  - https://etherscan.io/tx/0x0090934dc46b68659eb0741741c73f1e914cd1a90a650f31ab21b2ec42019f08
+  - https://etherscan.io/tx/0xd59bebc92c219f08feab263076c7ab3f14af7dc4c1c545e5b1170c7c02852f12
+  - https://etherscan.io/tx/0x2a58aeb353c5dffd92c2ffb1efd53adfe8e5074a4f356577eecc3c5251e5878b
+  - https://etherscan.io/tx/0x8202cb747bf3e8cfa29a1af2ab7f8bc26fc299f0e185a2c03cbffa85b24bd825
+  - https://etherscan.io/tx/0xa0474a7a5c2e6f0a2f6137ef7bc78fa6db362b7c2d3fd50f19dffdb3e3c6c12c
+  - https://etherscan.io/tx/0x51e0d33fff1a06e2e27e0fa08a8b61e38dd0427366378d2d7b45964f6d1edf06
+  - https://etherscan.io/tx/0xc0a87d4d4a712919f84da13d16559fe640706b9ba264066fa9c7df5eb10723fe
+  - https://etherscan.io/tx/0x0646c07cb57757602a40955bf11c46194a1a1af8d407edc1bac8fa67a2dc78df
+  - https://etherscan.io/tx/0xcc56674f96e3fdb1ccf76f62d7933bf1d3e8ccdd11b956013f775de1feff179d
+  - https://etherscan.io/tx/0x9aa33d10700e812ea01bc71a1937fa49890d637d2fde55cbe9fbb2bbe31f9e54
+  - https://etherscan.io/tx/0xbacf289adfff6eb2c6867498cf5f924b8ef7e4d96dc3f1561b20473b14e0298f
+  - https://etherscan.io/tx/0xa53b014f5bc31ae58dc3ab0d4abd61b08f8ea783ee7b9ed03b05cb440b9fceae
+  - https://etherscan.io/tx/0x2ec13633db6d0b0ac9535681ce83c7298c53eb73c5c5521fa5c9a70c34894ff1
+  - https://etherscan.io/tx/0xfa6616749b5fe55673589af19d4b1861849eabf339161dc317c22eec1a28632b
+  - https://etherscan.io/tx/0xe69fbacbfc1a5ac9941c8bfb7be355037ccc2c53630b668dbef918229cdde54e
+  - https://etherscan.io/tx/0x34d9f9abea36b4fde89888ad03a5eedb257e0f73dd8254637c2302eb6bb00bbc
+  - https://etherscan.io/tx/0x072323fc9a89d3a653cea0073b449cacb54ef219bfbb891ad4b928e9aed9b64d
+  - https://etherscan.io/tx/0x270eb99518dfa007be2e05a7e10593b44395399ee3c25d61661220b2f72560d2
+  - https://etherscan.io/tx/0x2ca99869d8bb7f43182f5bca9d09bed0297bf3f7da3c3c99f8734a85596f882a
+  - https://etherscan.io/tx/0xc0688e190f53b77072219c34891bf51ff152a1cd911b7a68ef190e6fe24ccf0a
+  - https://etherscan.io/tx/0x88dae700f86ae2f38ef705543072f467070edd173a92b752c741704d49d49bf2
+  - https://etherscan.io/tx/0xa79abcddaa7e346ae1430a0bb8f89e8298abe3736fad301f7ad75ca8575f87c5
+  - https://etherscan.io/tx/0xafae1b38947b81585676ef00e63ed0c4f32dc15a5122d30203534d0359f9dda6
+  - https://etherscan.io/tx/0x9069c2cb19c269447671f10c10deaff5d06e67ef7a8127cde96a60e3aa353ff1
+  - https://etherscan.io/tx/0xe65c0796f38c5c72732e1cf9708e2efe8b6761cc2ba02dfd1ffdb82d6289cf41
+  - https://etherscan.io/tx/0x149331e3508a3b204a6bb5984f85fa2b971056371d845016807de34fc882ee7f
+  - https://etherscan.io/tx/0x8bac63a141885b7768d18c2e90d7157fa4c8a97e704a4e57ee48f083b0281a91
+  - https://etherscan.io/tx/0xbfb108f89fa253224f7dacc9b2e00ff2486600fdaead262bd7adb203a34bddbc
+  - https://etherscan.io/tx/0xce52da04a0d0872e3f4a5862c5ea462c1aea675fe547e92da3f5b4bbf7caba28
+  - https://etherscan.io/tx/0x5c006a9555bd1a4c4bc6289201cec2a219c19b8f6a0e53fcc98a8c3eaec0d57e
+  - https://etherscan.io/tx/0x2a6954de27563d603e4a0303dd2996cfac1468f4bd4cabcb058a73a758a7a483
+  - https://etherscan.io/tx/0x49e943265efc5a525912a310261022fa6e98ab67e61e5c4d5d586b0e66f0a10d
+  - https://etherscan.io/tx/0x0f137bd26a298563362b71b9a3bed3194b46551e039f6e7a74426fcd0fb4e424
+  - https://etherscan.io/tx/0x0d339fd67c3810ddb47166bf15c76bc8aa6980d286932fc63220ace0e08fbcda
+  - https://etherscan.io/tx/0xd9d2973255225feeae57f012fdfe2d6a185abb1b1ddecb3282993a10083100e8
+  - https://etherscan.io/tx/0x91776099fc676c6bfe3f5e742558c626bfaf18d572b4b45c33b5eea393e2d03a
+  - https://etherscan.io/tx/0x9b93cbfb692b5f70195f230d9de123c24dc7e8e0eb7814f058770112b7f2b808
+  - https://etherscan.io/tx/0x3c774164d2eaff68dc7da267fca6fb2cd862afff9ee4c7fd6dcf51b4164d0012
+  - https://etherscan.io/tx/0x4a0638ea8de02c554a1c61b3362fe8333f19599aad37656998c24f6fe96815dc
+  - https://etherscan.io/tx/0xc36d6b9acaa341e0228660260cd9efe9ca50060141139e92260a6f1fa75e0d4c
+  - https://etherscan.io/tx/0x53c7433432020c46df2a11b67a262d345af2dd52c3eb8f27c4cb9a0c8a40a2d4
+  - https://etherscan.io/tx/0x32a075a58c701b76ad9397941b769eb6d205e6ca3fe7bf8b2f1eeac661c95275
+  - https://etherscan.io/tx/0x7415cac5b2c04915195c680fec3611f9b5d9a3ae9e3d79668f00b0cb407e9314
+  - https://etherscan.io/tx/0x70bd5c47b00266f5c32c57de2dc290a8778270c2310fe4d969944ebd2ee2c2b9
+  - https://etherscan.io/tx/0x8321b9aa70c62fbf0d777ebc039a7697c82fb583b13578430a8094800359414b
+  - https://etherscan.io/tx/0x0cd25b889dadb5a534a5500fa6c39ac5dc0e31b80296dfb96e5089eac441de27
+  - https://etherscan.io/tx/0x8efedacc083882955f13eecf89abca3424efc7f5f02fbcf58d5f6886bc74d8dd
+  - https://etherscan.io/tx/0x6853597cca8a5da82eb05cba61e6004218ef53701be6222fed91f1487a86c5f2
+  - https://etherscan.io/tx/0xd2cfa9c9063f74e9b1322de71e8097041224e8b5852f53bf48a4adc74978d945
+  - https://etherscan.io/tx/0x5b70cd51e5ab7e536e9571d521c62b676458f0db7ec530f77c7fd1e07f29e1ef
+  - https://etherscan.io/tx/0x5916748a146ab61ce0bfe2a82d9d4e4fdc4f17e6c34cb0db034f3f97f7cc3857
+  - https://etherscan.io/tx/0xc8c1fe6d4fade9f03764e07f91c3884d767ed8daad0c92ee707a01520ea98926
+  - https://etherscan.io/tx/0xc12a29e0e644043c98c2095917b0719c03898d04a728a3c308410951352dfcc4
+  - https://etherscan.io/tx/0x1e7e78cfdda80535803063135efd4058b3ad674ee63d9c31986173b4b36a7aea
+  - https://etherscan.io/tx/0xab4e251a2258513c803053d866a077ed7051b496d66bc0a34f70f56a90609463
+  - https://etherscan.io/tx/0x4003212e33673b6ebbcc7dc74e421877726f8d31a9356262a11378c52d5ecd03
+  - https://etherscan.io/tx/0xf2f9d56dfb954c6c44c71920cf982aa2d0fdd99341273ebf04969c5eba75dca1
+  - https://etherscan.io/tx/0xe570b2df17116d0d213608eaf6bcb96c82993ba3de30be04b87594e6cc267f82
+  - https://etherscan.io/tx/0xac9800c2540c1d582b8a75af64bc42da376a8d718aa2846efc70b8660e7e87b5
+  - https://etherscan.io/tx/0x4f98ffc5ae3bd187fc13b620dce2961dc6fe4c411fb81dd78a4587f1e3aaf23b
+  - https://etherscan.io/tx/0x1f5977e0f3d1f298c17c78ef2ee8e544faaa97fec8a048db9bc7a91be355b7d1
+  - https://etherscan.io/tx/0x6fe87b7490417080661d72c95c033c89cd95fe34bc534d076d54efb7dc680cee
+  - https://etherscan.io/tx/0x4ffa2da04cd379beab599f0643dc38a833259449ab8f01f3d404f58a1bce172c
+  - https://etherscan.io/tx/0x81b40d3c5e9a9412ff8830cbb79ab91c6371fd04fd1040d1e3fc574f5dc08041
+  - https://etherscan.io/tx/0x9ff61909fad877214b4573451838f38c2831c9fd02e2b3a50b54d705fe8c34f7
+  - https://etherscan.io/tx/0x1463148eac012a450b3dda5b73c947c3f2ef1bd92755b281c9b3ee5230ddbe77
+  - https://etherscan.io/tx/0x0e64e137bcfbd6ebeca9cbf38a79722b4b355bacd5b9b8c6a91b221ea6895544
+  - https://etherscan.io/tx/0x5729de45c35476a6328295916e5b9340f4a1cee364ea65302c11249da3e8b371
+  - https://etherscan.io/tx/0x4ea3bcf1f9bebb60f3bebeb80bebb7af5afed78d2d24c56c95f57530489838dd
+  - https://etherscan.io/tx/0x38b20fcb19f17a66867245c16cbdd6af7bb3e60238cd35a5affc0be0967d5239
+  - https://etherscan.io/tx/0x94584c48999e7f6015c2a0c41826cd05d84c120068aa590280a83b93d8a3f671
+  - https://etherscan.io/tx/0x46e7f3d4ba93afd97edca74deb67736000c1dfa999da7662fd2c9658cbef34af
+  - https://etherscan.io/tx/0xef5956827af825f1e44a9494e100aa55be6c2a181297992cbff884ed11ba4a2f
+  - https://etherscan.io/tx/0xf02b0b6c58ad0f58b81b766fac12e5ae2e7d7963223d3dc1267b066b5d563882
+  - https://etherscan.io/tx/0x235a1f2302b2c52668e5f13359accf0d3d5721c2a9b952ae75ef0c399cbd5d88
+  - https://etherscan.io/tx/0x6cfac8b5e45e3a22bcb1385b1ae2726c6f806f7059371531f59c023a9aa175a5
+  - https://etherscan.io/tx/0x2d115026cba604d0b15ee7a9dc918cc82f5d3d2ffcaa9f7f176341a22301e4db
+  - https://etherscan.io/tx/0x695d5092e5fa9e775518cd653de665cbe4822103c2a20f24767cce4896c255d2
+  - https://etherscan.io/tx/0x570d958fd77c4479a1736ccb48427f133eb7c0c976bc921b69c4e1e576f9387d
+  - https://etherscan.io/tx/0x2cc4e8831e40bf229935d8847f362d4c0ca17d999190e729e43b372da235f349
+  - https://etherscan.io/tx/0x4c70b9a0241f1f1862bc4e4494271bacc27d65984f6e09fa4dc913f32e519be4
+  - https://etherscan.io/tx/0x0d62b1403c3d32e21041809dd7f0536813be7ab5baf3dd98670083b5853d40a0
+  - https://etherscan.io/tx/0x679fa70ba1cf0d3795b33cd919337a5c5cd4163827b6faeeb5038541f57a9284
+  - https://etherscan.io/tx/0x478c35169ab4dc740e52a4281161f61be14bf2af019955e9b8a62b99af4feff9
+  - https://etherscan.io/tx/0xc280b6b0c92aaffdedf0f0d7cf081ed46ecb98780ca07238f2d206341aec56a2
+  - https://etherscan.io/tx/0x283099e409e8ddb384b87cf7c151cce49e728793e8cea518bf209a26354851d8
+  - https://etherscan.io/tx/0x9590ea041d51dc68f9135b9b4ee080829a95636a49b7bab3476114ac7177d2b7
+  - https://etherscan.io/tx/0x74d520b0b9ab4024d571f6144c9066a9dcc6e20427de9747427d467114107b25
+  - https://etherscan.io/tx/0xe678aa7f525ff355097d9e612a4b61833d0cb8128aeb66874248150d1ec4592f
+  - https://etherscan.io/tx/0xde5ed557481442396e0aeb4f1ef2019cf7feb6bcb911f25ee4cde52ffe1908d7
+  - https://etherscan.io/tx/0x1ca98c93360e8392a1e1288c78f9b07476de399a45899c5384359b9145a7427d
+  - https://etherscan.io/tx/0x83a89d6d8d27ac89240179e72bcdaa0bffaa9542d4ee99925da09e472fc4855d
+  - https://etherscan.io/tx/0x25c7999d9a1df0d8a0803ce45b752d94a250a7a646e185c70999b5582a8e7d72
+  - https://etherscan.io/tx/0xca4865321d6cb60c883474819edc2a15e7c8e9e4e766eaa13c85e6de3fb48bbf
+  - https://etherscan.io/tx/0xc1a87ce0df430b7d7654aabc4ab60f3da69f64f7615045f124a16a5c0d3a2525
+  - https://etherscan.io/tx/0x92e9c93c8fc52e80f84d7396a15af402be6d8e02e731be535f8ba38518ffd2cf
+  - https://etherscan.io/tx/0x193254fe955bee2fc81b9333134962678a03e019efed226d052d9ed6b583819e
+  - https://etherscan.io/tx/0xdb16f3ae330ce9f0ef26d43e694a67de096faeaf9720d0d884226f36c100a86a
+  - https://etherscan.io/tx/0xd485271e977f149365a615ce136c534be8ea1455dc27b8c558a5de7953c444cb
+  - https://etherscan.io/tx/0xe67fb9fcbc9e126ad57fbed03d975d95fd58b70240c38b3d188a4fdd08118987
+  - https://etherscan.io/tx/0x98ff21e8cd3c1b0e699bcc1c170c2956cb454155cb1c3e3214108ebca13ec266
+  - https://etherscan.io/tx/0x19f0a127857d8108689e6605c78aebaf3b8097cd2069e5e6f92e39e93b39809f
+  - https://etherscan.io/tx/0xb5e867adb320294b37239c5521c565ab5d18ad4997de42679ae7c94add3819b4
+  - https://etherscan.io/tx/0xffcbf02af8028068f32064084e78b185e827288e8faa5850ee6afd07dbb622d7
+  - https://etherscan.io/tx/0xde321efdded6f42ec091866a5c5f47c27585eeee740e208d2f742fb02716ef81
+  - https://etherscan.io/tx/0xcf6bd59f627425dfa0a03d54ec26bea609dd4382e1d9dde4c0f77f67a1034157
+  - https://etherscan.io/tx/0x17617c6baba50f79337a42d1eda15560fffd441c32d25439f1bdf161a2f02862
+  - https://etherscan.io/tx/0x69eff15337c72d2f09cab6ebe0c74393996140e00fc846a5104289af43ed1728
+  - https://etherscan.io/tx/0xcaa9db44797877028bf03f2a5527579985ffea389d5913e4d28823470f8ab3de
+  - https://etherscan.io/tx/0x0a226675f2fa83c95228afbccfb86b77e67f7eaca1e0ec9c668f437924cf4ac6
+  - https://etherscan.io/tx/0x5e8d48a0b4fbee2bbb4a733cc5d6ea848015bef15ebda2cd21ddd84f54d44070
+  - https://etherscan.io/tx/0x684db1dddf53ae40209243dc33553927c9659e39d4107d6ab08cbbf9879c2759
+  - https://etherscan.io/tx/0x894f15d00732c7c039334f54cf32dccf1cacc065392b1f518ffe442bda2dc44d
+  - https://etherscan.io/tx/0x38afd5c266f04b269c0fba481fb77dd5e078e9072c762b0e2d3ce985e89dd7b5
+  - https://etherscan.io/tx/0x1bde92e8866c7fc8d71b94197a415848137b208cdea9e1b2d6c3afbfadfc29e8
+  - https://etherscan.io/tx/0x6b497e9b85342bbb9348d24ea0f33944214a8450b684167c29b1294ac228077e
+  - https://etherscan.io/tx/0x0e7faaa68f583caa5522498dc2a80f16049049f8920b366726f6215c671e838f
+  - https://etherscan.io/tx/0x1007a445227e600a78c375ba8c1154955f7d347557f174e67bfb5451039ebaaf
+  - https://etherscan.io/tx/0x8e21887e14f2a5c352b506e08055e10c2d226d4ca2c82d02ab696c0f948ed831
+  - https://etherscan.io/tx/0xc48403ead7aca7f9c6497cbace4ff2ff4e96c9ddfb499c35320b76ab342f043e
+  - https://etherscan.io/tx/0x4561d5c860099bcca4a746fcc95822c00426b9c78e7eee59e4067fd7f55d27b6
+  - https://etherscan.io/tx/0x86e39a0c5701e53726335ed7836735ef9049472aab160054be5e8a2192c748a7
+  - https://etherscan.io/tx/0x1c1c2d652e90f0b71a6e9b6292fb2997be60405943c09152b07df060b0d60388
+  - https://etherscan.io/tx/0x89bea822f94fddc212c0e6f4e395fb996876b3397e26a51eb356ee804968b25d
+  - https://etherscan.io/tx/0x63558f311f449f65fda73188ac982f2d1dd6906ae06bf590d925655da05e8743
+  - https://etherscan.io/tx/0x9ec9cc2209d0ab80f6e5987ca386510151b4dcb84133a238f91ba5c171604108
+  - https://etherscan.io/tx/0x502367f882d06d84a6488abe04122bf069a964a3298b1fc5a044d5c811f08b29
+  - https://etherscan.io/tx/0x0df9a9ac7f755f2d7fa21aa37dfdfab0e54644124ced723b01b673f120f4763f
+  - https://etherscan.io/tx/0x7613ff411057ac8383b6cd0c357d6698bd98ac9ef577e35c7673707c044b9813
+  - https://etherscan.io/tx/0xb4a5575fb145c19137b8f92d964d0a181903b759b60da84f4d7e1b5e5704c5ab
+  - https://etherscan.io/tx/0x1e145eeed6a3d13e49528c399f25dca8d5d8a8290c945681bc6a01819a41a7cc
+  - https://etherscan.io/tx/0xad8abc4672f65f37561e3d3c275e0bd3ee6bafa57d119f0ea98c0e79d2f53b95
+  - https://etherscan.io/tx/0x466b9fc1860b27a3a3e7c7c8dada7d89a85cd43fd17f2b143f682090a5334720
+  - https://etherscan.io/tx/0xda12f2cd0c0754f8cbc2ff3d93544e75f7e0848c5aeab445b45b544f8ceb775d
+  - https://etherscan.io/tx/0x3d6f0c42090845a2b2eaaeb2797199c93bf52411290b9a3495adc9827c07ac2d
+  - https://etherscan.io/tx/0x63499f8ff85048b35d66cd19ab7eead3d7afc50089109f1a9b1a8c28b2d425a1
+  - https://etherscan.io/tx/0x428f3dcdb2b09a361151fb5485711c929db4536709da789753d3ea6073ff0c22
+  - https://etherscan.io/tx/0x94f4e1d3ffe36368d614d41dff1ee919c0d635e9f827340645367571e9c43aa1
+  - https://etherscan.io/tx/0x3a424adeb8a1f4f4696c403158b8972095ad9d38ca585020ddbb71f4d2816f7c
+  - https://etherscan.io/tx/0xb89278af28fed22509314ff5b08df2fe40713d9fde3a1c227a36f5857a3a1d3f
+  - https://etherscan.io/tx/0xf8da25e6b55ca34f31a8b7581f239f0e1042a7ba5db84f5790a43be87b5d54d2
+  - https://etherscan.io/tx/0xc3b0a6b936f218fe05045a5ff41d5998e5c6d52bed4b24813f0dd472f576b001
+  - https://etherscan.io/tx/0xfa97d386cfe709e77ff716ddfaa7a4ae922f36b0eed97c55d287266a51d8c64c
+  - https://etherscan.io/tx/0xff01c55fbc414673f8733401f36cccf4e554dd03f19ae887ae897fcae19a2e9a
+  - https://etherscan.io/tx/0x57a327a026ebdc475b54a805a66c11671ed51e8c55725ff18b726ab8bc05ab93
+  - https://etherscan.io/tx/0x54bdcdfbde09ad0afd92b6c82bc25272487b904ac7b0e1c281866848de23cd9e
+  - https://etherscan.io/tx/0xde2b779f5fece3a1175b1d38010b2c2744228fc4ffd1b0d11445722b987d41e3
+  - https://etherscan.io/tx/0x0bcf59a1247d9d324e2efa8332754d87d86f5ce05db7f736519b62cd9e5a210a
+  - https://etherscan.io/tx/0x91ae30d80da2794f58099a2223e709ac360e1983a6ff60a968d0e523721359df
+  - https://etherscan.io/tx/0x09b14c2e70834028cf3ea9490f1c630dfad81680ca322f19fcfde0bc67678811
+  - https://etherscan.io/tx/0x31190e3d1e949c46cc7379115efb8c1d011c9975436a1a96a597520a2f34f194
+  - https://etherscan.io/tx/0x8135cd6df23f4b56c9d9bfab020d9b6ec7c280f365492657477b9e6a6affcb6a
+  - https://etherscan.io/tx/0xada3aec40a63b429bab9db1bb4cd11618ecc63ecaaef677255984ecf864bb14e
+  - https://etherscan.io/tx/0x54bb460ca15df7c01e4175b22ca82aa32b3a2d0863885bb5f2591675d47be91c
+  - https://etherscan.io/tx/0x8c677ed6cc17333b7810f891bba6eacc1efcf6fb0b9f8c58cd8dbc58c868c8fd
+  - https://etherscan.io/tx/0xc79454a8bdb791df49c811e84cdcdb9e3de69f9f3d03beedd1f7ebf3fb2bdac3
+  - https://etherscan.io/tx/0x8873a5de5251c1feea517a88f5a100aeb7f9211107ba233c65ec27c38295531d
+  - https://etherscan.io/tx/0x9ba5808a39a0644d946d502b837fbd7bf6c45259979cc74f901dfc50e9bc0983
+  - https://etherscan.io/tx/0x997b38f6ad4e1554040b617baf0f0634814b70aa95c6d546f6775cd894e0afb3
+  - https://etherscan.io/tx/0x7f46f7885c052e84f0aa2cff2071fd15e8f9d39b65a91b3d8ce72b7a4f15f513
+  - https://etherscan.io/tx/0xa0748e198a222a19d9a219161c9a3206f2bb298fa4548ac7b5501a07a86dcf19
+  - https://etherscan.io/tx/0x82905673a26f46eeaea7b3e62c33f7d699781ddd946d3fe4ecf1fe20bf99208f
+  - https://etherscan.io/tx/0x2784f20cd6a07b5863e805a117dd5108edfe8263a8e14c13d54d17bc668d7f97
+  - https://etherscan.io/tx/0x8595416c664364c30f3acc50237076a13bca7ee47de83c344f45740338a6e7b6
+safe_harbor: false

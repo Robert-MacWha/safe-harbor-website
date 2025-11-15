@@ -2,7 +2,6 @@
     import ChainIcon from "$lib/components/chain-icon.svelte";
     import lockIcon from "$lib/images/database/lock.png";
     import moneyIcon from "$lib/images/database/money.png";
-    import securityIcon from "$lib/images/security.png";
 
     import { PrettyCurrency } from "$lib/currency";
 
@@ -32,17 +31,29 @@
             <div class="col">
                 <div class="row">
                     <div class="col-10 col-md-6 mb-3 mx-auto">
-                        <div class="card flex-fill py-2 px-3 rounded text-start">
+                        <div
+                            class="card flex-fill py-2 px-3 rounded text-start"
+                        >
                             <p class="mb-1">Protocols</p>
                             <h4 class="mb-0">{protocols.length}</h4>
-                            <img src={lockIcon} class="card-img-top" alt="icon" />
+                            <img
+                                src={lockIcon}
+                                class="card-img-top"
+                                alt="icon"
+                            />
                         </div>
                     </div>
                     <div class="col-10 col-md-6 mb-3 mx-auto">
-                        <div class="card flex-fill py-2 px-3 rounded text-start">
+                        <div
+                            class="card flex-fill py-2 px-3 rounded text-start"
+                        >
                             <p class="mb-1">Assets</p>
                             <h4 class="mb-0">${PrettyCurrency(scopedTVL)}</h4>
-                            <img src={moneyIcon} class="card-img-top" alt="icon" />
+                            <img
+                                src={moneyIcon}
+                                class="card-img-top"
+                                alt="icon"
+                            />
                         </div>
                     </div>
                 </div>
@@ -59,8 +70,10 @@
                 <div class="text-center">
                     <h3>No Adoptions Found</h3>
                     <p>
-                        We're encountering a database issue, please check again in an hour or reference the <a
-                            href="https://github.com/security-alliance/safe-harbor">on-chain database</a
+                        We're encountering a database issue, please check again
+                        in an hour or reference the <a
+                            href="https://github.com/security-alliance/safe-harbor"
+                            >on-chain database</a
                         >.
                     </p>
                 </div>
@@ -68,37 +81,63 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col" class="p-3"><p class="mb-0">Protocol Name</p></th>
-                            <th scope="col" class="p-3"><p class="mb-0">TVL</p></th>
-                            <th scope="col" class="p-3"><p class="mb-0">Chain(s)</p></th>
-                            <th scope="col" class="p-3"><p class="mb-0">Category</p></th>
+                            <th scope="col" class="p-3"
+                                ><p class="mb-0">Protocol Name</p></th
+                            >
+                            <th scope="col" class="p-3"
+                                ><p class="mb-0">TVL</p></th
+                            >
+                            <th scope="col" class="p-3"
+                                ><p class="mb-0">Chain(s)</p></th
+                            >
+                            <th scope="col" class="p-3"
+                                ><p class="mb-0">Category</p></th
+                            >
                         </tr>
                     </thead>
 
                     <tbody>
                         {#each protocols as protocol}
-                            <tr data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-aos-duration="600">
+                            <tr
+                                data-aos="fade-up"
+                                data-aos-anchor-placement="top-bottom"
+                                data-aos-duration="600"
+                            >
                                 <th scope="row" class="p-3"
-                                    ><a href="/database/{protocol.slug}" class="d-flex flex-row align-items-center">
+                                    ><a
+                                        href="/database/{protocol.slug}"
+                                        class="d-flex flex-row align-items-center"
+                                    >
                                         {#if protocol.icon}
-                                            <img src={protocol.icon} alt="Icon" />
+                                            <img
+                                                src={protocol.icon}
+                                                alt="Icon"
+                                            />
                                         {/if}
                                         <p class="ms-2 mb-0">
                                             {protocol.name}
                                         </p>
                                     </a></th
                                 >
-                                <td class="p-3"><p>${PrettyCurrency(protocol.tvl)}</p></td>
+                                <td class="p-3"
+                                    ><p>${PrettyCurrency(protocol.tvl)}</p></td
+                                >
                                 <td class="p-3">
                                     <div class="d-flex flex-row">
                                         {#if protocol.safeHarborContent.agreementDetails.chains}
                                             {#if protocol.safeHarborContent.version === "seal-1"}
                                                 {#each protocol.safeHarborContent.agreementDetails.chains.slice(0, 6) as chain}
-                                                    <ChainIcon chainID={chain.id} lazy />
+                                                    <ChainIcon
+                                                        chainID={chain.id}
+                                                        lazy
+                                                    />
                                                 {/each}
                                             {:else if protocol.safeHarborContent.version === "seal-2"}
                                                 {#each protocol.safeHarborContent.agreementDetails.chains.slice(0, 6) as chain}
-                                                    <ChainIcon chainID={chain.caip2ChainId} lazy />
+                                                    <ChainIcon
+                                                        chainID={chain.caip2ChainId}
+                                                        lazy
+                                                    />
                                                 {/each}
                                             {/if}
                                             {#if protocol.safeHarborContent.agreementDetails.chains.length > 6}
@@ -109,7 +148,9 @@
                                 </td>
                                 <td class="p-3"
                                     ><p>
-                                        {protocol.category ? protocol.category : ""}
+                                        {protocol.category
+                                            ? protocol.category
+                                            : ""}
                                     </p></td
                                 >
                             </tr>
@@ -143,7 +184,11 @@
     }
 
     .db {
-        background: linear-gradient(180deg, rgba(240, 246, 255, 0) 0%, #f0f6ff 100%);
+        background: linear-gradient(
+            180deg,
+            rgba(240, 246, 255, 0) 0%,
+            #f0f6ff 100%
+        );
 
         .container {
             overflow-x: auto;

@@ -1,0 +1,17 @@
+protocol: Paribus
+whitehat: BitFinding
+date: 2025-01-18
+chain: 42161
+report: https://bitfinding.com/blog/paribus-hack-interception
+value: 55600
+value_tokens:
+  - USDT: 10283.193
+  - ARB: 6510.273
+  - ETH: 12.599
+whitehat_transactions:
+  - https://arbiscan.io/tx/0xf5e753d3da60db214f2261343c1e1bc46e674d2fa4b7a953eaf3c52123aeebd2
+recovery_transactions:
+  - https://arbiscan.io/tx/0xbe0d892133660916c15ba2918106b2417b69dac3828368ad542694de08414e8d
+  - https://arbiscan.io/tx/0x09912a2851d589a61d4cb05fce75676fc26397fd0dea76f6ca137c5bb7b557cd
+  - https://arbiscan.io/tx/0x98c37ea3d6cd524edd8fa9d60c28b043ebea24a32ec3bac8398651ae131e7013
+safe_harbor: false

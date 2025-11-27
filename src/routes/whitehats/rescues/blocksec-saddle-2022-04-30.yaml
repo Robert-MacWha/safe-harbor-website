@@ -1,0 +1,13 @@
+protocol: Saddle Finance
+whitehat: Blocksec
+date: 2022-04-30
+chain: 1
+report: https://blocksecteam.medium.com/how-blocksec-rescued-stolen-funds-from-technical-perspectives-of-three-representative-cases-d9e9be682eaa
+value: 3985800
+value_tokens:
+  - WETH: 1356.000
+whitehat_transactions:
+  - https://etherscan.io/tx/0x9549c0cb48ec5a5a2c4703cbbbbea5638028b2d8c8adc103220ef1c7fe5e99a3
+recovery_transactions:
+  - https://etherscan.io/tx/0xe09b3017992b97b175807088cb37a3c73e2e4a15eb7b2e0872d0d87647693f08
+safe_harbor: false

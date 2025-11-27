@@ -1,0 +1,34 @@
+protocol: Balancer
+whitehat: Berachain Whitehat
+date: 2025-11-03
+chain: 80094
+# Communication transaction while berachain was down:
+# https://bscscan.com/tx/0x5bf570f5f6e241b69e3eb89e8454860506166231992f32ef0a216243334b7d97
+report: https://www.certik.com/resources/blog/balancer-incident-analysis
+value: 12937500
+value_tokens:
+  - WBERA: 97873.602
+  - iBERA: 111985.489
+  - sUSDe-USDe-HONEY-STABLE: 69,987.782
+  - sUSDe: 5719262.373
+  - USDe: 2151961.823
+  - HONEY: 3206609.192
+  - WETH-beraETH-STABLE: 0.350
+  - WETH: 2.659
+  - beraETH: 66.180
+whitehat_transactions:
+  - https://berascan.com/tx/0x4ffc4dc12e8b7c469f999e92525c518543a5e58927620b93a024f8e49c0e8615
+recovery_transactions:
+  - https://berascan.com/tx/0x2eed9c4068cd40281a0c4d232498d2d8e1d876e389cee9232b75786b7c1abb69
+  - https://berascan.com/tx/0xaa1f8dd8b28c90f8cc376e3ba001469334c28bb43643ab3015c026f05fba937b
+  - https://berascan.com/tx/0xd2443a6bcf78f6af734ad8f0c4972a8b6563c370280b8e17622250158115c8de
+  - https://berascan.com/tx/0x45c01b44b68d6b1c644edcd8f4ff50aac463761af14fb387f4c3ae8bd7655e30
+  - https://berascan.com/tx/0xf39301b0b45652b4a921712f393f9e5947e855cecf44b034cbc473a4ab4fef44
+  - https://berascan.com/tx/0x9a189ac1b5d0bc142cd64262353623992e98d10ffbb5bb5efa085461819698af
+  - https://berascan.com/tx/0xd4a63b7a50912755fd16aba5d04bb965ebbb9b564613e70ba5fdc05a6c358c1a
+  - https://berascan.com/tx/0x1728cf124d0af49d508fa036b3be680823ff312da1a3889af53589f003665c9f
+  - https://berascan.com/tx/0x2167be531d2c28adf284e659fffbe9a1903e9efbfd65c24a20459795e2e0b024
+  - https://berascan.com/tx/0xaa29bbff3ee6c48ba378a9b72a0459719493d6a187008b41b1fef6dfde46d520
+# TODO: Check with balancer team on this. It's not clear whether this one was done under 
+# safe harbor or by a malicious actor who later claimed to be whitehatting.
+safe_harbor: false

@@ -1,0 +1,17 @@
+# Reported by c0ffeebabe
+protocol: Hedgey Finance - Nobelblocks
+whitehat: "0xc0ffeebabe"
+date: 2024-04-19
+chain: 1
+value: 75000
+value_tokens:
+  - ETH: 17.158
+  - NOBLEBLOCKS: 733006.96
+whitehat_transactions:
+  - https://etherscan.io/tx/0xe118170da24b23a7b05cffbb830fea48ca8b64bc5a0217322c68c30952004cab
+  - https://etherscan.io/tx/0x9215b87e49fdd5b0e9fd4688f2d315dfdefc73655be529cc68aa3547f8828879
+  - https://etherscan.io/tx/0xc9409c66c17f33e46824b2bf55522cdeae104df1b299fd62655c2fcc3dca09bd
+  - https://etherscan.io/tx/0x03c73a343b5a481c9431af2f4a2146a0e77522a23e5cca9b2ea024778589967f
+  - https://etherscan.io/tx/0x70a6c03f8be3701e4e3c90e9b8516fa5102bcdc02eae17318fc9fc4434730857
+  - https://etherscan.io/tx/0xad5e98afcddbf8f3bc4dfec5f74a49182977665c2c0f8fad15de18caad54fff8
+safe_harbor: false

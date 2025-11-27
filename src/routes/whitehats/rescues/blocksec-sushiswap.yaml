@@ -1,0 +1,12 @@
+# Reported by c0ffeebabe
+protocol: SushiSwap
+whitehat: "Blocksec"
+date: 2023-04-09
+report: https://blocksec.com/blog/8-sushi-swap-incident-a-clumsy-rescue-attempt-leads-to-a-series-of-copycat-attacks
+chain: 1
+value: 187100
+value_tokens:
+  - ETH: 100
+whitehat_transactions:
+  - https://etherscan.io/tx/0x3610d3e3f2381c73f4bd128df9be90de87482802f30712dd555619b8bf3462a4
+safe_harbor: false

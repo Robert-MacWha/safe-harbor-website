@@ -1,0 +1,11 @@
+# Reported by c0ffeebabe
+protocol: Paraswap
+whitehat: "0xc0ffeebabe"
+date: 2024-03-22
+chain: 1
+value: 629500
+value_tokens:
+  - WBTC: 10
+whitehat_transactions:
+  - https://etherscan.io/tx/0x2a2eb3d922155c066f7aa4ccb6a8d2a9a116bf1cd97ca410ce177f117bb8c3c1
+safe_harbor: false

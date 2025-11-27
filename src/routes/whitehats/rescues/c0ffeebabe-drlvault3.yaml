@@ -1,0 +1,11 @@
+# Reported by c0ffeebabe
+protocol: DRLVault3
+whitehat: "0xc0ffeebabe"
+date: 2025-11-10
+chain: 1
+value: 93100
+value_tokens:
+  - ETH: 26.127
+whitehat_transactions:
+  - https://etherscan.io/tx/0xe3eab35b288c086afa9b86a97ab93c7bb61d21b1951a156d2a8f6f5d5715c475
+safe_harbor: false

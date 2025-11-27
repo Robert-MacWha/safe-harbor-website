@@ -1,0 +1,12 @@
+# Reported by c0ffeebabe
+protocol: Morpho Blue
+whitehat: "0xc0ffeebabe"
+date: 2025-04-10
+chain: 1
+report: https://morpho.org/blog/morpho-app-incident-april-10-2025/
+value: 2598000
+value_tokens:
+  - ETH: 1708.642
+whitehat_transactions:
+  - https://etherscan.io/tx/0x5ce2cf51f0e6e099c33eabb84561cb01a1acb2c9fc26c5388cedec0e4292ce99
+safe_harbor: false

@@ -1,0 +1,14 @@
+# Reported by c0ffeebabe
+protocol: Curve
+whitehat: "0xc0ffeebabe"
+date: 2023-07-30
+chain: 1
+report: https://www.chainalysis.com/blog/curve-finance-liquidity-pool-hack/
+value: 6977500
+value_tokens:
+  - ETH: 3747.247
+whitehat_transactions:
+  - https://etherscan.io/tx/0xe928d5de53bea42231d0dd140a3f761adb93081038a368591eb1166168297bdc
+  - https://etherscan.io/tx/0xcd99fadd7e28a42a063e07d9d86f67c88e10a7afe5921bd28cd1124924ae2052
+  - https://etherscan.io/tx/0xc93eb238ff42632525e990119d3edc7775299a70b56e54d83ec4f53736400964
+safe_harbor: false

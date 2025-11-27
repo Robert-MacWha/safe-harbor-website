@@ -1,0 +1,11 @@
+# Reported by c0ffeebabe
+protocol: Hedgey Finance - Arcade Token
+whitehat: "0xc0ffeebabe"
+date: 2024-04-19
+chain: 1
+value: 7600
+value_tokens:
+  - ETH: 2.516
+whitehat_transactions:
+  - https://etherscan.io/tx/0xf423f2da0d8b672a43b5d88beb3404bb4d33d9f0dd1144b9462f1ed419f76735
+safe_harbor: false

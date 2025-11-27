@@ -1,0 +1,35 @@
+protocol: Balancer
+whitehat: Arbitrum Whitehat
+date: 2025-11-03
+chain: 1
+report: https://www.certik.com/resources/blog/balancer-incident-analysis
+value: 90200
+value_tokens:
+  - ETH: 13.8
+  - WETH: 7.947
+  - sUSDX: 7290.811
+  - USDX: 8070.426
+  - wstETH: 0.450
+  - rsETH: 1.255
+  - sfrxETH: 0.063
+  - exETH: 0.062
+  - ETHx: 0.069
+  - anrkETH: 0.013
+whitehat_transactions:
+  - https://arbiscan.io/tx/0x4459a6c54ec792ce320135df466d0a429354d0c23609580e6a022bc55b59c8b0
+  - https://arbiscan.io/tx/0xe02a47b7c71d05c27176ef3a7340b612710e54332bb37d1d0d3bd82684ce8168
+recovery_transactions:
+  - https://arbiscan.io/tx/0x6cf102dd26b3923d0bf49c0d664d21394bc4f1a39bd9e8309247dddfd73e9418
+  - https://arbiscan.io/tx/0xdbc0c4419081712c099c8239695976c53a21f24a8e256e580995060c31750f48
+  - https://arbiscan.io/tx/0xdbc0c4419081712c099c8239695976c53a21f24a8e256e580995060c31750f48
+  - https://arbiscan.io/tx/0x0e31a788363459544e579f4a1457faec00f5ddd0b3b6484e2787e4fcfd88d9a1
+  - https://arbiscan.io/tx/0x2123e590752f070853373bdfd0e1db79ac8d5a3447cd69ea712a5e2cfbb43c7b
+  - https://arbiscan.io/tx/0xcbaf1e556b511672861f9d6a8f1a1bb3e4849f5743d3b9eda7aa834b5ad1d8ad
+  - https://arbiscan.io/tx/0x5d23f5568322a9238e61cecc32c2ed005ab58bd3e56314aba08e5e5a2f0bf563
+  - https://arbiscan.io/tx/0xc0367d04f1e45a13cecf67fee755370e59bf2856ec28ffaec9a1013cea424a6b
+  - https://arbiscan.io/tx/0xab5cdc56ca4c36d4cb937cc917d0cac8ff37157b3b619c5305d17d567220e6d7
+  - https://arbiscan.io/tx/0xd948e7f757dfedd59ea248ee60a11da007d17668befbb6d7afe63baf84bcdc4c
+  - https://arbiscan.io/tx/0x2c5ab196a5d2b772d8cc339d44255b6b3afb6984a5626fce759f3382ed13f48c
+# TODO: Check with balancer team on this. It's not clear whether this one was done under 
+# safe harbor or by a malicious actor who later claimed to be whitehatting.
+safe_harbor: false

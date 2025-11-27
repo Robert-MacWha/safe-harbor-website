@@ -1,0 +1,11 @@
+# Reported by c0ffeebabe
+protocol: Lifi SideShift
+whitehat: "0xc0ffeebabe"
+date: 2025-07-16
+chain: 1
+value: 84500
+value_tokens:
+  - USDC: 84561.217
+whitehat_transactions:
+  - https://etherscan.io/tx/0xde084e8c7cdec910d17ad7aeaa24a2973fc8c36add6d83a42de15446ddaaca5d
+safe_harbor: false

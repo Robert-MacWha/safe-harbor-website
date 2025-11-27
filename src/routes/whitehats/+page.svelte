@@ -28,9 +28,11 @@
         (raw) => parse(raw as string) as Rescue,
     );
 
-    rescues = rescues.sort(
-        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-    );
+    rescues = rescues
+        .filter((r) => r != null)
+        .sort(
+            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+        );
 
     const rescueCount = rescues.length;
     const rescueValue = rescues.reduce(

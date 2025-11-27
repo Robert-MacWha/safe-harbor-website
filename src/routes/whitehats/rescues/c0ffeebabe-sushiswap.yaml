@@ -1,0 +1,15 @@
+# Reported by c0ffeebabe
+protocol: SushiSwap
+whitehat: "0xc0ffeebabe"
+date: 2023-04-09
+chain: 1
+value: 582100
+value_tokens:
+  - ETH: 311.12
+whitehat_transactions:
+  - https://etherscan.io/tx/0x11d069cbe4490cc483b1ae2e77c9c79493213347b42a8dec2ded25724e2f1835
+  # Note: This transaction is included in both `c0ffeebabe-sushiswap` and `c0ffeebabe-lido-sushiswap`
+  - https://etherscan.io/tx/0x04b166e7b4ab5105a8e9c85f08f6346de1c66368687215b0e0b58d6e5002bc32
+  # Note: If anyone knows whether rsync-builder.eth participated in fund recovery, please let me know!
+  - https://etherscan.io/tx/0xbb9aac794415b2fbe2c947fe37ebb29c75526c150d33dd408ccddbcb52534828
+safe_harbor: false

@@ -1,0 +1,12 @@
+# Reported by c0ffeebabe
+protocol: Blueberry Finance
+whitehat: "0xc0ffeebabe"
+date: 2024-02-23
+chain: 1
+value: 1337400
+value_tokens:
+  - ETH: 457.684
+  - bWETH: 99.999 # 0x643d448cea0d3616f0b32e3718f563b164e7edd2
+whitehat_transactions:
+  - https://etherscan.io/tx/0xe3eab35b288c086afa9b86a97ab93c7bb61d21b1951a156d2a8f6f5d5715c475
+safe_harbor: false

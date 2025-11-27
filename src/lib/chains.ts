@@ -268,6 +268,14 @@ export const Chains: Chain[] = [
         TXScan: "https://andromeda-explorer.metis.io/tx/{tx}",
         AddressScan: "https://andromeda-explorer.metis.io/address/{address}",
     },
+    {
+        Name: "Berachain",
+        ID: 80094,
+        Icon: "https://icons.llamao.fi/icons/chains/rsz_berachain.jpg",
+        Scan: "https://berascan.com",
+        TXScan: "https://berascan.com/tx/{tx}",
+        AddressScan: "https://berascan.com/address/{address}",
+    },
 ];
 
 export function GetChain(id: ChainID): Chain | undefined {

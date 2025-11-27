@@ -1,0 +1,23 @@
+# Reported by c0ffeebabe
+# Note: tx 0x04b166e7b4ab5105a8e9c85f08f6346de1c66368687215b0e0b58d6e5002bc32 is complicated because
+# c0ffeebabe sent a majority of the fund to beaverbuilder, who paid out the rewards to Lido. As far
+# as I can tell, Lido has not since returned any of these funds.
+# 
+# Sources:
+# https://www.coindesk.com/tech/2023/05/24/tensions-rise-between-sushiswap-lido-over-return-of-exploited-funds
+# https://snapshot.org/#/s:lido-snapshot.eth/proposal/0xf9ea35a74376178f680b2d3d6c26174be1853a487fcec9cda6880a05198f33db
+# 
+# A lot of drama seems to have arisen around this recovery, so until I have clarity I'm leaving
+# this doc in the github but will hide it from the main site.
+# 
+# protocol: SushiSwap
+# whitehat: "0xc0ffeebabe / Lido"
+# date: 2023-04-09
+# chain: 1
+# report: https://www.tradingview.com/news/cointelegraph%3Aa2fde18c8094b%3A0-ethereum-validator-cashes-in-689-eth-from-mev-boost-relay/?utm_source=chatgpt.com
+# value: 1262500
+# value_tokens:
+#   - ETH: 678.88
+# whitehat_transactions:
+#   - https://etherscan.io/tx/0x04b166e7b4ab5105a8e9c85f08f6346de1c66368687215b0e0b58d6e5002bc32
+# safe_harbor: false

@@ -299,6 +299,14 @@
         </div>
 
         <p>
+            Values saved are estimates based on token prices at the time of fund
+            recovery or, where unavailable, at the time of the whitehat
+            transaction. Token prices can be incredibly volatile during active
+            exploits so these values should be treated as order-of-magnitude
+            estimates rather than exact figures. For more precise values, see
+            the individually reported token values.
+        </p>
+        <p>
             If you know of a whitehat rescue that is not listed here, please
             submit an issue on our <a
                 href="https://github.com/Robert-MacWha/safe-harbor-website"

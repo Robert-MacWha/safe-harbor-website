@@ -28,17 +28,56 @@
         (raw) => parse(raw as string) as Rescue,
     );
 
-    rescues = rescues
-        .filter((r) => r != null)
-        .sort(
-            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-        );
+    rescues = rescues.filter((r) => r != null);
 
     const rescueCount = rescues.length;
     const rescueValue = rescues.reduce(
         (acc, rescue) => acc + (rescue.value || 0),
         0,
     );
+
+    type SortColumn =
+        | "whitehat"
+        | "protocol"
+        | "date"
+        | "value"
+        | "safe_harbor";
+    let sortColumn: SortColumn = "date";
+    let sortDirection: "asc" | "desc" = "desc";
+
+    function toggleSort(column: SortColumn) {
+        if (sortColumn === column) {
+            sortDirection = sortDirection === "asc" ? "desc" : "asc";
+        } else {
+            sortColumn = column;
+            sortDirection = "desc";
+        }
+    }
+
+    $: sortedRescues = [...rescues].sort((a, b) => {
+        let comparison = 0;
+
+        switch (sortColumn) {
+            case "whitehat":
+                comparison = a.whitehat.localeCompare(b.whitehat);
+                break;
+            case "protocol":
+                comparison = a.protocol.localeCompare(b.protocol);
+                break;
+            case "date":
+                comparison =
+                    new Date(a.date).getTime() - new Date(b.date).getTime();
+                break;
+            case "value":
+                comparison = (a.value || 0) - (b.value || 0);
+                break;
+            case "safe_harbor":
+                comparison = (a.safe_harbor ? 1 : 0) - (b.safe_harbor ? 1 : 0);
+                break;
+        }
+
+        return sortDirection === "asc" ? comparison : -comparison;
+    });
 </script>
 
 <svelte:head>
@@ -109,16 +148,91 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col" class="p-3">Whitehat</th>
-                        <th scope="col" class="p-3">Protocol</th>
+                        <th
+                            scope="col"
+                            class="p-3 sortable"
+                            onclick={() => toggleSort("whitehat")}
+                        >
+                            Whitehat
+                            {#if sortColumn === "whitehat"}
+                                <span
+                                    class="material-symbols-outlined sort-icon"
+                                >
+                                    {sortDirection === "asc"
+                                        ? "arrow_upward"
+                                        : "arrow_downward"}
+                                </span>
+                            {/if}
+                        </th>
+                        <th
+                            scope="col"
+                            class="p-3 sortable"
+                            onclick={() => toggleSort("protocol")}
+                        >
+                            Protocol
+                            {#if sortColumn === "protocol"}
+                                <span
+                                    class="material-symbols-outlined sort-icon"
+                                >
+                                    {sortDirection === "asc"
+                                        ? "arrow_upward"
+                                        : "arrow_downward"}
+                                </span>
+                            {/if}
+                        </th>
                         <th scope="col" class="p-3">Chain</th>
-                        <th scope="col" class="p-3">Value Saved</th>
-                        <th scope="col" class="p-3">Date</th>
-                        <th scope="col" class="p-3">Safe Harbor</th>
+                        <th
+                            scope="col"
+                            class="p-3 sortable"
+                            onclick={() => toggleSort("value")}
+                        >
+                            Value Saved
+                            {#if sortColumn === "value"}
+                                <span
+                                    class="material-symbols-outlined sort-icon"
+                                >
+                                    {sortDirection === "asc"
+                                        ? "arrow_upward"
+                                        : "arrow_downward"}
+                                </span>
+                            {/if}
+                        </th>
+                        <th
+                            scope="col"
+                            class="p-3 sortable"
+                            onclick={() => toggleSort("date")}
+                        >
+                            Date
+                            {#if sortColumn === "date"}
+                                <span
+                                    class="material-symbols-outlined sort-icon"
+                                >
+                                    {sortDirection === "asc"
+                                        ? "arrow_upward"
+                                        : "arrow_downward"}
+                                </span>
+                            {/if}
+                        </th>
+                        <th
+                            scope="col"
+                            class="p-3 sortable"
+                            onclick={() => toggleSort("safe_harbor")}
+                        >
+                            Safe Harbor
+                            {#if sortColumn === "safe_harbor"}
+                                <span
+                                    class="material-symbols-outlined sort-icon"
+                                >
+                                    {sortDirection === "asc"
+                                        ? "arrow_upward"
+                                        : "arrow_downward"}
+                                </span>
+                            {/if}
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
-                    {#each rescues as rescue, index}
+                    {#each sortedRescues as rescue, index}
                         {@const rescueId = `rescue-${index}`}
                         {@const hasDetails =
                             (rescue.value_tokens &&
@@ -239,6 +353,21 @@
                     font-weight: 600;
                     white-space: nowrap;
                     width: fit-content;
+
+                    &.sortable {
+                        cursor: pointer;
+                        user-select: none;
+
+                        &:hover {
+                            background: rgba(0, 0, 0, 0.05);
+                        }
+
+                        .sort-icon {
+                            font-size: 18px;
+                            vertical-align: middle;
+                            margin-left: 4px;
+                        }
+                    }
                 }
             }
 

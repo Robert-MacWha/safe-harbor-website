@@ -102,7 +102,7 @@
         <p>
             SEAL Safe Harbor encourages these good-faith actors by providing a
             legal framework for responsible disclosure and asset recovery. All
-            credit for the rescues goes to the whitehats themselves.
+            credit for the rescues goes to the whitehats.
         </p>
 
         <div class="overflow-x-auto overflow-y-hidden">

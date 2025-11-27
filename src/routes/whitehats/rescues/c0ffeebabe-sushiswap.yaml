@@ -4,6 +4,13 @@ whitehat: "0xc0ffeebabe"
 date: 2023-04-09
 chain: 1
 value: 582100
+note: "During transaction #2, c0ffeebabe paid a bribe of ~678.88 ETH to beaverbuilder who 
+  in turn paid the funds to Lido. As far as I'm aware, Lido has not returned any of these 
+  funds to the victims. According to various reports 
+  (https://www.coindesk.com/tech/2023/05/24/tensions-rise-between-sushiswap-lido-over-return-of-exploited-funds) 
+  there were several DAO proposals which all failed.
+  
+  More information on this topic can be found in the github. If I'm mistaken, please let me know!" 
 value_tokens:
   - ETH: 311.12
 whitehat_transactions:

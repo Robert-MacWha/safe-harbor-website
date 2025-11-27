@@ -8,6 +8,7 @@
             value: number;
             value_tokens: Array<Record<string, number>>;
             report: string;
+            note: string;
             whitehat_transactions: string[];
             recovery_transactions: string[];
             safe_harbor: boolean;
@@ -33,6 +34,13 @@
                         View Full Report
                     </a>
                 </div>
+            </div>
+        {/if}
+
+        {#if rescue.note}
+            <div class="section mb-3">
+                <h6 class="fw-semibold mb-2">Note</h6>
+                <p class="mb-0 text-left">{rescue.note}</p>
             </div>
         {/if}
 
@@ -135,5 +143,11 @@
 
     td {
         background-color: var(--bg-secondary) !important;
+    }
+
+    .section p {
+        white-space: normal;
+        overflow-wrap: anywhere;
+        word-break: break-word;
     }
 </style>

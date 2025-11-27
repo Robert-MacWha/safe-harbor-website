@@ -4,6 +4,9 @@ whitehat: Multiple Whitehats
 date: 2022-08-03
 chain: 1
 report: https://www.halborn.com/blog/post/the-nomad-bridge-hack-a-deeper-dive
+note: "Due to the large number of whitehat actors involved in this rescue, a comprehensive list
+  of whitehat transactions was not collected. You can find all transactions to the nomad recovery address
+  here: https://etherscan.io/tokentxns?a=0x94a84433101a10aeda762968f6995c574d1bf154"
 value: 33000000
 value_tokens:
   - ETH: 382.724

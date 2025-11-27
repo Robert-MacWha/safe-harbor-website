@@ -14,6 +14,7 @@
         value: number;
         value_tokens: Array<Record<string, number>>;
         report: string;
+        note: string;
         whitehat_transactions: string[];
         recovery_transactions: string[];
         safe_harbor: boolean;

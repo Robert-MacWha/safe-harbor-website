@@ -6,6 +6,7 @@ chain: 80094
 # https://bscscan.com/tx/0x5bf570f5f6e241b69e3eb89e8454860506166231992f32ef0a216243334b7d97
 # Backup: /src/lib/backups/2025_11_27_balancer_berachain_post_mortem.png
 report: https://x.com/berachain/status/1986952318068146323
+note: Because Balancer had not adopted its berachain smart contracts under Safe Harbor at the incident time, SEAL Safe Harbor was not be applicable to this rescue.
 value: 12937500
 value_tokens:
   - WBERA: 97873.602

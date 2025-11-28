@@ -3,6 +3,7 @@ whitehat: Anon Arbitrum Whitehat
 date: 2025-11-03
 chain: 42161
 report: https://www.certik.com/resources/blog/balancer-incident-analysis
+notes: Whitehat elected to remain anonymous, not participate in KYC, and not recieve a bounty.
 value: 90200
 value_tokens:
   - ETH: 13.8

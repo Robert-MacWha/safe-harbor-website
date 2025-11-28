@@ -30,6 +30,6 @@ recovery_transactions:
   - https://arbiscan.io/tx/0xab5cdc56ca4c36d4cb937cc917d0cac8ff37157b3b619c5305d17d567220e6d7
   - https://arbiscan.io/tx/0xd948e7f757dfedd59ea248ee60a11da007d17668befbb6d7afe63baf84bcdc4c
   - https://arbiscan.io/tx/0x2c5ab196a5d2b772d8cc339d44255b6b3afb6984a5626fce759f3382ed13f48c
-# TODO: Check with balancer team on this. It's not clear whether this one was done under 
-# safe harbor or by a malicious actor who later claimed to be whitehatting.
-safe_harbor: false
+# Seems like the whitehat didn't want to KYC or recieve a bounty, so I'm considering that as
+# evidence of a real whitehat and not a malicious actor pretending.
+safe_harbor: true

@@ -24,7 +24,11 @@
 
 <style>
     .db {
-        background: linear-gradient(180deg, rgba(240, 246, 255, 0) 0%, #f0f6ff 100%);
+        background: linear-gradient(
+            180deg,
+            rgba(240, 246, 255, 0) 0%,
+            #f0f6ff 100%
+        );
         height: fit-content;
     }
 </style>

@@ -2,8 +2,7 @@ protocol: Balancer
 whitehat: Anon Polygon Whitehat
 date: 2025-11-03
 chain: 137
-# Backup report: /src/lib/backups/2025_11_27_balancer_post_mortem.png
-report: "https://x.com/balancer/status/1986104426667401241"
+report: "https://forum.balancer.fi/t/rfc-distribution-of-rescued-funds-from-balancer-v2-november-3rd-2025-attacks/6883"
 note: This whitehat was confirmed to operate under SEAL Safe Harbor by members of SEAL911.
 value: 2615700
 value_tokens:

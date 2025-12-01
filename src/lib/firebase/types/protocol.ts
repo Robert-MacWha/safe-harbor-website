@@ -10,6 +10,7 @@ export interface Protocol {
     tvl: number;
     category: string;
     contactDetails: string;
+    bugBounty?: string;
 
     safeHarborAgreement?: firebase.firestore.DocumentReference;
     safeHarborContent: SafeHarborAgreement;

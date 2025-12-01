@@ -191,7 +191,7 @@
             transaction. Token prices can be incredibly volatile during active
             exploits so these values should be treated as order-of-magnitude
             estimates rather than exact figures. For more precise values, see
-            the individually reported token values.
+            the individually reported tokens.
         </p>
         <p>
             If you know of a whitehat rescue that is not listed here, please

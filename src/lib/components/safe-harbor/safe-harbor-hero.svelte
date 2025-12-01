@@ -13,6 +13,7 @@
         registryTransaction?: string;
         adoptionProposalURI?: string;
         immunefiPage?: string;
+        bugBountyPage?: string;
     }
 
     let props: Props = $props();
@@ -55,22 +56,40 @@
                 {/if}
                 {#if props.agreementURI}
                     <div class="me-2 mb-3">
-                        <a class="tag tag-secondary" href={props.agreementURI}> Agreement </a>
+                        <a class="tag tag-secondary" href={props.agreementURI}>
+                            Agreement
+                        </a>
                     </div>
                 {/if}
                 {#if registryTxHref}
                     <div class="me-2 mb-3">
-                        <a class="tag tag-secondary" href={registryTxHref}>Registry Transaction</a>
+                        <a class="tag tag-secondary" href={registryTxHref}
+                            >Registry Transaction</a
+                        >
                     </div>
                 {/if}
                 {#if props.adoptionProposalURI}
                     <div class="me-2 mb-3">
-                        <a class="tag tag-secondary" href={props.adoptionProposalURI}> Adoption Proposal </a>
+                        <a
+                            class="tag tag-secondary"
+                            href={props.adoptionProposalURI}
+                        >
+                            Adoption Proposal
+                        </a>
                     </div>
                 {/if}
                 {#if props.immunefiPage}
                     <div class="me-2 mb-3">
-                        <a class="tag tag-secondary" href={props.immunefiPage}> Immunefi Page </a>
+                        <a class="tag tag-secondary" href={props.immunefiPage}>
+                            Immunefi
+                        </a>
+                    </div>
+                {/if}
+                {#if props.bugBountyPage}
+                    <div class="me-2 mb-3">
+                        <a class="tag tag-secondary" href={props.bugBountyPage}>
+                            Bug Bounty
+                        </a>
                     </div>
                 {/if}
             </div>

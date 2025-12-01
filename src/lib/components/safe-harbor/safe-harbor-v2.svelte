@@ -34,6 +34,7 @@
     {chain}
     registryTransaction={safeHarbor.registryTransaction}
     adoptionProposalURI={safeHarbor.adoptionProposalURI}
+    bugBountyPage={protocol.bugBounty}
 />
 
 <div class="info container p-4 mb-6 rounded">
@@ -52,7 +53,7 @@
         <div class="contact col-12 col-md pb-3">
             <h4 class="mb-4">Contact Details</h4>
             <div class="fw-semibold mb-0">
-                <p>{@html safeHarbor.agreementDetails.contact.replaceAll("\n", "<br>")}</p>
+                <p>{@html safeHarbor.agreementDetails.contact}</p>
             </div>
         </div>
     </div>
@@ -62,7 +63,9 @@
     <div class="recovery-addresses py-3">
         <h4 class="mb-4">Asset Recovery Addresses</h4>
         <div class="overflow-x-auto overflow-y-hidden">
-            <SafeharborV2RecoveryAddresses chains={safeHarbor.agreementDetails.chains} />
+            <SafeharborV2RecoveryAddresses
+                chains={safeHarbor.agreementDetails.chains}
+            />
         </div>
     </div>
 

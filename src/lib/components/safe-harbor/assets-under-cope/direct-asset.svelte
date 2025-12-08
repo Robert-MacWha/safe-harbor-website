@@ -5,19 +5,22 @@
     import type { ChainID } from "$lib/firebase/types/chain";
 
     interface Props {
-        chainID: ChainID;
+        chainID?: ChainID;
         address: string;
         name?: string;
         childContractScope: string;
         hasChildren?: boolean;
     }
 
-    let { chainID, address, name, childContractScope, hasChildren }: Props = $props();
+    let { chainID, address, name, childContractScope, hasChildren }: Props =
+        $props();
 
     const id = chainID + "-" + address;
 
     function toggleChildren() {
-        const childrenRows = document.querySelectorAll<HTMLElement>(`.child-of-${id}`);
+        const childrenRows = document.querySelectorAll<HTMLElement>(
+            `.child-of-${id}`,
+        );
         childrenRows.forEach((row) => {
             row.style.display = row.style.display === "none" ? "" : "none";
         });
@@ -28,8 +31,14 @@
     <th scope="row" class="p-3">
         <p>
             {#if hasChildren}
-                <button class="btn btn-link p-0" type="button" onclick={() => toggleChildren()}>
-                    <span class="down material-symbols-outlined"> keyboard_arrow_down </span>
+                <button
+                    class="btn btn-link p-0"
+                    type="button"
+                    onclick={() => toggleChildren()}
+                >
+                    <span class="down material-symbols-outlined">
+                        keyboard_arrow_down
+                    </span>
                 </button>
             {/if}
             {#if name && name != ""}
@@ -47,7 +56,7 @@
     </td>
     <td class="p-3">
         <div class="d-flex flex-row align-items-center me-2">
-            {#if GetChain(chainID)}
+            {#if chainID && GetChain(chainID)}
                 <div class="pe-1">
                     <ChainIcon {chainID} lazy />
                 </div>
@@ -58,6 +67,8 @@
                 <p class="ms-2 mb-0 fw-normal">
                     {chainID}
                 </p>
+            {:else}
+                <p class="ms-2 mb-0 fw-normal">Unavailable</p>
             {/if}
         </div>
     </td>

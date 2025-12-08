@@ -1,5 +1,6 @@
 <script lang="ts">
     import SafeHarborImmunefiV1 from "$lib/components/safe-harbor/safe-harbor-immunefi-v1.svelte";
+    import SafeHarborCantinaV1 from "$lib/components/safe-harbor/safe-harbor-cantina-v1.svelte";
     import SafeHarborV1 from "$lib/components/safe-harbor/safe-harbor-v1.svelte";
     import SafeHarborV2 from "$lib/components/safe-harbor/safe-harbor-v2.svelte";
 
@@ -19,6 +20,10 @@
         <SafeHarborV2 {protocol} {safeHarbor} />
     {:else if safeHarbor.version === "immunefi-1"}
         <SafeHarborImmunefiV1 {protocol} {safeHarbor} />
+    {:else if safeHarbor.version === "cantina-1"}
+        <SafeHarborCantinaV1 {protocol} {safeHarbor} />
+    {:else}
+        <p class="p-4">Safe Harbor Agreement version not supported.</p>
     {/if}
 </div>
 

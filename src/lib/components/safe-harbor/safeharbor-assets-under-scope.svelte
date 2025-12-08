@@ -33,7 +33,8 @@
                             address={account.address}
                             name={account.name}
                             childContractScope={account.childContractScope}
-                            hasChildren={account.children && account.children.length > 0}
+                            hasChildren={account.children &&
+                                account.children.length > 0}
                         />
                         {#if account.children}
                             {#each account.children as child}
@@ -57,7 +58,8 @@
                             address={account.address}
                             name={account.name}
                             childContractScope={account.childContractScope}
-                            hasChildren={account.children && account.children.length > 0}
+                            hasChildren={account.children &&
+                                account.children.length > 0}
                         />
                         {#if account.children}
                             {#each account.children as child}
@@ -85,6 +87,16 @@
                         />
                     {/each}
                 {/if}
-            {/each}{/if}
+            {/each}
+        {:else if agreement.version === "cantina-1"}
+            {#each agreement.agreementDetails.assets as asset}
+                <DirectAsset
+                    address={asset.name}
+                    name={asset.description}
+                    childContractScope={"None"}
+                    hasChildren={false}
+                />
+            {/each}
+        {/if}
     </tbody>
 </table>

@@ -2,8 +2,9 @@ import type firebase from "firebase/compat/app";
 import type { AgreementDetailsV1 } from "./agreementDetailsV1";
 import type { AgreementDetailsV2 } from "./agreementDetailsV2";
 import type { ImmunefiAgreementDetailsV1 } from "./immunefiAgreementDetailsV1";
+import type { CantinaAgreementDetailsV1 } from "./cantinaAgreementDetailsV1";
 
-type SafeHarborVersion = 'seal-1' | 'seal-2' | 'immunefi-1';
+type SafeHarborVersion = 'seal-1' | 'seal-2' | 'immunefi-1' | 'cantina-1';
 
 interface SafeHarborAgreementBase {
     adoptionProposalURI: string; // URL to the protocol's proposal of the adoption, or other confirmation of their adoption
@@ -36,4 +37,9 @@ export interface SafeHarborAgreementImmunefiV1 extends SafeHarborAgreementBase {
     agreementDetails: ImmunefiAgreementDetailsV1;
 }
 
-export type SafeHarborAgreement = SafeHarborAgreementV1 | SafeHarborAgreementV2 | SafeHarborAgreementImmunefiV1;
+export interface SafeHarborAgreementCantinaV1 extends SafeHarborAgreementBase {
+    version: 'cantina-1';
+    agreementDetails: CantinaAgreementDetailsV1;
+}
+
+export type SafeHarborAgreement = SafeHarborAgreementV1 | SafeHarborAgreementV2 | SafeHarborAgreementImmunefiV1 | SafeHarborAgreementCantinaV1;

@@ -1,11 +1,16 @@
 <script lang="ts">
+    import { resolve } from "$app/paths";
     import logo from "$lib/images/logos/safe-harbor.png";
 </script>
 
 <div class="nav rounded shadow">
     <nav class="navbar navbar-expand-md navbar-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/" aria-label="Skylock Home">
+            <a
+                class="navbar-brand"
+                href={resolve("/")}
+                aria-label="Skylock Home"
+            >
                 <img
                     src={logo}
                     alt="Logo"
@@ -29,16 +34,20 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/">Home</a>
+                        <a class="nav-link" href={resolve("/")}>Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/about">About</a>
+                        <a class="nav-link" href={resolve("/about")}>About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/whitehats">Whitehats</a>
+                        <a class="nav-link" href={resolve("/whitehats")}
+                            >Whitehats</a
+                        >
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/adoption">Adoption</a>
+                        <a class="nav-link" href={resolve("/adoption")}
+                            >Adoption</a
+                        >
                     </li>
                     <li class="nav-item">
                         <a

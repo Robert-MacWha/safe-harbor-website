@@ -1,3 +1,4 @@
+import { resolve } from '$app/paths';
 import type { Protocol } from '$lib/firebase/types/protocol.js';
 
 type Chain = {
@@ -6,7 +7,12 @@ type Chain = {
 };
 
 export async function load({ fetch }) {
-    const agreementsResp = await fetch("/api/v1/agreements");
+    const agreementsResp = await fetch(resolve("/api/v1/agreements"));
+    if (!agreementsResp.ok) {
+        console.error('API error:', agreementsResp.status, await agreementsResp.text());
+        return { protocols: [], error: 'Failed to fetch' };
+    }
+
     const protocols: Protocol[] = await agreementsResp.json();
 
     const tvlResp = await fetch("https://api.llama.fi/v2/chains");

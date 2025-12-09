@@ -4,6 +4,7 @@
     import moneyIcon from "$lib/images/database/money.png";
 
     import { PrettyCurrency } from "$lib/currency";
+    import { resolve } from "$app/paths";
 
     let { data } = $props();
     const protocols = data.protocols;
@@ -105,7 +106,9 @@
                             >
                                 <th scope="row" class="p-3"
                                     ><a
-                                        href="/database/{protocol.slug}"
+                                        href={resolve(
+                                            `/database/${protocol.slug}`,
+                                        )}
                                         class="d-flex flex-row align-items-center"
                                     >
                                         {#if protocol.icon}

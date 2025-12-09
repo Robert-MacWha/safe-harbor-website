@@ -7,6 +7,9 @@ export interface CantinaAgreementDetailsV1 {
     recoveryAddresses: RecoveryAddress[];
     assets: Asset[];
     bountyTerms: BountyTerms;
+
+    // Deprecated fields
+    chains: undefined;
 }
 
 export interface RecoveryAddress {

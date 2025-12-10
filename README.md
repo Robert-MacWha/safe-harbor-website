@@ -13,5 +13,5 @@ https://github.com/Robert-MacWha/safe-harbor-db
 > Cloudflare pages was previously used, but because of an incomatability with firestore (possibly due to an incomplete compatability with NPM), we can't access required data and thus had to migrate.
 
 #### Deployment
-
+ 
 Run `firebase deploy` or `firebase firebase hosting:channel:deploy CHANNEL_ID` to deploy the website to firebase hosting. Non-prod channels will be deleted after 7 days.

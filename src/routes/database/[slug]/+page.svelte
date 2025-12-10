@@ -11,16 +11,20 @@
 
 <svelte:head>
     <title>{protocol.name} - Safe Harbor Database</title>
+    <meta
+        name="description"
+        content="Details of the Safe Harbor agreement between {protocol.name} and whitehat hackers to facilitate asset recovery during active exploits."
+    />
 </svelte:head>
 
 <div class="db pb-1">
-    {#if safeHarbor.version === "seal-1"}
+    {#if safeHarbor?.version === "seal-1"}
         <SafeHarborV1 {protocol} {safeHarbor} />
-    {:else if safeHarbor.version === "seal-2"}
+    {:else if safeHarbor?.version === "seal-2"}
         <SafeHarborV2 {protocol} {safeHarbor} />
-    {:else if safeHarbor.version === "immunefi-1"}
+    {:else if safeHarbor?.version === "immunefi-1"}
         <SafeHarborImmunefiV1 {protocol} {safeHarbor} />
-    {:else if safeHarbor.version === "cantina-1"}
+    {:else if safeHarbor?.version === "cantina-1"}
         <SafeHarborCantinaV1 {protocol} {safeHarbor} />
     {:else}
         <p class="p-4">Safe Harbor Agreement version not supported.</p>

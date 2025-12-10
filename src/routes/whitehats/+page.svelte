@@ -44,6 +44,10 @@
 
 <svelte:head>
     <title>Whitehat Rescues</title>
+    <meta
+        name="description"
+        content="Whitehat rescues across DeFi, with details on saved assets, protocols, chains, and Safe Harbor involvement. A curated record of good-faith recoveries during active exploits."
+    />
 </svelte:head>
 
 <div class="pt-4 mt-2"></div>

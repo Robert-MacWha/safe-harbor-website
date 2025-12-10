@@ -22,6 +22,10 @@
 
 <svelte:head>
     <title>Safe Harbor</title>
+    <meta
+        name="description"
+        content="The Whitehat Safe Harbor initiative is a framework in which protocols can offer legal protection to whitehats who aid in the recovery of assets during an active exploit."
+    />
 </svelte:head>
 
 <div class="pt-4"></div>

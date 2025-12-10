@@ -14,7 +14,9 @@
     import { SafeHarborV2Parser } from "$lib/parser/SafeHarborV2Parser";
 
     // Form state
-    let agreementDetails: AgreementDetailsV2 = $state(createDefaultAgreementDetails());
+    let agreementDetails: AgreementDetailsV2 = $state(
+        createDefaultAgreementDetails(),
+    );
     let ownerAddress = $state<Address | undefined>(undefined);
 
     // Output state
@@ -74,7 +76,8 @@
             }
             customErrors = { retainable: "", cap: "", owner: "" };
         } else {
-            importError = parseResult.errors.join(", ") || "Failed to parse document";
+            importError =
+                parseResult.errors.join(", ") || "Failed to parse document";
         }
     }
 
@@ -137,7 +140,11 @@
         }
 
         try {
-            const result = await deployAgreement(wallet, agreementDetails, ownerAddress);
+            const result = await deployAgreement(
+                wallet,
+                agreementDetails,
+                ownerAddress,
+            );
             deploymentHash = result.hash;
         } catch (error: any) {
             deploymentError = error.message;
@@ -161,8 +168,11 @@
 
         if (maxCap && maxCap > 0) {
             if (retainable) {
-                console.warn("Retainable is set to 'Yes' but Max Cap is defined.");
-                customErrors.retainable = "When Max Cap is set, Retainable must be 'No'.";
+                console.warn(
+                    "Retainable is set to 'Yes' but Max Cap is defined.",
+                );
+                customErrors.retainable =
+                    "When Max Cap is set, Retainable must be 'No'.";
                 isValid = false;
             }
             if (cap && cap > maxCap) {
@@ -174,7 +184,8 @@
 
         if (ownerAddress && !/^0x[a-fA-F0-9]{40}$/.test(ownerAddress)) {
             console.warn("Invalid owner address format.");
-            customErrors.owner = "Owner address must be a valid Ethereum address (0x followed by 40 hex characters).";
+            customErrors.owner =
+                "Owner address must be a valid Ethereum address (0x followed by 40 hex characters).";
             isValid = false;
         }
 
@@ -184,12 +195,17 @@
     function addChain(e: MouseEvent) {
         e.preventDefault();
         e.stopPropagation();
-        agreementDetails.chains = [...agreementDetails.chains, createDefaultChain()];
+        agreementDetails.chains = [
+            ...agreementDetails.chains,
+            createDefaultChain(),
+        ];
     }
 
     function removeChain(index: number) {
         if (agreementDetails.chains.length <= 1) return;
-        agreementDetails.chains = agreementDetails.chains.filter((_, i) => i !== index);
+        agreementDetails.chains = agreementDetails.chains.filter(
+            (_, i) => i !== index,
+        );
     }
 
     function addAccount(e: MouseEvent, chainIndex: number) {
@@ -203,25 +219,34 @@
 
     function removeAccount(chainIndex: number, accountIndex: number) {
         if (agreementDetails.chains[chainIndex]?.accounts.length <= 1) return;
-        agreementDetails.chains[chainIndex].accounts = agreementDetails.chains[chainIndex].accounts.filter(
-            (_, i) => i !== accountIndex,
-        );
+        agreementDetails.chains[chainIndex].accounts = agreementDetails.chains[
+            chainIndex
+        ].accounts.filter((_, i) => i !== accountIndex);
     }
 
     function addContact(e: MouseEvent) {
         e.preventDefault();
         e.stopPropagation();
-        agreementDetails.contact = [...agreementDetails.contact, createDefaultContact()];
+        agreementDetails.contact = [
+            ...agreementDetails.contact,
+            createDefaultContact(),
+        ];
     }
 
     function removeContact(index: number) {
         if (agreementDetails.contact.length <= 1) return;
-        agreementDetails.contact = agreementDetails.contact.filter((_, i) => i !== index);
+        agreementDetails.contact = agreementDetails.contact.filter(
+            (_, i) => i !== index,
+        );
     }
 </script>
 
 <svelte:head>
     <title>Safe Harbor Adoption</title>
+    <meta
+        name="description"
+        content="This tool facilitates adoption of the SEAL Whitehat Safe Harbor Agreement by generating the required configuration and providing flexible deployment options."
+    />
 </svelte:head>
 
 <div class="pt-4 mt-2"></div>
@@ -234,10 +259,14 @@
 
 <div class="container mb-5">
     <p class="mb-0">
-        This tool facilitates adoption of the <strong>SEAL Whitehat Safe Harbor Agreement</strong> by generating the
-        required configuration and providing flexible deployment options. You can deploy your adoption directly on-chain
-        through this interface, or generate structured tuple/JSON output for subsequent deployment using Foundry scripts
-        or alternative deployment frameworks. For comprehensive guidance, please follow the
+        This tool facilitates adoption of the <strong
+            >SEAL Whitehat Safe Harbor Agreement</strong
+        >
+        by generating the required configuration and providing flexible
+        deployment options. You can deploy your adoption directly on-chain
+        through this interface, or generate structured tuple/JSON output for
+        subsequent deployment using Foundry scripts or alternative deployment
+        frameworks. For comprehensive guidance, please follow the
         <a
             href="https://frameworks.securityalliance.org/safe-harbor/self-adoption-guide"
             target="_blank"
@@ -245,7 +274,13 @@
         >.
     </p>
     <div class="text-center">
-        <button type="button" class="btn btn-outline-primary" onclick={openImportModal}> Import from Document </button>
+        <button
+            type="button"
+            class="btn btn-outline-primary"
+            onclick={openImportModal}
+        >
+            Import from Document
+        </button>
     </div>
 </div>
 
@@ -257,7 +292,9 @@
                 <h4 class="mb-4">Protocol Details</h4>
                 <div class="row">
                     <div class="col-12 col-md-6">
-                        <label for="protocolName" class="form-label">Protocol Name</label>
+                        <label for="protocolName" class="form-label"
+                            >Protocol Name</label
+                        >
                         <input
                             type="text"
                             class="form-control font-monospace"
@@ -270,7 +307,9 @@
                         />
                     </div>
                     <div class="col-12 col-md-6">
-                        <label for="ownerAddress" class="form-label">Owner Address</label>
+                        <label for="ownerAddress" class="form-label"
+                            >Owner Address</label
+                        >
                         <input
                             type="text"
                             class="form-control font-monospace"
@@ -280,7 +319,9 @@
                             title="Must be a valid Ethereum address (0x followed by 40 hex characters) or empty"
                         />
                         {#if customErrors.owner}
-                            <div class="invalid-feedback d-block">{customErrors.owner}</div>
+                            <div class="invalid-feedback d-block">
+                                {customErrors.owner}
+                            </div>
                         {/if}
                     </div>
                 </div>
@@ -294,13 +335,17 @@
             <h4 class="mb-4">Bounty Terms</h4>
             <div class="row">
                 <div class="col mb-3" style="min-width: 20ch;">
-                    <label for="bountyPercentage" class="form-label">Percentage</label>
+                    <label for="bountyPercentage" class="form-label"
+                        >Percentage</label
+                    >
                     <div class="input-group">
                         <input
                             type="number"
                             class="form-control no-spinner font-monospace"
                             id="bountyPercentage"
-                            bind:value={agreementDetails.bountyTerms.bountyPercentage}
+                            bind:value={
+                                agreementDetails.bountyTerms.bountyPercentage
+                            }
                             min="0"
                             max="100"
                             step="0.1"
@@ -315,34 +360,48 @@
                         <span class="input-group-text">$</span>
                         <input
                             type="number"
-                            class="form-control no-spinner font-monospace {customErrors.cap ? 'is-invalid' : ''}"
+                            class="form-control no-spinner font-monospace {customErrors.cap
+                                ? 'is-invalid'
+                                : ''}"
                             id="bountyCap"
-                            bind:value={agreementDetails.bountyTerms.bountyCapUSD}
+                            bind:value={
+                                agreementDetails.bountyTerms.bountyCapUSD
+                            }
                             min="0"
                             required
                         />
                         {#if customErrors.cap}
-                            <div class="invalid-feedback d-block">{customErrors.cap}</div>
+                            <div class="invalid-feedback d-block">
+                                {customErrors.cap}
+                            </div>
                         {/if}
                     </div>
                 </div>
                 <div class="col mb-3" style="min-width: 20ch;">
-                    <label for="aggregateBountyCap" class="form-label">Max Cap (USD)</label>
+                    <label for="aggregateBountyCap" class="form-label"
+                        >Max Cap (USD)</label
+                    >
                     <div class="input-group">
                         <span class="input-group-text">$</span>
                         <input
                             type="number"
                             class="form-control no-spinner font-monospace"
                             id="aggregateBountyCap"
-                            bind:value={agreementDetails.bountyTerms.aggregateBountyCapUSD}
+                            bind:value={
+                                agreementDetails.bountyTerms
+                                    .aggregateBountyCapUSD
+                            }
                             min="0"
                         />
                     </div>
                 </div>
                 <div class="col mb-3" style="min-width: 20ch;">
-                    <label for="retainable" class="form-label">Retainable</label>
+                    <label for="retainable" class="form-label">Retainable</label
+                    >
                     <select
-                        class="form-select font-monospace {customErrors.retainable ? 'is-invalid' : ''}"
+                        class="form-select font-monospace {customErrors.retainable
+                            ? 'is-invalid'
+                            : ''}"
                         id="retainable"
                         bind:value={agreementDetails.bountyTerms.retainable}
                     >
@@ -350,7 +409,9 @@
                         <option value={true}>Yes</option>
                     </select>
                     {#if customErrors.retainable}
-                        <div class="invalid-feedback d-block">{customErrors.retainable}</div>
+                        <div class="invalid-feedback d-block">
+                            {customErrors.retainable}
+                        </div>
                     {/if}
                 </div>
                 <div class="col mb-3" style="min-width: 20ch;">
@@ -368,12 +429,16 @@
             </div>
             <div class="row">
                 <div class="col mb-3">
-                    <label for="diligenceRequirements" class="form-label">Diligence Requirements</label>
+                    <label for="diligenceRequirements" class="form-label"
+                        >Diligence Requirements</label
+                    >
                     <textarea
                         class="form-control font-monospace"
                         id="diligenceRequirements"
                         rows="3"
-                        bind:value={agreementDetails.bountyTerms.diligenceRequirements}
+                        bind:value={
+                            agreementDetails.bountyTerms.diligenceRequirements
+                        }
                         placeholder="Describe the diligence requirements..."
                     ></textarea>
                 </div>
@@ -399,7 +464,12 @@
                             <th scope="col">Contact Information</th>
                             <th scope="col">
                                 <div class="text-center">
-                                    <button type="button" class="btn-material" onclick={addContact} title="Add Contact">
+                                    <button
+                                        type="button"
+                                        class="btn-material"
+                                        onclick={addContact}
+                                        title="Add Contact"
+                                    >
                                         <span class="material-icon">+</span>
                                     </button>
                                 </div>
@@ -435,7 +505,8 @@
                                     <button
                                         type="button"
                                         class="btn-material text-danger"
-                                        onclick={() => removeContact(contactIndex)}
+                                        onclick={() =>
+                                            removeContact(contactIndex)}
                                         title="Remove Contact"
                                     >
                                         <span class="material-icon">-</span>
@@ -454,7 +525,12 @@
         <div class="chains py-3">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h4 class="mb-0">Chains & Assets</h4>
-                <button type="button" class="btn-material" onclick={addChain} title="Add Chain">
+                <button
+                    type="button"
+                    class="btn-material"
+                    onclick={addChain}
+                    title="Add Chain"
+                >
                     <span class="material-icon">+</span>
                 </button>
             </div>
@@ -464,7 +540,9 @@
                     <div class="card-body">
                         <div class="d-flex gap-3 flex-wrap mb-3">
                             <div class="flex-fill" style="min-width: 300px;">
-                                <label for="recoveryAddress{chainIndex}" class="form-label"
+                                <label
+                                    for="recoveryAddress{chainIndex}"
+                                    class="form-label"
                                     >Asset Recovery Address</label
                                 >
                                 <input
@@ -478,8 +556,14 @@
                                     title="Must be a valid address for the asset on this caip-2 chain"
                                 />
                             </div>
-                            <div class="flex-shrink-0" style="min-width: 200px; max-width: 20ch;">
-                                <label for="chainId{chainIndex}" class="form-label">Chain ID</label>
+                            <div
+                                class="flex-shrink-0"
+                                style="min-width: 200px; max-width: 20ch;"
+                            >
+                                <label
+                                    for="chainId{chainIndex}"
+                                    class="form-label">Chain ID</label
+                                >
                                 <input
                                     type="text"
                                     class="form-control font-monospace"
@@ -492,11 +576,15 @@
                                     title="Must be a valid CAIP-2 chain ID (e.g., eip155:1)"
                                 />
                                 <div class="invalid-feedback">
-                                    Please provide a valid CAIP-2 chain ID (e.g., eip155:1).
+                                    Please provide a valid CAIP-2 chain ID
+                                    (e.g., eip155:1).
                                 </div>
                             </div>
                             <div class="flex-shrink-0 d-flex flex-column">
-                                <label for="removeChain{chainIndex}" class="form-label">&nbsp;</label>
+                                <label
+                                    for="removeChain{chainIndex}"
+                                    class="form-label">&nbsp;</label
+                                >
                                 <button
                                     type="button"
                                     class="btn-material text-danger align-self-end"
@@ -529,10 +617,17 @@
                                                     <button
                                                         type="button"
                                                         class="btn-material"
-                                                        onclick={(e) => addAccount(e, chainIndex)}
+                                                        onclick={(e) =>
+                                                            addAccount(
+                                                                e,
+                                                                chainIndex,
+                                                            )}
                                                         title="Add Account"
                                                     >
-                                                        <span class="material-icon">+</span>
+                                                        <span
+                                                            class="material-icon"
+                                                            >+</span
+                                                        >
                                                     </button>
                                                 </div>
                                             </th>
@@ -545,7 +640,9 @@
                                                     <input
                                                         type="text"
                                                         class="form-control form-control-sm font-monospace"
-                                                        bind:value={account.address}
+                                                        bind:value={
+                                                            account.address
+                                                        }
                                                         placeholder="0x..."
                                                         required
                                                         title="Must be a valid address for the asset on this caip-2 chain"
@@ -554,22 +651,41 @@
                                                 <td>
                                                     <select
                                                         class="form-select form-select-sm font-monospace"
-                                                        bind:value={account.childContractScope}
+                                                        bind:value={
+                                                            account.childContractScope
+                                                        }
                                                     >
-                                                        <option value="None">None</option>
-                                                        <option value="ExistingOnly">Existing Only</option>
-                                                        <option value="FutureOnly">Future Only</option>
-                                                        <option value="All">All</option>
+                                                        <option value="None"
+                                                            >None</option
+                                                        >
+                                                        <option
+                                                            value="ExistingOnly"
+                                                            >Existing Only</option
+                                                        >
+                                                        <option
+                                                            value="FutureOnly"
+                                                            >Future Only</option
+                                                        >
+                                                        <option value="All"
+                                                            >All</option
+                                                        >
                                                     </select>
                                                 </td>
                                                 <td class="text-center">
                                                     <button
                                                         type="button"
                                                         class="btn-material text-danger"
-                                                        onclick={() => removeAccount(chainIndex, accountIndex)}
+                                                        onclick={() =>
+                                                            removeAccount(
+                                                                chainIndex,
+                                                                accountIndex,
+                                                            )}
                                                         title="Remove Account"
                                                     >
-                                                        <span class="material-icon">-</span>
+                                                        <span
+                                                            class="material-icon"
+                                                            >-</span
+                                                        >
                                                     </button>
                                                 </td>
                                             </tr>
@@ -591,10 +707,22 @@
 
             <div class="row g-3 mb-4">
                 <div class="col-6 col-md-4">
-                    <button type="submit" class="btn btn-primary w-100" data-action="json"> Generate JSON </button>
+                    <button
+                        type="submit"
+                        class="btn btn-primary w-100"
+                        data-action="json"
+                    >
+                        Generate JSON
+                    </button>
                 </div>
                 <div class="col-6 col-md-4">
-                    <button type="submit" class="btn btn-primary w-100" data-action="tuple"> Generate Tuple </button>
+                    <button
+                        type="submit"
+                        class="btn btn-primary w-100"
+                        data-action="tuple"
+                    >
+                        Generate Tuple
+                    </button>
                 </div>
                 <div class="col-12 col-md-4">
                     {#if !wallet}
@@ -607,7 +735,12 @@
                             {isConnecting ? "Connecting..." : "Connect Wallet"}
                         </button>
                     {:else}
-                        <button type="submit" class="btn btn-primary w-100" data-action="deploy" disabled={isDeploying}>
+                        <button
+                            type="submit"
+                            class="btn btn-primary w-100"
+                            data-action="deploy"
+                            disabled={isDeploying}
+                        >
                             {isDeploying ? "Deploying..." : "Deploy Contract"}
                         </button>
                     {/if}
@@ -631,14 +764,19 @@
 
             {#if output}
                 <div class="mb-4">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
+                    <div
+                        class="d-flex justify-content-between align-items-center mb-2"
+                    >
                         <label for="output" class="form-label mb-0">
-                            Generated {outputType === "json" ? "JSON" : "Blockchain Tuple"}
+                            Generated {outputType === "json"
+                                ? "JSON"
+                                : "Blockchain Tuple"}
                         </label>
                         <button
                             type="button"
                             class="btn btn-outline-primary btn-sm"
-                            onclick={() => navigator.clipboard.writeText(output)}
+                            onclick={() =>
+                                navigator.clipboard.writeText(output)}
                         >
                             Copy to Clipboard
                         </button>
@@ -656,7 +794,11 @@
             {#if deploymentHash}
                 <div class="alert alert-success">
                     <h6>Contract Deployed Successfully!</h6>
-                    <p class="mb-0">Transaction Hash: <code class="font-monospace">{deploymentHash}</code></p>
+                    <p class="mb-0">
+                        Transaction Hash: <code class="font-monospace"
+                            >{deploymentHash}</code
+                        >
+                    </p>
                 </div>
             {/if}
         </div>
@@ -677,16 +819,27 @@
             <!-- svelte-ignore a11y_click_events_have_key_events -->
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="import-modal-title">Import from Document</h1>
-                    <button type="button" class="btn-close" onclick={closeImportModal} aria-label="Close"></button>
+                    <h1 class="modal-title fs-5" id="import-modal-title">
+                        Import from Document
+                    </h1>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        onclick={closeImportModal}
+                        aria-label="Close"
+                    ></button>
                 </div>
                 <div class="modal-body">
                     <p class="text-muted mb-3">
-                        Copy the "Adoption Details" section from your adoption document as <strong>markdown</strong> and
-                        paste it below. Make sure to copy as markdown format (not plain text) for the parser to work correctly.
+                        Copy the "Adoption Details" section from your adoption
+                        document as <strong>markdown</strong> and paste it below.
+                        Make sure to copy as markdown format (not plain text) for
+                        the parser to work correctly.
                     </p>
                     <div class="mb-3">
-                        <label for="importTextarea" class="form-label">Document Content (Markdown)</label>
+                        <label for="importTextarea" class="form-label"
+                            >Document Content (Markdown)</label
+                        >
                         <textarea
                             id="importTextarea"
                             class="form-control font-monospace"
@@ -702,8 +855,16 @@
                     {/if}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onclick={closeImportModal}>Cancel</button>
-                    <button type="button" class="btn btn-primary" onclick={handleImport}>Import</button>
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        onclick={closeImportModal}>Cancel</button
+                    >
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        onclick={handleImport}>Import</button
+                    >
                 </div>
             </div>
         </div>

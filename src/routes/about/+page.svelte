@@ -16,7 +16,7 @@
 
     let tvl = $state(0);
     for (const protocol of data.protocols) {
-        tvl += protocol.tvl;
+        tvl += protocol.tvl ?? 0;
     }
 </script>
 

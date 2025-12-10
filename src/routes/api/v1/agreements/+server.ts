@@ -4,34 +4,30 @@ import type { Protocol } from '$lib/firebase/types/protocol';
 import type { SafeHarborAgreement } from '$lib/firebase/types/safeHarborAgreement';
 
 async function getProtocolsFirestore(): Promise<Protocol[]> {
-    let protocols = await listDocuments<Protocol>('protocols');
+    const protocols = await listDocuments<Protocol>('protocols');
 
-    // Get safe harbor data for all agreements
-    for (let i = 0; i < protocols.length; i++) {
-        try {
-            const protocol = protocols[i];
-
-            if (protocol.safeHarborAgreement) {
-                const safeHarborContent = await getDocument<SafeHarborAgreement>(
-                    protocol.safeHarborAgreement
-                );
-
-                if (safeHarborContent) {
-                    protocols[i].safeHarborContent = safeHarborContent;
+    // Fetch all SafeHarbor agreements in parallel
+    await Promise.all(
+        protocols.map(async (protocol) => {
+            try {
+                if (protocol.safeHarborAgreement) {
+                    const safeHarborContent = await getDocument<SafeHarborAgreement>(
+                        protocol.safeHarborAgreement
+                    );
+                    if (safeHarborContent) {
+                        protocol.safeHarborContent = safeHarborContent;
+                    }
                 }
+            } catch (error) {
+                console.warn(`Error fetching SafeHarbourAgreement err=${error}`);
             }
-        } catch (error) {
-            console.warn(`Error fetching SafeHarbourAgreement err=${error}`);
-        }
-    }
+        })
+    );
 
-    protocols = protocols.filter((protocol) => protocol.safeHarborContent !== undefined);
-
-    protocols = protocols.sort((a, b) => {
-        return b.tvl - a.tvl;
-    });
-
-    return protocols;
+    // Filter out invalid/empty protocols and sort by TVL descending
+    return protocols
+        .filter((p) => p.name && p.slug)
+        .sort((a, b) => (b.tvl ?? 0) - (a.tvl ?? 0));
 }
 
 export async function GET() {

@@ -11,7 +11,7 @@
 
     let scopedTVL = $state(0);
     for (const protocol of protocols) {
-        scopedTVL += protocol.tvl;
+        scopedTVL += protocol.tvl ?? 0;
     }
 </script>
 
@@ -123,11 +123,13 @@
                                     </a></th
                                 >
                                 <td class="p-3"
-                                    ><p>${PrettyCurrency(protocol.tvl)}</p></td
+                                    ><p>
+                                        ${PrettyCurrency(protocol.tvl ?? 0)}
+                                    </p></td
                                 >
                                 <td class="p-3">
                                     <div class="d-flex flex-row">
-                                        {#if protocol.safeHarborContent.agreementDetails.chains}
+                                        {#if protocol.safeHarborContent?.agreementDetails?.chains}
                                             {#if protocol.safeHarborContent.version === "seal-1"}
                                                 {#each protocol.safeHarborContent.agreementDetails.chains.slice(0, 6) as chain}
                                                     <ChainIcon

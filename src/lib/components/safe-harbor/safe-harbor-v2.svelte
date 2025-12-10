@@ -15,7 +15,7 @@
     let { protocol, safeHarbor }: Props = $props();
     const chain = GetChain(safeHarbor.registryChainId);
     const bountyTerms = safeHarbor.agreementDetails.bountyTerms;
-    const date = new Date(safeHarbor.createdAt.seconds * 1000);
+    const date = new Date(safeHarbor.createdAt);
     const dateStr = new Intl.DateTimeFormat("en-GB", {
         day: "2-digit",
         month: "long",

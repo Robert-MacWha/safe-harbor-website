@@ -5,16 +5,13 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
-		"build": "vite build",
-		"deploy": "firebase deploy",
-		"deploy:hosting": "firebase deploy --only hosting"
+		"build": "vite build"
 	},
 	"dependencies": {
 		"@popperjs/core": "^2.11.8",
 		"@web3-onboard/core": "^2.24.1",
 		"@web3-onboard/injected-wallets": "^2.11.3",
 		"bootstrap": "^5.3.6",
-		"firebase": "^11.9.1",
 		"viem": "^2.31.3",
 		"yaml": "^2.8.1"
 	},

@@ -1,27 +1,23 @@
 import { json } from '@sveltejs/kit';
-import { db } from '$lib/firebase/firebase';
-import { collection, getDoc, getDocs } from 'firebase/firestore';
+import { listDocuments, getDocument } from '$lib/firebase/firestore-rest';
 import type { Protocol } from '$lib/firebase/types/protocol';
 import type { SafeHarborAgreement } from '$lib/firebase/types/safeHarborAgreement';
-import { doc } from 'firebase/firestore';
 
 async function getProtocolsFirestore(): Promise<Protocol[]> {
-    const snapshot = await getDocs(collection(db, 'protocols'));
-    let protocols: Protocol[] = snapshot.docs.map((doc) => {
-        return doc.data() as Protocol;
-    });
+    let protocols = await listDocuments<Protocol>('protocols');
 
     // Get safe harbor data for all agreements
     for (let i = 0; i < protocols.length; i++) {
         try {
             const protocol = protocols[i];
 
-            if (protocol.safeHarborAgreement?.path) {
-                const safeHarborRef = doc(db, protocol.safeHarborAgreement.path);
-                const safeHarborSnapshot = await getDoc(safeHarborRef);
+            if (protocol.safeHarborAgreement) {
+                const safeHarborContent = await getDocument<SafeHarborAgreement>(
+                    protocol.safeHarborAgreement
+                );
 
-                if (safeHarborSnapshot.exists()) {
-                    protocols[i].safeHarborContent = safeHarborSnapshot.data() as SafeHarborAgreement;
+                if (safeHarborContent) {
+                    protocols[i].safeHarborContent = safeHarborContent;
                 }
             }
         } catch (error) {

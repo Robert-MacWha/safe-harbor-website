@@ -1,24 +1,27 @@
-import { json } from '@sveltejs/kit';
+import { json, error } from '@sveltejs/kit';
 import type { Protocol } from '$lib/firebase/types/protocol';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '$lib/firebase/firebase.js';
+import { getDocument } from '$lib/firebase/firestore-rest';
 import type { SafeHarborAgreement } from '$lib/firebase/types/safeHarborAgreement';
 
-async function getAgreementFirestore(slug: string): Promise<Protocol> {
-    const snapshot = await getDoc(doc(db, 'protocols', slug));
-    const protocol = snapshot.data() as Protocol;
+async function getAgreementFirestore(slug: string): Promise<Protocol | null> {
+    const protocol = await getDocument<Protocol>(`protocols/${slug}`);
+
+    if (!protocol) {
+        return null;
+    }
 
     try {
-        if (protocol.safeHarborAgreement?.path) {
-            const safeHarborRef = doc(db, protocol.safeHarborAgreement.path);
-            const safeHarborSnapshot = await getDoc(safeHarborRef);
+        if (protocol.safeHarborAgreement) {
+            const safeHarborContent = await getDocument<SafeHarborAgreement>(
+                protocol.safeHarborAgreement
+            );
 
-            if (safeHarborSnapshot.exists()) {
-                protocol.safeHarborContent = safeHarborSnapshot.data() as SafeHarborAgreement;
+            if (safeHarborContent) {
+                protocol.safeHarborContent = safeHarborContent;
             }
         }
-    } catch (error) {
-        console.warn(`Error fetching SafeHarbourAgreement err=${error}`);
+    } catch (err) {
+        console.warn(`Error fetching SafeHarbourAgreement err=${err}`);
     }
 
     return protocol;
@@ -27,5 +30,10 @@ async function getAgreementFirestore(slug: string): Promise<Protocol> {
 export async function GET({ params }) {
     const { slug } = params;
     const agreement = await getAgreementFirestore(slug);
+
+    if (!agreement) {
+        throw error(404, `Protocol not found: ${slug}`);
+    }
+
     return json(agreement);
 }

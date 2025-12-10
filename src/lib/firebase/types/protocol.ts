@@ -1,4 +1,3 @@
-import type firebase from "firebase/compat/app";
 import type { SafeHarborAgreement } from "./safeHarborAgreement";
 
 // Protocol collection
@@ -12,6 +11,6 @@ export interface Protocol {
     contactDetails: string;
     bugBounty?: string;
 
-    safeHarborAgreement?: firebase.firestore.DocumentReference;
-    safeHarborContent: SafeHarborAgreement;
+    safeHarborAgreement?: string; // Document path (was DocumentReference)
+    safeHarborContent?: SafeHarborAgreement;
 }

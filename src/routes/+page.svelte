@@ -115,6 +115,9 @@
                                             <img
                                                 src={protocol.icon}
                                                 alt="Icon"
+                                                width="32"
+                                                height="32"
+                                                loading="lazy"
                                             />
                                         {/if}
                                         <p class="ms-2 mb-0">
@@ -239,8 +242,6 @@
 
                 img {
                     border-radius: 200px;
-                    width: 32px;
-                    height: 32px;
                 }
             }
         }

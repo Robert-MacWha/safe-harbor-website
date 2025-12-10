@@ -29,7 +29,7 @@
         <div class="name mb-4">
             <div class="d-flex flex-row align-items-center">
                 {#if props.icon}
-                    <img src={props.icon} alt="Icon" />
+                    <img src={props.icon} alt="Icon" width="48" height="48" />
                 {/if}
 
                 <div class="ms-2 id">

@@ -4,8 +4,7 @@
 
 pkgs.mkShell {
   packages = with pkgs; [
-    nodejs_20
-    (pkgs.yarn.override { nodejs = null; })
+    yarn-berry_4
     firebase-tools
   ];
 }

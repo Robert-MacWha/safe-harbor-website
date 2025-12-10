@@ -9,7 +9,8 @@ const config = {
 		adapter: adapter(),
 
 		paths: {
-			base: '/safe-harbor'
+			base: '/safe-harbor',
+			relative: false
 		},
 	},
 };

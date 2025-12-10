@@ -7,6 +7,5 @@ pkgs.mkShell {
     nodejs_20
     (pkgs.yarn.override { nodejs = null; })
     firebase-tools
-    wrangler
   ];
 }

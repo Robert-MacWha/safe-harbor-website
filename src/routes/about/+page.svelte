@@ -13,19 +13,66 @@
 
     const { data } = $props();
     const protocols = data.protocols;
+    const origin = data.origin;
 
     let tvl = $state(0);
     for (const protocol of data.protocols) {
         tvl += protocol.tvl ?? 0;
     }
+
+    const structured = {
+        "@context": "https://schema.org",
+        "@type": "AboutPage",
+        name: "About Safe Harbor",
+        description:
+            "Learn about the SEAL Whitehat Safe Harbor initiative - a legal framework enabling protocols to offer protection to ethical hackers who secure vulnerable assets during active exploits",
+        url: `${origin}/safe-harbor/about`,
+        mainEntity: {
+            "@type": "Organization",
+            name: "SEAL - Security Alliance",
+            url: `${origin}/safe-harbor/`,
+            description:
+                "The Security Alliance operates the Whitehat Safe Harbor initiative to protect whitehats and protocols during active exploits",
+        },
+    };
 </script>
 
 <svelte:head>
-    <title>Safe Harbor</title>
+    <title>About Safe Harbor - Whitehat Legal Protection Framework</title>
     <meta
         name="description"
-        content="The Whitehat Safe Harbor initiative is a framework in which protocols can offer legal protection to whitehats who aid in the recovery of assets during an active exploit."
+        content="Learn about the SEAL Whitehat Safe Harbor initiative - a legal framework enabling protocols to offer protection to ethical hackers who secure vulnerable assets during active exploits."
     />
+    <link rel="canonical" href={`${origin}/safe-harbor/about`} />
+
+    <!-- Open Graph -->
+    <meta
+        property="og:title"
+        content="About Safe Harbor - Whitehat Legal Protection Framework"
+    />
+    <meta
+        property="og:description"
+        content="Learn about the SEAL Whitehat Safe Harbor initiative - a legal framework enabling protocols to offer protection to ethical hackers who secure vulnerable assets during active exploits."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={`${origin}/safe-harbor/about`} />
+    <meta property="og:image" content="{origin}/safe-harbor/og-image.png" />
+    <meta property="og:site_name" content="Safe Harbor" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+        name="twitter:title"
+        content="About Safe Harbor - Whitehat Legal Protection Framework"
+    />
+    <meta
+        name="twitter:description"
+        content="Learn about the SEAL Whitehat Safe Harbor initiative - a legal framework enabling protocols to offer protection to ethical hackers who secure vulnerable assets during active exploits."
+    />
+    <meta name="twitter:image" content="{origin}/safe-harbor/og-image.png" />
+
+    <!-- Structured Data -->
+    {@html `<script type="application/ld+json">${JSON.stringify(structured)}</script>`}
 </svelte:head>
 
 <div class="pt-4"></div>

@@ -13,6 +13,9 @@
     import type { WalletState } from "@web3-onboard/core";
     import { SafeHarborV2Parser } from "$lib/parser/SafeHarborV2Parser";
 
+    const { data } = $props();
+    const origin = data.origin;
+
     // Form state
     let agreementDetails: AgreementDetailsV2 = $state(
         createDefaultAgreementDetails(),
@@ -242,11 +245,38 @@
 </script>
 
 <svelte:head>
-    <title>Safe Harbor Adoption</title>
+    <title>Safe Harbor Adoption - Generate Agreement & Deploy</title>
     <meta
         name="description"
         content="This tool facilitates adoption of the SEAL Whitehat Safe Harbor Agreement by generating the required configuration and providing flexible deployment options."
     />
+    <link rel="canonical" href={`${origin}/safe-harbor/adoption`} />
+
+    <!-- Open Graph -->
+    <meta
+        property="og:title"
+        content="Safe Harbor Adoption - Generate Agreement & Deploy"
+    />
+    <meta
+        property="og:description"
+        content="This tool facilitates adoption of the SEAL Whitehat Safe Harbor Agreement by generating the required configuration and providing flexible deployment options."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={`${origin}/safe-harbor/adoption`} />
+    <meta property="og:image" content="{origin}/safe-harbor/og-image.png" />
+    <meta property="og:site_name" content="Safe Harbor" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+        name="twitter:title"
+        content="Safe Harbor Adoption - Generate Agreement & Deploy"
+    />
+    <meta
+        name="twitter:description"
+        content="This tool facilitates adoption of the SEAL Whitehat Safe Harbor Agreement by generating the required configuration and providing flexible deployment options."
+    />
+    <meta name="twitter:image" content="{origin}/safe-harbor/og-image.png" />
 </svelte:head>
 
 <div class="pt-4 mt-2"></div>
@@ -262,11 +292,11 @@
         This tool facilitates adoption of the <strong
             >SEAL Whitehat Safe Harbor Agreement</strong
         >
-        by generating the required configuration and providing flexible
-        deployment options. You can deploy your adoption directly on-chain
-        through this interface, or generate structured tuple/JSON output for
-        subsequent deployment using Foundry scripts or alternative deployment
-        frameworks. For comprehensive guidance, please follow the
+        by generating the required configuration and providing flexible deployment
+        options. You can deploy your adoption directly on-chain through this interface,
+        or generate structured tuple/JSON output for subsequent deployment using
+        Foundry scripts or alternative deployment frameworks. For comprehensive guidance,
+        please follow the
         <a
             href="https://frameworks.securityalliance.org/safe-harbor/self-adoption-guide"
             target="_blank"

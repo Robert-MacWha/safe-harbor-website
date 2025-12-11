@@ -1,10 +1,8 @@
-// src/routes/[slug]/+page.js
-
 import { resolve } from "$app/paths";
 import type { Protocol } from "$lib/firebase/types/protocol";
 import { error } from "@sveltejs/kit";
 
-export async function load({ params, fetch }) {
+export async function load({ params, fetch, url }) {
     try {
         const response = await fetch(resolve(`/api/v1/agreements/${params.slug}`));
 
@@ -16,6 +14,7 @@ export async function load({ params, fetch }) {
         return {
             protocol: protocol,
             slug: params.slug,
+            origin: url.origin
         };
     } catch (e) {
         throw error(404, `Could not find ${params.slug}`);

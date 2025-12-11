@@ -1,7 +1,7 @@
 import { resolve } from '$app/paths';
 import type { Protocol } from '$lib/firebase/types/protocol.js';
 
-export async function load({ fetch }) {
+export async function load({ url, fetch }) {
     const resp = await fetch(resolve("/api/v1/agreements"));
     if (!resp.ok) {
         console.error('API error:', resp.status, await resp.text());
@@ -9,5 +9,5 @@ export async function load({ fetch }) {
     }
 
     const protocols: Protocol[] = await resp.json();
-    return { protocols };
+    return { protocols, origin: url.origin };
 }

@@ -8,19 +8,55 @@
 
     let { data } = $props();
     const protocols = data.protocols;
+    const origin = data.origin;
 
     let scopedTVL = $state(0);
     for (const protocol of protocols) {
         scopedTVL += protocol.tvl ?? 0;
     }
+
+    const structured = {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        name: "SEAL - Security Alliance",
+        url: `${origin}/safe-harbor/`,
+        logo: `${origin}/safe-harbor/favicon.svg`,
+        description:
+            "SEAL Whitehat Safe Harbor - A legal framework for protocols to offer protection to whitehats who aid in asset recovery during active exploits",
+        sameAs: ["https://github.com/security-alliance/safe-harbor"],
+    };
 </script>
 
 <svelte:head>
-    <title>Safe Harbor</title>
+    <title>Safe Harbor - Protocol Database</title>
     <meta
         name="description"
-        content="The Whitehat Safe Harbor initiative is a framework in which protocols can offer legal protection to whitehats who aid in the recovery of assets during an active exploit."
+        content="Browse DeFi protocols that have adopted the SEAL Whitehat Safe Harbor Agreement. Explore protocols offering legal protection to whitehats who aid in asset recovery during active exploits."
     />
+    <link rel="canonical" href="https://securityalliance.org/safe-harbor/" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Safe Harbor - Protocol Database" />
+    <meta
+        property="og:description"
+        content="Browse DeFi protocols that have adopted the SEAL Whitehat Safe Harbor Agreement. Explore protocols offering legal protection to whitehats who aid in asset recovery during active exploits."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{origin}/safe-harbor/" />
+    <meta property="og:image" content="{origin}/safe-harbor/og-image.png" />
+    <meta property="og:site_name" content="Safe Harbor" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Safe Harbor - Protocol Database" />
+    <meta
+        name="twitter:description"
+        content="Browse DeFi protocols that have adopted the SEAL Whitehat Safe Harbor Agreement. Explore protocols offering legal protection to whitehats who aid in asset recovery during active exploits."
+    />
+    <meta name="twitter:image" content="{origin}/safe-harbor/og-image.png" />
+
+    <!-- Structured Data -->
+    {@html `<script type="application/ld+json">${JSON.stringify(structured)}</script>`}
 </svelte:head>
 
 <div class="pt-4 mt-2"></div>

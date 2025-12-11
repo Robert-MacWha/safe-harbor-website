@@ -6,6 +6,9 @@
     import { parse } from "yaml";
     import RescueDetailsDropdown from "$lib/components/rescue-details-dropdown.svelte";
 
+    const { data } = $props();
+    const origin = data.origin;
+
     interface Rescue {
         protocol: string;
         whitehat: string;
@@ -43,11 +46,38 @@
 </script>
 
 <svelte:head>
-    <title>Whitehat Rescues</title>
+    <title>Whitehat Rescues - Safe Harbor Database</title>
     <meta
         name="description"
         content="Whitehat rescues across DeFi, with details on saved assets, protocols, chains, and Safe Harbor involvement. A curated record of good-faith recoveries during active exploits."
     />
+    <link rel="canonical" href="{origin}/safe-harbor/whitehats" />
+
+    <!-- Open Graph -->
+    <meta
+        property="og:title"
+        content="Whitehat Rescues - Safe Harbor Database"
+    />
+    <meta
+        property="og:description"
+        content="Whitehat rescues across DeFi, with details on saved assets, protocols, chains, and Safe Harbor involvement. A curated record of good-faith recoveries during active exploits."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{origin}/safe-harbor/whitehats" />
+    <meta property="og:image" content="{origin}/safe-harbor/og-image.png" />
+    <meta property="og:site_name" content="Safe Harbor" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+        name="twitter:title"
+        content="Whitehat Rescues - Safe Harbor Database"
+    />
+    <meta
+        name="twitter:description"
+        content="Whitehat rescues across DeFi, with details on saved assets, protocols, chains, and Safe Harbor involvement. A curated record of good-faith recoveries during active exploits."
+    />
+    <meta name="twitter:image" content="{origin}/safe-harbor/og-image.png" />
 </svelte:head>
 
 <div class="pt-4 mt-2"></div>

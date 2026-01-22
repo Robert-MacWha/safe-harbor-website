@@ -1,0 +1,14 @@
+protocol: Makina
+whitehat: Anon Whitehat
+date: 2026-01-22
+chain: 1
+# Backup: /src/lib/backups/anon-makina-2026-01-22.png
+report: https://x.com/makinafi/status/2014349539847573565
+value: 3004400
+value_tokens:
+  - ETH: 1023
+whitehat_transactions:
+  - https://etherscan.io/tx/0x569733b8016ef9418f0b6bde8c14224d9e759e79301499908ecbcd956a0651f5
+recovery_transactions:
+  - https://etherscan.io/tx/0x0d23fea549bf8330cf47fabec75ad12b75cf0ade45cce68785067f2bda326a44
+safe_harbor: true

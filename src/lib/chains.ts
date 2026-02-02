@@ -340,6 +340,14 @@ export const Chains: Chain[] = [
         TXScan: "https://mantrascan.io/tx/{tx}",
         AddressScan: "https://mantrascan.io/address/{address}",
     },
+    {
+        Name: "Dogechain Mainnet",
+        ID: 2000,
+        Icon: "https://icons.llamao.fi/icons/chains/rsz_dogechain.jpg",
+        Scan: "https://explorer.dogechain.dog",
+        TXScan: "https://explorer.dogechain.dog/tx/{tx}",
+        AddressScan: "https://explorer.dogechain.dog/address/{address}",
+    },
 ];
 
 export function GetChain(id: ChainID): Chain | undefined {
